@@ -1,0 +1,15 @@
+[package]
+name = "provenance-sdk-proto"
+version = "0.1.0"
+authors = ["Stephen Cirner <scirner@figure.com>"]
+license = "Apache-2.0"
+edition = "2021"
+
+[dependencies]
+cosmos-sdk-proto = "0.16"
+prost = "0.11"
+prost-types = "0.11"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
