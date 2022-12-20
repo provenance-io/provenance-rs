@@ -16,6 +16,10 @@ jobs:
           toolchain: stable
           override: true
           components: clippy
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
       - name: Clippy
         uses: actions-rs/clippy-check@v1
         with:
