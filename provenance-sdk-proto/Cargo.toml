@@ -1,6 +1,6 @@
 [package]
 name = "provenance-sdk-proto"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Stephen Cirner <scirner@figure.com>"]
 license = "Apache-2.0"
 repository = "https://github.com/provenance-io/provenance-rs/tree/main"
@@ -11,7 +11,7 @@ keywords = ["blockchain", "cosmos", "proto", "provenance", "tendermint"]
 edition = "2021"
 
 [dependencies]
-cosmos-sdk-proto = "0.16"
+cosmos-sdk-proto = { version = "0.16", default-features = false }
 prost = "0.11"
 prost-types = "0.11"
 
