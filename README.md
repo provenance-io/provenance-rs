@@ -25,5 +25,5 @@ cargo run
 
 [provenance-sdk-proto-crate-img]: https://img.shields.io/crates/v/provenance-sdk-proto.svg?logo=rust
 [provenance-crate-link]: https://crates.io/crates/provenance-sdk-proto
-[provenance-sdk-proto-ci-img]: https://github.com/provenance-io/provenance-rs/workflows/build/badge.svg
+[provenance-sdk-proto-ci-img]: https://github.com/provenance-io/provenance-rs/actions/workflows/build.yml/badge.svg
 [provenance-sdk-proto-ci-link]: https://github.com/provenance-io/provenance-rs/actions/workflows/build.yml
