@@ -8,6 +8,13 @@ The home of all rust resources for the Provenance ecosystem.
 |----------------------|-----------------------------|-----------|----------|
 | [`provenance‑sdk‑proto`] | Proto definitions  | [![crates.io][provenance-sdk-proto-crate-img]][provenance-crate-link] | [![CI][provenance-sdk-proto-ci-img]][provenance-sdk-proto-ci-link] |
 
+## Version Matrix
+
+| Binding Version | Provenance SDK Version |
+|-----------------|------------------------|
+| 0.1.1           | 0.13.0                 |
+| 0.2.0           | 0.14.1                 |
+
 ## Rebuilding Proto files
 
 The `proto-build` crate is responsible for updating the submodule and rebuilding the proto files

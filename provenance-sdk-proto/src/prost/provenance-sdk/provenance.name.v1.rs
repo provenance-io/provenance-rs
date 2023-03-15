@@ -19,13 +19,13 @@ pub struct Params {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct NameRecord {
-    /// The bound name
+    /// the bound name
     #[prost(string, tag = "1")]
     pub name: ::prost::alloc::string::String,
-    /// The address the name resolved to.
+    /// the address the name resolved to
     #[prost(string, tag = "2")]
     pub address: ::prost::alloc::string::String,
-    /// Whether owner signature is required to add sub-names.
+    /// whether owner signature is required to add sub-names
     #[prost(bool, tag = "3")]
     pub restricted: bool,
 }
@@ -35,14 +35,19 @@ pub struct NameRecord {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct CreateRootNameProposal {
+    /// proposal title
     #[prost(string, tag = "1")]
     pub title: ::prost::alloc::string::String,
+    /// proposal description
     #[prost(string, tag = "2")]
     pub description: ::prost::alloc::string::String,
+    /// the bound name
     #[prost(string, tag = "3")]
     pub name: ::prost::alloc::string::String,
+    /// the address the name will resolve to
     #[prost(string, tag = "4")]
     pub owner: ::prost::alloc::string::String,
+    /// a flag that indicates if an owner signature is required to add sub-names
     #[prost(bool, tag = "5")]
     pub restricted: bool,
 }
@@ -61,6 +66,17 @@ pub struct EventNameBound {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct EventNameUnbound {
+    #[prost(string, tag = "1")]
+    pub address: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub name: ::prost::alloc::string::String,
+    #[prost(bool, tag = "3")]
+    pub restricted: bool,
+}
+/// Event emitted when name is updated.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventNameUpdate {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
@@ -98,6 +114,38 @@ pub struct MsgDeleteNameRequest {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgDeleteNameResponse {}
+/// MsgCreateRootNameRequest defines an sdk.Msg type to create a new root name
+/// that is controlled by a given owner and optionally restricted to the owner
+/// for the sole creation of sub names.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgCreateRootNameRequest {
+    /// The signing authority for the request
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// NameRecord is a structure used to bind ownership of a name hierarchy to a collection of addresses
+    #[prost(message, optional, tag = "2")]
+    pub record: ::core::option::Option<NameRecord>,
+}
+/// MsgCreateRootNameResponse defines Msg/CreateRootName response type.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgCreateRootNameResponse {}
+/// MsgModifyNameRequest defines a governance method that is used to update an existing address/name binding.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgModifyNameRequest {
+    /// The address signing the message
+    #[prost(string, tag = "1")]
+    pub authority: ::prost::alloc::string::String,
+    /// The record being updated
+    #[prost(message, optional, tag = "2")]
+    pub record: ::core::option::Option<NameRecord>,
+}
+/// MsgModifyNameResponse defines the Msg/ModifyName response type.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgModifyNameResponse {}
 /// Generated client implementations.
 #[cfg(feature = "grpc")]
 #[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
@@ -198,6 +246,37 @@ pub mod msg_client {
             let path = http::uri::PathAndQuery::from_static("/provenance.name.v1.Msg/DeleteName");
             self.inner.unary(request.into_request(), path, codec).await
         }
+        /// ModifyName defines a method to modify the attributes of an existing name.
+        pub async fn modify_name(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgModifyNameRequest>,
+        ) -> Result<tonic::Response<super::MsgModifyNameResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/provenance.name.v1.Msg/ModifyName");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// CreateRootName defines a governance method for creating a root name.
+        pub async fn create_root_name(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgCreateRootNameRequest>,
+        ) -> Result<tonic::Response<super::MsgCreateRootNameResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.name.v1.Msg/CreateRootName");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
     }
 }
 /// Generated server implementations.
@@ -219,6 +298,16 @@ pub mod msg_server {
             &self,
             request: tonic::Request<super::MsgDeleteNameRequest>,
         ) -> Result<tonic::Response<super::MsgDeleteNameResponse>, tonic::Status>;
+        /// ModifyName defines a method to modify the attributes of an existing name.
+        async fn modify_name(
+            &self,
+            request: tonic::Request<super::MsgModifyNameRequest>,
+        ) -> Result<tonic::Response<super::MsgModifyNameResponse>, tonic::Status>;
+        /// CreateRootName defines a governance method for creating a root name.
+        async fn create_root_name(
+            &self,
+            request: tonic::Request<super::MsgCreateRootNameRequest>,
+        ) -> Result<tonic::Response<super::MsgCreateRootNameResponse>, tonic::Status>;
     }
     /// Msg defines the bank Msg service.
     #[derive(Debug)]
@@ -326,6 +415,68 @@ pub mod msg_server {
                     let fut = async move {
                         let inner = inner.0;
                         let method = DeleteNameSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec).apply_compression_config(
+                            accept_compression_encodings,
+                            send_compression_encodings,
+                        );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.name.v1.Msg/ModifyName" => {
+                    #[allow(non_camel_case_types)]
+                    struct ModifyNameSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgModifyNameRequest> for ModifyNameSvc<T> {
+                        type Response = super::MsgModifyNameResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgModifyNameRequest>,
+                        ) -> Self::Future {
+                            let inner = self.0.clone();
+                            let fut = async move { (*inner).modify_name(request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = ModifyNameSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec).apply_compression_config(
+                            accept_compression_encodings,
+                            send_compression_encodings,
+                        );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.name.v1.Msg/CreateRootName" => {
+                    #[allow(non_camel_case_types)]
+                    struct CreateRootNameSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgCreateRootNameRequest> for CreateRootNameSvc<T> {
+                        type Response = super::MsgCreateRootNameResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgCreateRootNameRequest>,
+                        ) -> Self::Future {
+                            let inner = self.0.clone();
+                            let fut = async move { (*inner).create_root_name(request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = CreateRootNameSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec).apply_compression_config(
                             accept_compression_encodings,

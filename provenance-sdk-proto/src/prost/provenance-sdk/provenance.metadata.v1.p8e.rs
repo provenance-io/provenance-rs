@@ -255,6 +255,16 @@ impl DefinitionSpecType {
             DefinitionSpecType::FactList => "DEFINITION_SPEC_TYPE_FACT_LIST",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "DEFINITION_SPEC_TYPE_UNKNOWN" => Some(Self::Unknown),
+            "DEFINITION_SPEC_TYPE_PROPOSED" => Some(Self::Proposed),
+            "DEFINITION_SPEC_TYPE_FACT" => Some(Self::Fact),
+            "DEFINITION_SPEC_TYPE_FACT_LIST" => Some(Self::FactList),
+            _ => None,
+        }
+    }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -273,6 +283,14 @@ impl PublicKeyCurve {
             PublicKeyCurve::P256 => "P256",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SECP256K1" => Some(Self::Secp256k1),
+            "P256" => Some(Self::P256),
+            _ => None,
+        }
+    }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -287,6 +305,13 @@ impl PublicKeyType {
     pub fn as_str_name(&self) -> &'static str {
         match self {
             PublicKeyType::Elliptic => "ELLIPTIC",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ELLIPTIC" => Some(Self::Elliptic),
+            _ => None,
         }
     }
 }
@@ -310,6 +335,16 @@ impl ExecutionResultType {
             ExecutionResultType::ResultTypePass => "RESULT_TYPE_PASS",
             ExecutionResultType::ResultTypeSkip => "RESULT_TYPE_SKIP",
             ExecutionResultType::ResultTypeFail => "RESULT_TYPE_FAIL",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "RESULT_TYPE_UNKNOWN" => Some(Self::ResultTypeUnknown),
+            "RESULT_TYPE_PASS" => Some(Self::ResultTypePass),
+            "RESULT_TYPE_SKIP" => Some(Self::ResultTypeSkip),
+            "RESULT_TYPE_FAIL" => Some(Self::ResultTypeFail),
+            _ => None,
         }
     }
 }
@@ -348,6 +383,24 @@ impl PartyType {
             PartyType::Marker => "PARTY_TYPE_MARKER",
             PartyType::Controller => "PARTY_TYPE_CONTROLLER",
             PartyType::Validator => "PARTY_TYPE_VALIDATOR",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "PARTY_TYPE_UNKNOWN" => Some(Self::Unknown),
+            "PARTY_TYPE_ORIGINATOR" => Some(Self::Originator),
+            "PARTY_TYPE_SERVICER" => Some(Self::Servicer),
+            "PARTY_TYPE_INVESTOR" => Some(Self::Investor),
+            "PARTY_TYPE_CUSTODIAN" => Some(Self::Custodian),
+            "PARTY_TYPE_OWNER" => Some(Self::Owner),
+            "PARTY_TYPE_AFFILIATE" => Some(Self::Affiliate),
+            "PARTY_TYPE_OMNIBUS" => Some(Self::Omnibus),
+            "PARTY_TYPE_PROVENANCE" => Some(Self::Provenance),
+            "PARTY_TYPE_MARKER" => Some(Self::Marker),
+            "PARTY_TYPE_CONTROLLER" => Some(Self::Controller),
+            "PARTY_TYPE_VALIDATOR" => Some(Self::Validator),
+            _ => None,
         }
     }
 }

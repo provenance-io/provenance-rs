@@ -8,14 +8,15 @@ pub struct MsgAssessCustomMsgFeeRequest {
     /// amount of additional fee that must be paid
     #[prost(message, optional, tag = "2")]
     pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-    /// optional recipient address, the amount is split 50/50 between recipient and fee module. If
+    /// optional recipient address, the basis points amount is sent to the recipient
     #[prost(string, tag = "3")]
     pub recipient: ::prost::alloc::string::String,
-    /// empty, whole amount goes to fee module
-    ///
     /// the signer of the msg
     #[prost(string, tag = "4")]
     pub from: ::prost::alloc::string::String,
+    /// optional basis points 0 - 10,000 for recipient defaults to 10,000
+    #[prost(string, tag = "5")]
+    pub recipient_basis_points: ::prost::alloc::string::String,
 }
 /// MsgAssessCustomMsgFeeResponse defines the Msg/AssessCustomMsgFeee response type.
 #[allow(clippy::derive_partial_eq_without_eq)]

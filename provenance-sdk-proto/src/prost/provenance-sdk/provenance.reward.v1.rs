@@ -101,6 +101,17 @@ pub mod reward_program {
                 State::Expired => "STATE_EXPIRED",
             }
         }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "STATE_UNSPECIFIED" => Some(Self::Unspecified),
+                "STATE_PENDING" => Some(Self::Pending),
+                "STATE_STARTED" => Some(Self::Started),
+                "STATE_FINISHED" => Some(Self::Finished),
+                "STATE_EXPIRED" => Some(Self::Expired),
+                _ => None,
+            }
+        }
     }
 }
 /// ClaimPeriodRewardDistribution, this is updated at the end of every claim period.
@@ -179,6 +190,17 @@ pub mod reward_account_state {
                 ClaimStatus::Claimable => "CLAIM_STATUS_CLAIMABLE",
                 ClaimStatus::Claimed => "CLAIM_STATUS_CLAIMED",
                 ClaimStatus::Expired => "CLAIM_STATUS_EXPIRED",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "CLAIM_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+                "CLAIM_STATUS_UNCLAIMABLE" => Some(Self::Unclaimable),
+                "CLAIM_STATUS_CLAIMABLE" => Some(Self::Claimable),
+                "CLAIM_STATUS_CLAIMED" => Some(Self::Claimed),
+                "CLAIM_STATUS_EXPIRED" => Some(Self::Expired),
+                _ => None,
             }
         }
     }
@@ -268,7 +290,8 @@ pub struct ActionVote {
     pub minimum_delegation_amount:
         ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
     /// Positive multiplier that is applied to the shares awarded by the vote action when conditions
-    /// are met(for now the only condition is the current vote is a validator vote). A value of zero will behave the same as one
+    /// are met(for now the only condition is the current vote is a validator vote). A value of zero will behave the same
+    /// as one
     #[prost(uint64, tag = "4")]
     pub validator_multiplier: u64,
 }
@@ -859,6 +882,18 @@ pub mod query_reward_programs_request {
                 QueryType::Active => "QUERY_TYPE_ACTIVE",
                 QueryType::Outstanding => "QUERY_TYPE_OUTSTANDING",
                 QueryType::Finished => "QUERY_TYPE_FINISHED",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "QUERY_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+                "QUERY_TYPE_ALL" => Some(Self::All),
+                "QUERY_TYPE_PENDING" => Some(Self::Pending),
+                "QUERY_TYPE_ACTIVE" => Some(Self::Active),
+                "QUERY_TYPE_OUTSTANDING" => Some(Self::Outstanding),
+                "QUERY_TYPE_FINISHED" => Some(Self::Finished),
+                _ => None,
             }
         }
     }

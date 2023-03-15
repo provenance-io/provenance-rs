@@ -124,6 +124,21 @@ impl AttributeType {
             AttributeType::Bytes => "ATTRIBUTE_TYPE_BYTES",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ATTRIBUTE_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "ATTRIBUTE_TYPE_UUID" => Some(Self::Uuid),
+            "ATTRIBUTE_TYPE_JSON" => Some(Self::Json),
+            "ATTRIBUTE_TYPE_STRING" => Some(Self::String),
+            "ATTRIBUTE_TYPE_URI" => Some(Self::Uri),
+            "ATTRIBUTE_TYPE_INT" => Some(Self::Int),
+            "ATTRIBUTE_TYPE_FLOAT" => Some(Self::Float),
+            "ATTRIBUTE_TYPE_PROTO" => Some(Self::Proto),
+            "ATTRIBUTE_TYPE_BYTES" => Some(Self::Bytes),
+            _ => None,
+        }
+    }
 }
 /// MsgAddAttributeRequest defines an sdk.Msg type that is used to add a new attribute to an account
 /// Attributes may only be set in an account by the account that the attribute name resolves to.

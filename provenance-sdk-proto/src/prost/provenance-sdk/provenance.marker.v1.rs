@@ -1,4 +1,4 @@
-/// AccessGrant associates a colelction of permisssions with an address for delegated marker account control.
+/// AccessGrant associates a collection of permissions with an address for delegated marker account control.
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct AccessGrant {
@@ -46,6 +46,20 @@ impl Access {
             Access::Delete => "ACCESS_DELETE",
             Access::Admin => "ACCESS_ADMIN",
             Access::Transfer => "ACCESS_TRANSFER",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "ACCESS_UNSPECIFIED" => Some(Self::Unspecified),
+            "ACCESS_MINT" => Some(Self::Mint),
+            "ACCESS_BURN" => Some(Self::Burn),
+            "ACCESS_DEPOSIT" => Some(Self::Deposit),
+            "ACCESS_WITHDRAW" => Some(Self::Withdraw),
+            "ACCESS_DELETE" => Some(Self::Delete),
+            "ACCESS_ADMIN" => Some(Self::Admin),
+            "ACCESS_TRANSFER" => Some(Self::Transfer),
+            _ => None,
         }
     }
 }
@@ -283,6 +297,15 @@ impl MarkerType {
             MarkerType::Restricted => "MARKER_TYPE_RESTRICTED",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "MARKER_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "MARKER_TYPE_COIN" => Some(Self::Coin),
+            "MARKER_TYPE_RESTRICTED" => Some(Self::Restricted),
+            _ => None,
+        }
+    }
 }
 /// MarkerStatus defines the various states a marker account can be in.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -315,6 +338,18 @@ impl MarkerStatus {
             MarkerStatus::Active => "MARKER_STATUS_ACTIVE",
             MarkerStatus::Cancelled => "MARKER_STATUS_CANCELLED",
             MarkerStatus::Destroyed => "MARKER_STATUS_DESTROYED",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "MARKER_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "MARKER_STATUS_PROPOSED" => Some(Self::Proposed),
+            "MARKER_STATUS_FINALIZED" => Some(Self::Finalized),
+            "MARKER_STATUS_ACTIVE" => Some(Self::Active),
+            "MARKER_STATUS_CANCELLED" => Some(Self::Cancelled),
+            "MARKER_STATUS_DESTROYED" => Some(Self::Destroyed),
+            _ => None,
         }
     }
 }
@@ -532,6 +567,47 @@ pub struct MsgSetDenomMetadataRequest {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct MsgSetDenomMetadataResponse {}
+/// MsgAddFinalizeActivateMarkerRequest defines the Msg/AddFinalizeActivateMarker request type
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgAddFinalizeActivateMarkerRequest {
+    #[prost(message, optional, tag = "1")]
+    pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+    #[prost(string, tag = "3")]
+    pub manager: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub from_address: ::prost::alloc::string::String,
+    #[prost(enumeration = "MarkerType", tag = "5")]
+    pub marker_type: i32,
+    #[prost(message, repeated, tag = "6")]
+    pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,
+    #[prost(bool, tag = "7")]
+    pub supply_fixed: bool,
+    #[prost(bool, tag = "8")]
+    pub allow_governance_control: bool,
+}
+/// MsgAddFinalizeActivateMarkerResponse defines the Msg/AddFinalizeActivateMarker response type
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgAddFinalizeActivateMarkerResponse {}
+/// MsgSupplyIncreaseProposalRequest defines a governance proposal to administer a marker and increase total supply of the marker
+/// through minting coin and placing it within the marker or assigning it directly to an account
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgSupplyIncreaseProposalRequest {
+    #[prost(message, optional, tag = "1")]
+    pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+    /// an optional target address for the minted coin from this request
+    #[prost(string, tag = "2")]
+    pub target_address: ::prost::alloc::string::String,
+    /// signer of the proposal
+    #[prost(string, tag = "3")]
+    pub authority: ::prost::alloc::string::String,
+}
+/// MsgSupplyIncreaseProposalResponse defines the Msg/SupplyIncreaseProposal response type
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgSupplyIncreaseProposalResponse {}
 /// Generated client implementations.
 #[cfg(feature = "grpc")]
 #[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
@@ -818,6 +894,42 @@ pub mod msg_client {
                 http::uri::PathAndQuery::from_static("/provenance.marker.v1.Msg/GrantAllowance");
             self.inner.unary(request.into_request(), path, codec).await
         }
+        /// AddFinalizeActivateMarker
+        pub async fn add_finalize_activate_marker(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgAddFinalizeActivateMarkerRequest>,
+        ) -> Result<tonic::Response<super::MsgAddFinalizeActivateMarkerResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.marker.v1.Msg/AddFinalizeActivateMarker",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        /// SupplyIncreaseProposal can only be called via gov proposal
+        pub async fn supply_increase_proposal(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgSupplyIncreaseProposalRequest>,
+        ) -> Result<tonic::Response<super::MsgSupplyIncreaseProposalResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.marker.v1.Msg/SupplyIncreaseProposal",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
     }
 }
 /// Generated server implementations.
@@ -901,6 +1013,16 @@ pub mod msg_server {
             &self,
             request: tonic::Request<super::MsgGrantAllowanceRequest>,
         ) -> Result<tonic::Response<super::MsgGrantAllowanceResponse>, tonic::Status>;
+        /// AddFinalizeActivateMarker
+        async fn add_finalize_activate_marker(
+            &self,
+            request: tonic::Request<super::MsgAddFinalizeActivateMarkerRequest>,
+        ) -> Result<tonic::Response<super::MsgAddFinalizeActivateMarkerResponse>, tonic::Status>;
+        /// SupplyIncreaseProposal can only be called via gov proposal
+        async fn supply_increase_proposal(
+            &self,
+            request: tonic::Request<super::MsgSupplyIncreaseProposalRequest>,
+        ) -> Result<tonic::Response<super::MsgSupplyIncreaseProposalResponse>, tonic::Status>;
     }
     /// Msg defines the Marker Msg service.
     #[derive(Debug)]
@@ -1392,6 +1514,76 @@ pub mod msg_server {
                     };
                     Box::pin(fut)
                 }
+                "/provenance.marker.v1.Msg/AddFinalizeActivateMarker" => {
+                    #[allow(non_camel_case_types)]
+                    struct AddFinalizeActivateMarkerSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg>
+                        tonic::server::UnaryService<super::MsgAddFinalizeActivateMarkerRequest>
+                        for AddFinalizeActivateMarkerSvc<T>
+                    {
+                        type Response = super::MsgAddFinalizeActivateMarkerResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgAddFinalizeActivateMarkerRequest>,
+                        ) -> Self::Future {
+                            let inner = self.0.clone();
+                            let fut =
+                                async move { (*inner).add_finalize_activate_marker(request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = AddFinalizeActivateMarkerSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec).apply_compression_config(
+                            accept_compression_encodings,
+                            send_compression_encodings,
+                        );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.marker.v1.Msg/SupplyIncreaseProposal" => {
+                    #[allow(non_camel_case_types)]
+                    struct SupplyIncreaseProposalSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg>
+                        tonic::server::UnaryService<super::MsgSupplyIncreaseProposalRequest>
+                        for SupplyIncreaseProposalSvc<T>
+                    {
+                        type Response = super::MsgSupplyIncreaseProposalResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgSupplyIncreaseProposalRequest>,
+                        ) -> Self::Future {
+                            let inner = self.0.clone();
+                            let fut =
+                                async move { (*inner).supply_increase_proposal(request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = SupplyIncreaseProposalSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec).apply_compression_config(
+                            accept_compression_encodings,
+                            send_compression_encodings,
+                        );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
                 _ => Box::pin(async move {
                     Ok(http::Response::builder()
                         .status(200)
@@ -1502,6 +1694,33 @@ impl SiPrefix {
             SiPrefix::Atto => "SI_PREFIX_ATTO",
             SiPrefix::Zepto => "SI_PREFIX_ZEPTO",
             SiPrefix::Yocto => "SI_PREFIX_YOCTO",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SI_PREFIX_NONE" => Some(Self::None),
+            "SI_PREFIX_DEKA" => Some(Self::Deka),
+            "SI_PREFIX_HECTO" => Some(Self::Hecto),
+            "SI_PREFIX_KILO" => Some(Self::Kilo),
+            "SI_PREFIX_MEGA" => Some(Self::Mega),
+            "SI_PREFIX_GIGA" => Some(Self::Giga),
+            "SI_PREFIX_TERA" => Some(Self::Tera),
+            "SI_PREFIX_PETA" => Some(Self::Peta),
+            "SI_PREFIX_EXA" => Some(Self::Exa),
+            "SI_PREFIX_ZETTA" => Some(Self::Zetta),
+            "SI_PREFIX_YOTTA" => Some(Self::Yotta),
+            "SI_PREFIX_DECI" => Some(Self::Deci),
+            "SI_PREFIX_CENTI" => Some(Self::Centi),
+            "SI_PREFIX_MILLI" => Some(Self::Milli),
+            "SI_PREFIX_MICRO" => Some(Self::Micro),
+            "SI_PREFIX_NANO" => Some(Self::Nano),
+            "SI_PREFIX_PICO" => Some(Self::Pico),
+            "SI_PREFIX_FEMTO" => Some(Self::Femto),
+            "SI_PREFIX_ATTO" => Some(Self::Atto),
+            "SI_PREFIX_ZEPTO" => Some(Self::Zepto),
+            "SI_PREFIX_YOCTO" => Some(Self::Yocto),
+            _ => None,
         }
     }
 }
@@ -2243,6 +2462,10 @@ pub struct MarkerTransferAuthorization {
     /// transfer_limit is the total amount the grantee can transfer
     #[prost(message, repeated, tag = "1")]
     pub transfer_limit: ::prost::alloc::vec::Vec<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+    /// allow_list specifies an optional list of addresses to whom the grantee can send restricted coins on behalf of the
+    /// granter. If omitted, any recipient is allowed.
+    #[prost(string, repeated, tag = "2")]
+    pub allow_list: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// GenesisState defines the account module's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]

@@ -311,6 +311,16 @@ impl DefinitionType {
             DefinitionType::RecordList => "DEFINITION_TYPE_RECORD_LIST",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "DEFINITION_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "DEFINITION_TYPE_PROPOSED" => Some(Self::Proposed),
+            "DEFINITION_TYPE_RECORD" => Some(Self::Record),
+            "DEFINITION_TYPE_RECORD_LIST" => Some(Self::RecordList),
+            _ => None,
+        }
+    }
 }
 /// PartyType are the different roles parties on a contract may use
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -357,6 +367,23 @@ impl PartyType {
             PartyType::Provenance => "PARTY_TYPE_PROVENANCE",
             PartyType::Controller => "PARTY_TYPE_CONTROLLER",
             PartyType::Validator => "PARTY_TYPE_VALIDATOR",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "PARTY_TYPE_UNSPECIFIED" => Some(Self::Unspecified),
+            "PARTY_TYPE_ORIGINATOR" => Some(Self::Originator),
+            "PARTY_TYPE_SERVICER" => Some(Self::Servicer),
+            "PARTY_TYPE_INVESTOR" => Some(Self::Investor),
+            "PARTY_TYPE_CUSTODIAN" => Some(Self::Custodian),
+            "PARTY_TYPE_OWNER" => Some(Self::Owner),
+            "PARTY_TYPE_AFFILIATE" => Some(Self::Affiliate),
+            "PARTY_TYPE_OMNIBUS" => Some(Self::Omnibus),
+            "PARTY_TYPE_PROVENANCE" => Some(Self::Provenance),
+            "PARTY_TYPE_CONTROLLER" => Some(Self::Controller),
+            "PARTY_TYPE_VALIDATOR" => Some(Self::Validator),
+            _ => None,
         }
     }
 }
@@ -559,6 +586,15 @@ impl RecordInputStatus {
             RecordInputStatus::Record => "RECORD_INPUT_STATUS_RECORD",
         }
     }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "RECORD_INPUT_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "RECORD_INPUT_STATUS_PROPOSED" => Some(Self::Proposed),
+            "RECORD_INPUT_STATUS_RECORD" => Some(Self::Record),
+            _ => None,
+        }
+    }
 }
 /// ResultStatus indicates the various states of execution of a record
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -584,6 +620,16 @@ impl ResultStatus {
             ResultStatus::Pass => "RESULT_STATUS_PASS",
             ResultStatus::Skip => "RESULT_STATUS_SKIP",
             ResultStatus::Fail => "RESULT_STATUS_FAIL",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "RESULT_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "RESULT_STATUS_PASS" => Some(Self::Pass),
+            "RESULT_STATUS_SKIP" => Some(Self::Skip),
+            "RESULT_STATUS_FAIL" => Some(Self::Fail),
+            _ => None,
         }
     }
 }
