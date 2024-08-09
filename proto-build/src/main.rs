@@ -19,7 +19,7 @@ use walkdir::WalkDir;
 static QUIET: AtomicBool = AtomicBool::new(false);
 
 /// The Provenance SDK commit or tag to be cloned and used to build the proto files
-const PROVENANCE_SDK_REV: &str = "v1.13.0";
+const PROVENANCE_SDK_REV: &str = "v1.19.1";
 
 // All paths must end with a / and either be absolute or include a ./ to reference the current
 // working directory.

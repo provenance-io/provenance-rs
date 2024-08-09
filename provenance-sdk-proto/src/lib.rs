@@ -40,10 +40,4 @@ pub mod provenance {
             include!("prost/provenance-sdk/provenance.name.v1.rs");
         }
     }
-
-    pub mod reward {
-        pub mod v1 {
-            include!("prost/provenance-sdk/provenance.reward.v1.rs");
-        }
-    }
 }
