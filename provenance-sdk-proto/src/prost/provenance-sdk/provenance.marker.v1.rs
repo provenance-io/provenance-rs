@@ -2985,6 +2985,19 @@ pub mod msg_server {
         const NAME: &'static str = "provenance.marker.v1.Msg";
     }
 }
+/// MarkerTransferAuthorization gives the grantee permissions to execute
+/// a marker transfer on behalf of the granter's account.
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MarkerTransferAuthorization {
+    /// transfer_limit is the total amount the grantee can transfer
+    #[prost(message, repeated, tag = "1")]
+    pub transfer_limit: ::prost::alloc::vec::Vec<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+    /// allow_list specifies an optional list of addresses to whom the grantee can send restricted coins on behalf of the
+    /// granter. If omitted, any recipient is allowed.
+    #[prost(string, repeated, tag = "2")]
+    pub allow_list: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
 /// SIPrefix represents an International System of Units (SI) Prefix.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -4097,19 +4110,6 @@ pub mod query_server {
     impl<T: Query> tonic::server::NamedService for QueryServer<T> {
         const NAME: &'static str = "provenance.marker.v1.Query";
     }
-}
-/// MarkerTransferAuthorization gives the grantee permissions to execute
-/// a marker transfer on behalf of the granter's account.
-#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MarkerTransferAuthorization {
-    /// transfer_limit is the total amount the grantee can transfer
-    #[prost(message, repeated, tag = "1")]
-    pub transfer_limit: ::prost::alloc::vec::Vec<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-    /// allow_list specifies an optional list of addresses to whom the grantee can send restricted coins on behalf of the
-    /// granter. If omitted, any recipient is allowed.
-    #[prost(string, repeated, tag = "2")]
-    pub allow_list: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 /// GenesisState defines the account module's genesis state.
 #[allow(clippy::derive_partial_eq_without_eq)]
