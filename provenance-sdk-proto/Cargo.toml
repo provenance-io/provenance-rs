@@ -15,6 +15,10 @@ cosmos-sdk-proto = { version = "0.23", default-features = false }
 prost = "0.13"
 prost-types = "0.13"
 
+[features]
+grpc = []
+grpc-transport = []
+
 [package.metadata.docs.rs]
 all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
