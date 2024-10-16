@@ -19,7 +19,7 @@ use walkdir::WalkDir;
 static QUIET: AtomicBool = AtomicBool::new(false);
 
 /// The Provenance SDK commit or tag to be cloned and used to build the proto files
-const PROVENANCE_SDK_REV: &str = "v1.19.1";
+const PROVENANCE_SDK_REV: &str = "v1.20.0-rc2";
 
 // All paths must end with a / and either be absolute or include a ./ to reference the current
 // working directory.
@@ -199,7 +199,7 @@ fn compile_sdk_protos_and_services(out_dir: &Path) {
         .build_server(true)
         .out_dir(out_dir)
         .extern_path(".tendermint", "::tendermint_proto")
-        .compile(&protos, &includes)
+        .compile_protos(&protos, &includes)
         .unwrap();
 
     info!("=> Done!");
@@ -262,7 +262,7 @@ fn copy_and_patch(src: impl AsRef<Path>, dest: impl AsRef<Path>) -> io::Result<(
     const REPLACEMENTS: &[(&str, &str)] = &[
         // Use `tendermint-proto` proto definitions
         ("(super::)+cosmos", "cosmos_sdk_proto::cosmos"),
-        ("(super::)+ibc", "cosmos_sdk_proto::ibc"),
+        ("(super::)+ibc", "ibc_proto::ibc"),
         // Feature-gate gRPC client modules
         (
             "/// Generated client implementations.",
