@@ -1,3 +1,6 @@
 [submodule "provenance-sdk-go"]
 	path = provenance-sdk-go
 	url = https://github.com/provenance-io/provenance.git
+[submodule "provlabs-vault-sdk-go"]
+	path = provlabs-vault-sdk-go
+	url = https://github.com/ProvLabs/vault.git

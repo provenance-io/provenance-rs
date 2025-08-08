@@ -19,15 +19,20 @@ use walkdir::WalkDir;
 static QUIET: AtomicBool = AtomicBool::new(false);
 
 /// The Provenance SDK commit or tag to be cloned and used to build the proto files
-const PROVENANCE_SDK_REV: &str = "v1.20.0-rc2";
+const PROVENANCE_SDK_REV: &str = "v1.25.0";
+
+/// The ProvLabs Vault Module commit or tag to be cloned and used to build the proto files
+const PROVLABS_VAULT_SDK_REV: &str = "main";
 
 // All paths must end with a / and either be absolute or include a ./ to reference the current
 // working directory.
 
-/// The directory generated cosmos-sdk proto files go into in this repo
+/// The directory generated provnenace-sdk proto files go into in this repo
 const PROVENANCE_SDK_PROTO_DIR: &str = "../provenance-sdk-proto/src/prost/";
-/// Directory where the cosmos-sdk submodule is located
+/// Directory where the provenance-sdk submodule is located
 const PROVENANCE_SDK_DIR: &str = "../provenance-sdk-go";
+/// Directory where the provenance-sdk submodule is located
+const PROVLABS_VAULT_SDK_DIR: &str = "../provlabs-vault-sdk-go";
 /// A temporary directory for proto building
 const TMP_BUILD_DIR: &str = "/tmp/tmp-protobuf/";
 
@@ -82,7 +87,10 @@ fn main() {
     run_rustfmt(&proto_dir);
 
     if is_github() {
-        println!("Rebuild protos with proto-build (cosmos-sdk rev: {PROVENANCE_SDK_REV})");
+        println!("Rebuild protos with proto-build (provenance-sdk rev: {PROVENANCE_SDK_REV})");
+        println!(
+            "Rebuild protos with proto-build (provlabs-vault-module rev: {PROVLABS_VAULT_SDK_REV})"
+        );
     }
 }
 
@@ -145,8 +153,9 @@ fn run_rustfmt(dir: &Path) {
 }
 
 fn update_submodules() {
-    info!("Updating provenance/provenance-sdk submodule...");
     run_git(["submodule", "update", "--init"]);
+
+    info!("Updating provenance/provenance-sdk submodule...");
     run_git(["-C", PROVENANCE_SDK_DIR, "fetch"]);
     run_git([
         "-C",
@@ -155,24 +164,38 @@ fn update_submodules() {
         "--hard",
         PROVENANCE_SDK_REV,
     ]);
+
+    info!("Updating ProvLabs/vault submodule...");
+    run_git(["-C", PROVLABS_VAULT_SDK_DIR, "fetch"]);
+    run_git([
+        "-C",
+        PROVLABS_VAULT_SDK_DIR,
+        "reset",
+        "--hard",
+        PROVLABS_VAULT_SDK_REV,
+    ]);
 }
 
 fn output_sdk_version(out_dir: &Path) {
     let path = out_dir.join("PROVENANCE_SDK_COMMIT");
     fs::write(path, PROVENANCE_SDK_REV).unwrap();
+    let path = out_dir.join("PROVLABS_VAULT_SDK_COMMIT");
+    fs::write(path, PROVLABS_VAULT_SDK_REV).unwrap();
 }
 
 fn compile_sdk_protos_and_services(out_dir: &Path) {
     info!(
-        "Compiling cosmos-sdk .proto files to Rust into '{}'...",
+        "Compiling .proto files to Rust into '{}'...",
         out_dir.display()
     );
 
     let sdk_dir = Path::new(PROVENANCE_SDK_DIR);
+    let provlabs_vault_sdk_dir = Path::new(PROVLABS_VAULT_SDK_DIR);
 
     let proto_includes_paths = [
         format!("{}/proto", sdk_dir.display()),
         format!("{}/third_party/proto", sdk_dir.display()),
+        format!("{}/proto", provlabs_vault_sdk_dir.display()),
     ];
 
     // Paths
@@ -183,6 +206,7 @@ fn compile_sdk_protos_and_services(out_dir: &Path) {
         format!("{}/proto/provenance/msgfees", sdk_dir.display()),
         format!("{}/proto/provenance/name", sdk_dir.display()),
         format!("{}/proto/provenance/reward", sdk_dir.display()),
+        format!("{}/proto/vault", provlabs_vault_sdk_dir.display()),
     ];
 
     // List available proto files

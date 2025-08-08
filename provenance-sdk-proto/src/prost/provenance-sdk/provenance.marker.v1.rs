@@ -34,7 +34,6 @@ pub enum Access {
     ///   - Update the marker's required attributes.
     ///   - Update the send-deny list.
     ///   - Use the transfer or bank send endpoints to move marker funds out of their own account.
-    ///
     /// This access right is only supported on RESTRICTED markers.
     Transfer = 7,
     /// ACCESS_FORCE_TRANSFER is the ability to transfer restricted coins from a 3rd-party account without their signature.
@@ -527,6 +526,9 @@ pub struct MsgMintRequest {
     pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
     #[prost(string, tag = "2")]
     pub administrator: ::prost::alloc::string::String,
+    /// recipient is the optional address to receive the newly minted funds.
+    #[prost(string, tag = "3")]
+    pub recipient: ::prost::alloc::string::String,
 }
 /// MsgMintResponse defines the Msg/Mint response type
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -825,6 +827,20 @@ pub struct MsgUpdateParamsRequest {
 /// MsgUpdateParamsResponse is a response message for the UpdateParams endpoint.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct MsgUpdateParamsResponse {}
+/// MsgRevokeGrantAllowanceRequest is a request message for the RevokeFeeGrantAllowance endpoint.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgRevokeGrantAllowanceRequest {
+    #[prost(string, tag = "1")]
+    pub denom: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub administrator: ::prost::alloc::string::String,
+    /// address of the grantee whose allowance is being revoked.
+    #[prost(string, tag = "3")]
+    pub grantee: ::prost::alloc::string::String,
+}
+/// MsgRevokeGrantResponse is a response message for the RevokeFeeGrantAllowance endpoint.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgRevokeGrantAllowanceResponse {}
 /// Generated client implementations.
 #[cfg(feature = "grpc")]
 #[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
@@ -1442,6 +1458,28 @@ pub mod msg_client {
                 .insert(GrpcMethod::new("provenance.marker.v1.Msg", "UpdateParams"));
             self.inner.unary(req, path, codec).await
         }
+        /// RevokeGrantAllowance revokes a fee allowance granted by a admin to a grantee.
+        pub async fn revoke_grant_allowance(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgRevokeGrantAllowanceRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgRevokeGrantAllowanceResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.marker.v1.Msg/RevokeGrantAllowance",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.marker.v1.Msg",
+                "RevokeGrantAllowance",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
     }
 }
 /// Generated server implementations.
@@ -1631,6 +1669,14 @@ pub mod msg_server {
             &self,
             request: tonic::Request<super::MsgUpdateParamsRequest>,
         ) -> std::result::Result<tonic::Response<super::MsgUpdateParamsResponse>, tonic::Status>;
+        /// RevokeGrantAllowance revokes a fee allowance granted by a admin to a grantee.
+        async fn revoke_grant_allowance(
+            &self,
+            request: tonic::Request<super::MsgRevokeGrantAllowanceRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgRevokeGrantAllowanceResponse>,
+            tonic::Status,
+        >;
     }
     /// Msg defines the Marker Msg service.
     #[derive(Debug)]
@@ -2807,6 +2853,47 @@ pub mod msg_server {
                     };
                     Box::pin(fut)
                 }
+                "/provenance.marker.v1.Msg/RevokeGrantAllowance" => {
+                    #[allow(non_camel_case_types)]
+                    struct RevokeGrantAllowanceSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgRevokeGrantAllowanceRequest>
+                        for RevokeGrantAllowanceSvc<T>
+                    {
+                        type Response = super::MsgRevokeGrantAllowanceResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgRevokeGrantAllowanceRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::revoke_grant_allowance(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = RevokeGrantAllowanceSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
                 _ => Box::pin(async move {
                     let mut response = http::Response::new(empty_body());
                     let headers = response.headers_mut();
@@ -3930,6 +4017,18 @@ pub struct MarkerTransferAuthorization {
     /// granter. If omitted, any recipient is allowed.
     #[prost(string, repeated, tag = "2")]
     pub allow_list: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MultiAuthorization lets you combine several authorizations.
+/// All sub-authorizations must accept the message for it to be allowed.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MultiAuthorization {
+    /// The message type this authorization is for.
+    #[prost(string, tag = "1")]
+    pub msg_type_url: ::prost::alloc::string::String,
+    /// A list of sub-authorizations that must all accept the message.
+    /// sub_authorizations: a list of authorizations (minimum 2, maximum 10).
+    #[prost(message, repeated, tag = "2")]
+    pub sub_authorizations: ::prost::alloc::vec::Vec<::prost_types::Any>,
 }
 /// GenesisState defines the account module's genesis state.
 #[derive(Clone, PartialEq, ::prost::Message)]

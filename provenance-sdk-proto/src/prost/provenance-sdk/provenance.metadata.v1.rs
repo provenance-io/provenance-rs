@@ -4202,7 +4202,7 @@ pub mod query_client {
             ));
             self.inner.unary(req, path, codec).await
         }
-        /// Ownership returns the scope identifiers that list the given address as either a data or value owner.
+        /// Ownership returns the scope identifiers that have the given address in the owners list.
         pub async fn ownership(
             &mut self,
             request: impl tonic::IntoRequest<super::OwnershipRequest>,
@@ -4674,7 +4674,7 @@ pub mod query_server {
             &self,
             request: tonic::Request<super::RecordsAllRequest>,
         ) -> std::result::Result<tonic::Response<super::RecordsAllResponse>, tonic::Status>;
-        /// Ownership returns the scope identifiers that list the given address as either a data or value owner.
+        /// Ownership returns the scope identifiers that have the given address in the owners list.
         async fn ownership(
             &self,
             request: tonic::Request<super::OwnershipRequest>,
