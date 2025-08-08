@@ -128,26 +128,6 @@ pub struct RecordSpecIdInfo {
     #[prost(message, optional, tag = "6")]
     pub contract_spec_id_info: ::core::option::Option<ContractSpecIdInfo>,
 }
-/// Defines an Locator object stored on chain, which represents a owner( blockchain address) associated with a endpoint
-/// uri for it's associated object store.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ObjectStoreLocator {
-    /// account address the endpoint is owned by
-    #[prost(string, tag = "1")]
-    pub owner: ::prost::alloc::string::String,
-    /// locator endpoint uri
-    #[prost(string, tag = "2")]
-    pub locator_uri: ::prost::alloc::string::String,
-    /// owners encryption key address
-    #[prost(string, tag = "3")]
-    pub encryption_key: ::prost::alloc::string::String,
-}
-/// Params defines the parameters for the metadata-locator module methods.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct OsLocatorParams {
-    #[prost(uint32, tag = "1")]
-    pub max_uri_length: u32,
-}
 /// ScopeSpecification defines the required parties, resources, conditions, and consideration outputs for a contract
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ScopeSpecification {
@@ -640,2545 +620,25 @@ impl ResultStatus {
         }
     }
 }
-/// MsgWriteScopeRequest is the request type for the Msg/WriteScope RPC method.
+/// Defines an Locator object stored on chain, which represents a owner( blockchain address) associated with a endpoint
+/// uri for it's associated object store.
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteScopeRequest {
-    /// scope is the Scope you want added or updated.
-    #[prost(message, optional, tag = "1")]
-    pub scope: ::core::option::Option<Scope>,
-    /// signers is the list of address of those signing this request.
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// scope_uuid is an optional uuid string, e.g. "91978ba2-5f35-459a-86a7-feca1b0512e0"
-    /// If provided, it will be used to generate the MetadataAddress for the scope which will override the scope_id in the
-    /// provided scope. If not provided (or it is an empty string), nothing special happens.
-    /// If there is a value in scope.scope_id that is different from the one created from this uuid, an error is returned.
-    #[prost(string, tag = "3")]
-    pub scope_uuid: ::prost::alloc::string::String,
-    /// spec_uuid is an optional scope specification uuid string, e.g. "dc83ea70-eacd-40fe-9adf-1cf6148bf8a2"
-    /// If provided, it will be used to generate the MetadataAddress for the scope specification which will override the
-    /// specification_id in the provided scope. If not provided (or it is an empty string), nothing special happens.
-    /// If there is a value in scope.specification_id that is different from the one created from this uuid, an error is
-    /// returned.
-    #[prost(string, tag = "4")]
-    pub spec_uuid: ::prost::alloc::string::String,
-    /// usd_mills value of scope in usd mills (1234 = $1.234) used for net asset value
-    #[prost(uint64, tag = "5")]
-    pub usd_mills: u64,
-}
-/// MsgWriteScopeResponse is the response type for the Msg/WriteScope RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteScopeResponse {
-    /// scope_id_info contains information about the id/address of the scope that was added or updated.
-    #[prost(message, optional, tag = "1")]
-    pub scope_id_info: ::core::option::Option<ScopeIdInfo>,
-}
-/// MsgDeleteScopeRequest is the request type for the Msg/DeleteScope RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgDeleteScopeRequest {
-    /// Unique ID for the scope to delete
-    #[prost(bytes = "vec", tag = "1")]
-    pub scope_id: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgDeleteScopeResponse is the response type for the Msg/DeleteScope RPC method.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgDeleteScopeResponse {}
-/// MsgAddScopeDataAccessRequest is the request to add data access AccAddress to scope
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgAddScopeDataAccessRequest {
-    /// scope MetadataAddress for updating data access
-    #[prost(bytes = "vec", tag = "1")]
-    pub scope_id: ::prost::alloc::vec::Vec<u8>,
-    /// AccAddress addresses to be added to scope
-    #[prost(string, repeated, tag = "2")]
-    pub data_access: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// signers is the list of address of those signing this request.
-    #[prost(string, repeated, tag = "3")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgAddScopeDataAccessResponse is the response for adding data access AccAddress to scope
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgAddScopeDataAccessResponse {}
-/// MsgDeleteScopeDataAccessRequest is the request to remove data access AccAddress to scope
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgDeleteScopeDataAccessRequest {
-    /// scope MetadataAddress for removing data access
-    #[prost(bytes = "vec", tag = "1")]
-    pub scope_id: ::prost::alloc::vec::Vec<u8>,
-    /// AccAddress address to be removed from scope
-    #[prost(string, repeated, tag = "2")]
-    pub data_access: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// signers is the list of address of those signing this request.
-    #[prost(string, repeated, tag = "3")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgDeleteScopeDataAccessResponse is the response from removing data access AccAddress to scope
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgDeleteScopeDataAccessResponse {}
-/// MsgAddScopeOwnerRequest is the request to add owner AccAddress to scope
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgAddScopeOwnerRequest {
-    /// scope MetadataAddress for updating data access
-    #[prost(bytes = "vec", tag = "1")]
-    pub scope_id: ::prost::alloc::vec::Vec<u8>,
-    /// owner parties to add to the scope
-    #[prost(message, repeated, tag = "2")]
-    pub owners: ::prost::alloc::vec::Vec<Party>,
-    /// signers is the list of address of those signing this request.
-    #[prost(string, repeated, tag = "3")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgAddScopeOwnerResponse is the response for adding owner AccAddresses to scope
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgAddScopeOwnerResponse {}
-/// MsgDeleteScopeOwnerRequest is the request to remove owner AccAddresses to scope
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgDeleteScopeOwnerRequest {
-    /// scope MetadataAddress for removing data access
-    #[prost(bytes = "vec", tag = "1")]
-    pub scope_id: ::prost::alloc::vec::Vec<u8>,
-    /// AccAddress owner addresses to be removed from scope
-    #[prost(string, repeated, tag = "2")]
-    pub owners: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// signers is the list of address of those signing this request.
-    #[prost(string, repeated, tag = "3")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgDeleteScopeOwnerResponse is the response from removing owner AccAddress to scope
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgDeleteScopeOwnerResponse {}
-/// MsgUpdateValueOwnersRequest is the request to update the value owner addresses in one or more scopes.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgUpdateValueOwnersRequest {
-    /// scope_ids are the scope metadata addresses of all scopes to be updated.
-    #[prost(bytes = "vec", repeated, tag = "1")]
-    pub scope_ids: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
-    /// value_owner_address is the address of the new value owner for the provided scopes.
-    #[prost(string, tag = "2")]
-    pub value_owner_address: ::prost::alloc::string::String,
-    /// signers is the list of addresses of those signing this request.
-    #[prost(string, repeated, tag = "3")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgUpdateValueOwnersResponse is the response from updating value owner addresses in one or more scopes.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgUpdateValueOwnersResponse {}
-/// MsgMigrateValueOwnerRequest is the request to migrate all scopes with one value owner to another value owner.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgMigrateValueOwnerRequest {
-    /// existing is the value owner address that is being migrated.
-    #[prost(string, tag = "1")]
-    pub existing: ::prost::alloc::string::String,
-    /// proposed is the new value owner address for all of existing's scopes.
-    #[prost(string, tag = "2")]
-    pub proposed: ::prost::alloc::string::String,
-    /// signers is the list of addresses of those signing this request.
-    #[prost(string, repeated, tag = "3")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgMigrateValueOwnerResponse is the response from migrating a value owner address.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgMigrateValueOwnerResponse {}
-/// MsgWriteSessionRequest is the request type for the Msg/WriteSession RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteSessionRequest {
-    /// session is the Session you want added or updated.
-    #[prost(message, optional, tag = "1")]
-    pub session: ::core::option::Option<Session>,
-    /// signers is the list of address of those signing this request.
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// SessionIDComponents is an optional (alternate) way of defining what the session_id should be in the provided
-    /// session. If provided, it must have both a scope and session_uuid. Those components will be used to create the
-    /// MetadataAddress for the session which will override the session_id in the provided session. If not provided (or
-    /// all empty), nothing special happens.
-    /// If there is a value in session.session_id that is different from the one created from these components, an error is
-    /// returned.
-    #[prost(message, optional, tag = "3")]
-    pub session_id_components: ::core::option::Option<SessionIdComponents>,
-    /// spec_uuid is an optional contract specification uuid string, e.g. "def6bc0a-c9dd-4874-948f-5206e6060a84"
-    /// If provided, it will be used to generate the MetadataAddress for the contract specification which will override the
-    /// specification_id in the provided session. If not provided (or it is an empty string), nothing special happens.
-    /// If there is a value in session.specification_id that is different from the one created from this uuid, an error is
-    /// returned.
-    #[prost(string, tag = "4")]
-    pub spec_uuid: ::prost::alloc::string::String,
-}
-/// SessionIDComponents contains fields for the components that make up a session id.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SessionIdComponents {
-    /// session_uuid is a uuid string for identifying this session, e.g. "5803f8bc-6067-4eb5-951f-2121671c2ec0"
-    #[prost(string, tag = "3")]
-    pub session_uuid: ::prost::alloc::string::String,
-    /// scope is used to define the scope this session belongs to.
-    #[prost(oneof = "session_id_components::ScopeIdentifier", tags = "1, 2")]
-    pub scope_identifier: ::core::option::Option<session_id_components::ScopeIdentifier>,
-}
-/// Nested message and enum types in `SessionIdComponents`.
-pub mod session_id_components {
-    /// scope is used to define the scope this session belongs to.
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ScopeIdentifier {
-        /// scope_uuid is the uuid string for the scope, e.g. "91978ba2-5f35-459a-86a7-feca1b0512e0"
-        #[prost(string, tag = "1")]
-        ScopeUuid(::prost::alloc::string::String),
-        /// scope_addr is the bech32 address string for the scope, g.g. "scope1qzge0zaztu65tx5x5llv5xc9ztsqxlkwel"
-        #[prost(string, tag = "2")]
-        ScopeAddr(::prost::alloc::string::String),
-    }
-}
-/// MsgWriteSessionResponse is the response type for the Msg/WriteSession RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteSessionResponse {
-    /// session_id_info contains information about the id/address of the session that was added or updated.
-    #[prost(message, optional, tag = "1")]
-    pub session_id_info: ::core::option::Option<SessionIdInfo>,
-}
-/// MsgWriteRecordRequest is the request type for the Msg/WriteRecord RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteRecordRequest {
-    /// record is the Record you want added or updated.
-    #[prost(message, optional, tag = "1")]
-    pub record: ::core::option::Option<Record>,
-    /// signers is the list of address of those signing this request.
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// SessionIDComponents is an optional (alternate) way of defining what the session_id should be in the provided
-    /// record. If provided, it must have both a scope and session_uuid. Those components will be used to create the
-    /// MetadataAddress for the session which will override the session_id in the provided record. If not provided (or
-    /// all empty), nothing special happens.
-    /// If there is a value in record.session_id that is different from the one created from these components, an error is
-    /// returned.
-    #[prost(message, optional, tag = "3")]
-    pub session_id_components: ::core::option::Option<SessionIdComponents>,
-    /// contract_spec_uuid is an optional contract specification uuid string, e.g. "def6bc0a-c9dd-4874-948f-5206e6060a84"
-    /// If provided, it will be combined with the record name to generate the MetadataAddress for the record specification
-    /// which will override the specification_id in the provided record. If not provided (or it is an empty string),
-    /// nothing special happens.
-    /// If there is a value in record.specification_id that is different from the one created from this uuid and
-    /// record.name, an error is returned.
-    #[prost(string, tag = "4")]
-    pub contract_spec_uuid: ::prost::alloc::string::String,
-    /// parties is the list of parties involved with this record.
-    /// Deprecated: This field is ignored. The parties are identified in the session and as signers.
-    #[prost(message, repeated, tag = "5")]
-    pub parties: ::prost::alloc::vec::Vec<Party>,
-}
-/// MsgWriteRecordResponse is the response type for the Msg/WriteRecord RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteRecordResponse {
-    /// record_id_info contains information about the id/address of the record that was added or updated.
-    #[prost(message, optional, tag = "1")]
-    pub record_id_info: ::core::option::Option<RecordIdInfo>,
-}
-/// MsgDeleteRecordRequest is the request type for the Msg/DeleteRecord RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgDeleteRecordRequest {
-    #[prost(bytes = "vec", tag = "1")]
-    pub record_id: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgDeleteRecordResponse is the response type for the Msg/DeleteRecord RPC method.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgDeleteRecordResponse {}
-/// MsgWriteScopeSpecificationRequest is the request type for the Msg/WriteScopeSpecification RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteScopeSpecificationRequest {
-    /// specification is the ScopeSpecification you want added or updated.
-    #[prost(message, optional, tag = "1")]
-    pub specification: ::core::option::Option<ScopeSpecification>,
-    /// signers is the list of address of those signing this request.
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// spec_uuid is an optional scope specification uuid string, e.g. "dc83ea70-eacd-40fe-9adf-1cf6148bf8a2"
-    /// If provided, it will be used to generate the MetadataAddress for the scope specification which will override the
-    /// specification_id in the provided specification. If not provided (or it is an empty string), nothing special
-    /// happens.
-    /// If there is a value in specification.specification_id that is different from the one created from this uuid, an
-    /// error is returned.
-    #[prost(string, tag = "3")]
-    pub spec_uuid: ::prost::alloc::string::String,
-}
-/// MsgWriteScopeSpecificationResponse is the response type for the Msg/WriteScopeSpecification RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteScopeSpecificationResponse {
-    /// scope_spec_id_info contains information about the id/address of the scope specification that was added or updated.
-    #[prost(message, optional, tag = "1")]
-    pub scope_spec_id_info: ::core::option::Option<ScopeSpecIdInfo>,
-}
-/// MsgDeleteScopeSpecificationRequest is the request type for the Msg/DeleteScopeSpecification RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgDeleteScopeSpecificationRequest {
-    /// MetadataAddress for the scope specification to delete.
-    #[prost(bytes = "vec", tag = "1")]
-    pub specification_id: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgDeleteScopeSpecificationResponse is the response type for the Msg/DeleteScopeSpecification RPC method.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgDeleteScopeSpecificationResponse {}
-/// MsgWriteContractSpecificationRequest is the request type for the Msg/WriteContractSpecification RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteContractSpecificationRequest {
-    /// specification is the ContractSpecification you want added or updated.
-    #[prost(message, optional, tag = "1")]
-    pub specification: ::core::option::Option<ContractSpecification>,
-    /// signers is the list of address of those signing this request.
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// spec_uuid is an optional contract specification uuid string, e.g. "def6bc0a-c9dd-4874-948f-5206e6060a84"
-    /// If provided, it will be used to generate the MetadataAddress for the contract specification which will override the
-    /// specification_id in the provided specification. If not provided (or it is an empty string), nothing special
-    /// happens.
-    /// If there is a value in specification.specification_id that is different from the one created from this uuid, an
-    /// error is returned.
-    #[prost(string, tag = "3")]
-    pub spec_uuid: ::prost::alloc::string::String,
-}
-/// MsgWriteContractSpecificationResponse is the response type for the Msg/WriteContractSpecification RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteContractSpecificationResponse {
-    /// contract_spec_id_info contains information about the id/address of the contract specification that was added or
-    /// updated.
-    #[prost(message, optional, tag = "1")]
-    pub contract_spec_id_info: ::core::option::Option<ContractSpecIdInfo>,
-}
-/// MsgAddContractSpecToScopeSpecRequest is the request type for the Msg/AddContractSpecToScopeSpec RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgAddContractSpecToScopeSpecRequest {
-    /// MetadataAddress for the contract specification to add.
-    #[prost(bytes = "vec", tag = "1")]
-    pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
-    /// MetadataAddress for the scope specification to add contract specification to.
-    #[prost(bytes = "vec", tag = "2")]
-    pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, repeated, tag = "3")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgAddContractSpecToScopeSpecResponse is the response type for the Msg/AddContractSpecToScopeSpec RPC method.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgAddContractSpecToScopeSpecResponse {}
-/// MsgDeleteContractSpecFromScopeSpecRequest is the request type for the Msg/DeleteContractSpecFromScopeSpec RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgDeleteContractSpecFromScopeSpecRequest {
-    /// MetadataAddress for the contract specification to add.
-    #[prost(bytes = "vec", tag = "1")]
-    pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
-    /// MetadataAddress for the scope specification to add contract specification to.
-    #[prost(bytes = "vec", tag = "2")]
-    pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, repeated, tag = "3")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgDeleteContractSpecFromScopeSpecResponse is the response type for the Msg/DeleteContractSpecFromScopeSpec RPC
-/// method.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgDeleteContractSpecFromScopeSpecResponse {}
-/// MsgDeleteContractSpecificationRequest is the request type for the Msg/DeleteContractSpecification RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgDeleteContractSpecificationRequest {
-    /// MetadataAddress for the contract specification to delete.
-    #[prost(bytes = "vec", tag = "1")]
-    pub specification_id: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgDeleteContractSpecificationResponse is the response type for the Msg/DeleteContractSpecification RPC method.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgDeleteContractSpecificationResponse {}
-/// MsgWriteRecordSpecificationRequest is the request type for the Msg/WriteRecordSpecification RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteRecordSpecificationRequest {
-    /// specification is the RecordSpecification you want added or updated.
-    #[prost(message, optional, tag = "1")]
-    pub specification: ::core::option::Option<RecordSpecification>,
-    /// signers is the list of address of those signing this request.
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// contract_spec_uuid is an optional contract specification uuid string, e.g. "def6bc0a-c9dd-4874-948f-5206e6060a84"
-    /// If provided, it will be combined with the record specification name to generate the MetadataAddress for the record
-    /// specification which will override the specification_id in the provided specification. If not provided (or it is an
-    /// empty string), nothing special happens.
-    /// If there is a value in specification.specification_id that is different from the one created from this uuid and
-    /// specification.name, an error is returned.
-    #[prost(string, tag = "3")]
-    pub contract_spec_uuid: ::prost::alloc::string::String,
-}
-/// MsgWriteRecordSpecificationResponse is the response type for the Msg/WriteRecordSpecification RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteRecordSpecificationResponse {
-    /// record_spec_id_info contains information about the id/address of the record specification that was added or
-    /// updated.
-    #[prost(message, optional, tag = "1")]
-    pub record_spec_id_info: ::core::option::Option<RecordSpecIdInfo>,
-}
-/// MsgDeleteRecordSpecificationRequest is the request type for the Msg/DeleteRecordSpecification RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgDeleteRecordSpecificationRequest {
-    /// MetadataAddress for the record specification to delete.
-    #[prost(bytes = "vec", tag = "1")]
-    pub specification_id: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgDeleteRecordSpecificationResponse is the response type for the Msg/DeleteRecordSpecification RPC method.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgDeleteRecordSpecificationResponse {}
-/// MsgBindOSLocatorRequest is the request type for the Msg/BindOSLocator RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgBindOsLocatorRequest {
-    /// The object locator to bind the address to bind to the URI.
-    #[prost(message, optional, tag = "1")]
-    pub locator: ::core::option::Option<ObjectStoreLocator>,
-}
-/// MsgBindOSLocatorResponse is the response type for the Msg/BindOSLocator RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgBindOsLocatorResponse {
-    #[prost(message, optional, tag = "1")]
-    pub locator: ::core::option::Option<ObjectStoreLocator>,
-}
-/// MsgDeleteOSLocatorRequest is the request type for the Msg/DeleteOSLocator RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgDeleteOsLocatorRequest {
-    /// The record being removed
-    #[prost(message, optional, tag = "1")]
-    pub locator: ::core::option::Option<ObjectStoreLocator>,
-}
-/// MsgDeleteOSLocatorResponse is the response type for the Msg/DeleteOSLocator RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgDeleteOsLocatorResponse {
-    #[prost(message, optional, tag = "1")]
-    pub locator: ::core::option::Option<ObjectStoreLocator>,
-}
-/// MsgModifyOSLocatorRequest is the request type for the Msg/ModifyOSLocator RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgModifyOsLocatorRequest {
-    /// The object locator to bind the address to bind to the URI.
-    #[prost(message, optional, tag = "1")]
-    pub locator: ::core::option::Option<ObjectStoreLocator>,
-}
-/// MsgModifyOSLocatorResponse is the response type for the Msg/ModifyOSLocator RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgModifyOsLocatorResponse {
-    #[prost(message, optional, tag = "1")]
-    pub locator: ::core::option::Option<ObjectStoreLocator>,
-}
-/// MsgSetAccountDataRequest is the request to set/update/delete a scope's account data.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgSetAccountDataRequest {
-    /// The identifier to associate the data with.
-    /// Currently, only scope ids are supported.
-    #[prost(bytes = "vec", tag = "1")]
-    pub metadata_addr: ::prost::alloc::vec::Vec<u8>,
-    /// The desired accountdata value.
-    #[prost(string, tag = "2")]
-    pub value: ::prost::alloc::string::String,
-    /// The signers of this message. Must fulfill owner requirements of the scope.
-    #[prost(string, repeated, tag = "3")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgSetAccountDataResponse is the response from setting/updating/deleting a scope's account data.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgSetAccountDataResponse {}
-/// MsgWriteP8eContractSpecRequest has been deprecated and is no longer usable.
-/// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteP8eContractSpecRequest {
-    #[prost(message, optional, tag = "1")]
-    pub contractspec: ::core::option::Option<p8e::ContractSpec>,
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// MsgWriteP8eContractSpecResponse  has been deprecated and is no longer usable.
-/// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgWriteP8eContractSpecResponse {
-    #[prost(message, optional, tag = "1")]
-    pub contract_spec_id_info: ::core::option::Option<ContractSpecIdInfo>,
-    #[prost(message, repeated, tag = "2")]
-    pub record_spec_id_infos: ::prost::alloc::vec::Vec<RecordSpecIdInfo>,
-}
-/// MsgP8eMemorializeContractRequest  has been deprecated and is no longer usable.
-/// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgP8eMemorializeContractRequest {
-    #[prost(string, tag = "1")]
-    pub scope_id: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub group_id: ::prost::alloc::string::String,
-    #[prost(string, tag = "3")]
-    pub scope_specification_id: ::prost::alloc::string::String,
-    #[prost(message, optional, tag = "4")]
-    pub recitals: ::core::option::Option<p8e::Recitals>,
-    #[prost(message, optional, tag = "5")]
-    pub contract: ::core::option::Option<p8e::Contract>,
-    #[prost(message, optional, tag = "6")]
-    pub signatures: ::core::option::Option<p8e::SignatureSet>,
-    #[prost(string, tag = "7")]
-    pub invoker: ::prost::alloc::string::String,
-}
-/// MsgP8eMemorializeContractResponse  has been deprecated and is no longer usable.
-/// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgP8eMemorializeContractResponse {
-    #[prost(message, optional, tag = "1")]
-    pub scope_id_info: ::core::option::Option<ScopeIdInfo>,
-    #[prost(message, optional, tag = "2")]
-    pub session_id_info: ::core::option::Option<SessionIdInfo>,
-    #[prost(message, repeated, tag = "3")]
-    pub record_id_infos: ::prost::alloc::vec::Vec<RecordIdInfo>,
-}
-/// MsgAddNetAssetValuesRequest defines the Msg/AddNetAssetValues request type
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct MsgAddNetAssetValuesRequest {
-    #[prost(string, tag = "1")]
-    pub scope_id: ::prost::alloc::string::String,
-    #[prost(string, repeated, tag = "2")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    #[prost(message, repeated, tag = "3")]
-    pub net_asset_values: ::prost::alloc::vec::Vec<NetAssetValue>,
-}
-/// MsgAddNetAssetValuesResponse defines the Msg/AddNetAssetValue response type
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct MsgAddNetAssetValuesResponse {}
-/// Generated client implementations.
-#[cfg(feature = "grpc")]
-#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
-pub mod msg_client {
-    #![allow(
-        unused_variables,
-        dead_code,
-        missing_docs,
-        clippy::wildcard_imports,
-        clippy::let_unit_value
-    )]
-    use tonic::codegen::http::Uri;
-    use tonic::codegen::*;
-    /// Msg defines the Metadata Msg service.
-    #[derive(Debug, Clone)]
-    pub struct MsgClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    #[cfg(feature = "grpc-transport")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "grpc-transport")))]
-    impl MsgClient<tonic::transport::Channel> {
-        /// Attempt to create a new client by connecting to a given endpoint.
-        pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
-        where
-            D: TryInto<tonic::transport::Endpoint>,
-            D::Error: Into<StdError>,
-        {
-            let conn = tonic::transport::Endpoint::new(dst)?.connect().await?;
-            Ok(Self::new(conn))
-        }
-    }
-    impl<T> MsgClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + std::marker::Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + std::marker::Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner = tonic::client::Grpc::with_origin(inner, origin);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(inner: T, interceptor: F) -> MsgClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + std::marker::Send + std::marker::Sync,
-        {
-            MsgClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.send_compressed(encoding);
-            self
-        }
-        /// Enable decompressing responses.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.accept_compressed(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_decoding_message_size(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_encoding_message_size(limit);
-            self
-        }
-        /// WriteScope adds or updates a scope.
-        pub async fn write_scope(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgWriteScopeRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgWriteScopeResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/WriteScope");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.metadata.v1.Msg", "WriteScope"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// DeleteScope deletes a scope and all associated Records, Sessions.
-        pub async fn delete_scope(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgDeleteScopeRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgDeleteScopeResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/DeleteScope");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.metadata.v1.Msg", "DeleteScope"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// AddScopeDataAccess adds data access AccAddress to scope
-        pub async fn add_scope_data_access(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgAddScopeDataAccessRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgAddScopeDataAccessResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/AddScopeDataAccess",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "AddScopeDataAccess",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// DeleteScopeDataAccess removes data access AccAddress from scope
-        pub async fn delete_scope_data_access(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgDeleteScopeDataAccessRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgDeleteScopeDataAccessResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/DeleteScopeDataAccess",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "DeleteScopeDataAccess",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// AddScopeOwner adds new owner parties to a scope
-        pub async fn add_scope_owner(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgAddScopeOwnerRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgAddScopeOwnerResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/AddScopeOwner");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "AddScopeOwner",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// DeleteScopeOwner removes owner parties (by addresses) from a scope
-        pub async fn delete_scope_owner(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgDeleteScopeOwnerRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgDeleteScopeOwnerResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/DeleteScopeOwner",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "DeleteScopeOwner",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// UpdateValueOwners sets the value owner of one or more scopes.
-        pub async fn update_value_owners(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgUpdateValueOwnersRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgUpdateValueOwnersResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/UpdateValueOwners",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "UpdateValueOwners",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// MigrateValueOwner updates all scopes that have one value owner to have a another value owner.
-        pub async fn migrate_value_owner(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgMigrateValueOwnerRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgMigrateValueOwnerResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/MigrateValueOwner",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "MigrateValueOwner",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// WriteSession adds or updates a session context.
-        pub async fn write_session(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgWriteSessionRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgWriteSessionResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/WriteSession");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "WriteSession",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// WriteRecord adds or updates a record.
-        pub async fn write_record(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgWriteRecordRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgWriteRecordResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/WriteRecord");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.metadata.v1.Msg", "WriteRecord"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// DeleteRecord deletes a record.
-        pub async fn delete_record(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgDeleteRecordRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgDeleteRecordResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/DeleteRecord");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "DeleteRecord",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// WriteScopeSpecification adds or updates a scope specification.
-        pub async fn write_scope_specification(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgWriteScopeSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgWriteScopeSpecificationResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/WriteScopeSpecification",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "WriteScopeSpecification",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// DeleteScopeSpecification deletes a scope specification.
-        pub async fn delete_scope_specification(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgDeleteScopeSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgDeleteScopeSpecificationResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/DeleteScopeSpecification",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "DeleteScopeSpecification",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// WriteContractSpecification adds or updates a contract specification.
-        pub async fn write_contract_specification(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgWriteContractSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgWriteContractSpecificationResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/WriteContractSpecification",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "WriteContractSpecification",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// DeleteContractSpecification deletes a contract specification.
-        pub async fn delete_contract_specification(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgDeleteContractSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgDeleteContractSpecificationResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/DeleteContractSpecification",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "DeleteContractSpecification",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// AddContractSpecToScopeSpec adds contract specification to a scope specification.
-        pub async fn add_contract_spec_to_scope_spec(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgAddContractSpecToScopeSpecRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgAddContractSpecToScopeSpecResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/AddContractSpecToScopeSpec",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "AddContractSpecToScopeSpec",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// DeleteContractSpecFromScopeSpec deletes a contract specification from a scope specification.
-        pub async fn delete_contract_spec_from_scope_spec(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgDeleteContractSpecFromScopeSpecRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgDeleteContractSpecFromScopeSpecResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/DeleteContractSpecFromScopeSpec",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "DeleteContractSpecFromScopeSpec",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// WriteRecordSpecification adds or updates a record specification.
-        pub async fn write_record_specification(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgWriteRecordSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgWriteRecordSpecificationResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/WriteRecordSpecification",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "WriteRecordSpecification",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// DeleteRecordSpecification deletes a record specification.
-        pub async fn delete_record_specification(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgDeleteRecordSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgDeleteRecordSpecificationResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/DeleteRecordSpecification",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "DeleteRecordSpecification",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// BindOSLocator binds an owner address to a uri.
-        pub async fn bind_os_locator(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgBindOsLocatorRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgBindOsLocatorResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/BindOSLocator");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "BindOSLocator",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// DeleteOSLocator deletes an existing ObjectStoreLocator record.
-        pub async fn delete_os_locator(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgDeleteOsLocatorRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgDeleteOsLocatorResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/DeleteOSLocator");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "DeleteOSLocator",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// ModifyOSLocator updates an ObjectStoreLocator record by the current owner.
-        pub async fn modify_os_locator(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgModifyOsLocatorRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgModifyOsLocatorResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/ModifyOSLocator");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "ModifyOSLocator",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// SetAccountData associates some basic data with a metadata address.
-        /// Currently, only scope ids are supported.
-        pub async fn set_account_data(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgSetAccountDataRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgSetAccountDataResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/SetAccountData");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "SetAccountData",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// AddNetAssetValues set the net asset value for a scope
-        pub async fn add_net_asset_values(
-            &mut self,
-            request: impl tonic::IntoRequest<super::MsgAddNetAssetValuesRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgAddNetAssetValuesResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.metadata.v1.Msg/AddNetAssetValues",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.metadata.v1.Msg",
-                "AddNetAssetValues",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-    }
-}
-/// Generated server implementations.
-#[cfg(feature = "grpc")]
-#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
-pub mod msg_server {
-    #![allow(
-        unused_variables,
-        dead_code,
-        missing_docs,
-        clippy::wildcard_imports,
-        clippy::let_unit_value
-    )]
-    use tonic::codegen::*;
-    /// Generated trait containing gRPC methods that should be implemented for use with MsgServer.
-    #[async_trait]
-    pub trait Msg: std::marker::Send + std::marker::Sync + 'static {
-        /// WriteScope adds or updates a scope.
-        async fn write_scope(
-            &self,
-            request: tonic::Request<super::MsgWriteScopeRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgWriteScopeResponse>, tonic::Status>;
-        /// DeleteScope deletes a scope and all associated Records, Sessions.
-        async fn delete_scope(
-            &self,
-            request: tonic::Request<super::MsgDeleteScopeRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgDeleteScopeResponse>, tonic::Status>;
-        /// AddScopeDataAccess adds data access AccAddress to scope
-        async fn add_scope_data_access(
-            &self,
-            request: tonic::Request<super::MsgAddScopeDataAccessRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgAddScopeDataAccessResponse>, tonic::Status>;
-        /// DeleteScopeDataAccess removes data access AccAddress from scope
-        async fn delete_scope_data_access(
-            &self,
-            request: tonic::Request<super::MsgDeleteScopeDataAccessRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgDeleteScopeDataAccessResponse>,
-            tonic::Status,
-        >;
-        /// AddScopeOwner adds new owner parties to a scope
-        async fn add_scope_owner(
-            &self,
-            request: tonic::Request<super::MsgAddScopeOwnerRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgAddScopeOwnerResponse>, tonic::Status>;
-        /// DeleteScopeOwner removes owner parties (by addresses) from a scope
-        async fn delete_scope_owner(
-            &self,
-            request: tonic::Request<super::MsgDeleteScopeOwnerRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgDeleteScopeOwnerResponse>, tonic::Status>;
-        /// UpdateValueOwners sets the value owner of one or more scopes.
-        async fn update_value_owners(
-            &self,
-            request: tonic::Request<super::MsgUpdateValueOwnersRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgUpdateValueOwnersResponse>, tonic::Status>;
-        /// MigrateValueOwner updates all scopes that have one value owner to have a another value owner.
-        async fn migrate_value_owner(
-            &self,
-            request: tonic::Request<super::MsgMigrateValueOwnerRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgMigrateValueOwnerResponse>, tonic::Status>;
-        /// WriteSession adds or updates a session context.
-        async fn write_session(
-            &self,
-            request: tonic::Request<super::MsgWriteSessionRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgWriteSessionResponse>, tonic::Status>;
-        /// WriteRecord adds or updates a record.
-        async fn write_record(
-            &self,
-            request: tonic::Request<super::MsgWriteRecordRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgWriteRecordResponse>, tonic::Status>;
-        /// DeleteRecord deletes a record.
-        async fn delete_record(
-            &self,
-            request: tonic::Request<super::MsgDeleteRecordRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgDeleteRecordResponse>, tonic::Status>;
-        /// WriteScopeSpecification adds or updates a scope specification.
-        async fn write_scope_specification(
-            &self,
-            request: tonic::Request<super::MsgWriteScopeSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgWriteScopeSpecificationResponse>,
-            tonic::Status,
-        >;
-        /// DeleteScopeSpecification deletes a scope specification.
-        async fn delete_scope_specification(
-            &self,
-            request: tonic::Request<super::MsgDeleteScopeSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgDeleteScopeSpecificationResponse>,
-            tonic::Status,
-        >;
-        /// WriteContractSpecification adds or updates a contract specification.
-        async fn write_contract_specification(
-            &self,
-            request: tonic::Request<super::MsgWriteContractSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgWriteContractSpecificationResponse>,
-            tonic::Status,
-        >;
-        /// DeleteContractSpecification deletes a contract specification.
-        async fn delete_contract_specification(
-            &self,
-            request: tonic::Request<super::MsgDeleteContractSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgDeleteContractSpecificationResponse>,
-            tonic::Status,
-        >;
-        /// AddContractSpecToScopeSpec adds contract specification to a scope specification.
-        async fn add_contract_spec_to_scope_spec(
-            &self,
-            request: tonic::Request<super::MsgAddContractSpecToScopeSpecRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgAddContractSpecToScopeSpecResponse>,
-            tonic::Status,
-        >;
-        /// DeleteContractSpecFromScopeSpec deletes a contract specification from a scope specification.
-        async fn delete_contract_spec_from_scope_spec(
-            &self,
-            request: tonic::Request<super::MsgDeleteContractSpecFromScopeSpecRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgDeleteContractSpecFromScopeSpecResponse>,
-            tonic::Status,
-        >;
-        /// WriteRecordSpecification adds or updates a record specification.
-        async fn write_record_specification(
-            &self,
-            request: tonic::Request<super::MsgWriteRecordSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgWriteRecordSpecificationResponse>,
-            tonic::Status,
-        >;
-        /// DeleteRecordSpecification deletes a record specification.
-        async fn delete_record_specification(
-            &self,
-            request: tonic::Request<super::MsgDeleteRecordSpecificationRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::MsgDeleteRecordSpecificationResponse>,
-            tonic::Status,
-        >;
-        /// BindOSLocator binds an owner address to a uri.
-        async fn bind_os_locator(
-            &self,
-            request: tonic::Request<super::MsgBindOsLocatorRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgBindOsLocatorResponse>, tonic::Status>;
-        /// DeleteOSLocator deletes an existing ObjectStoreLocator record.
-        async fn delete_os_locator(
-            &self,
-            request: tonic::Request<super::MsgDeleteOsLocatorRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgDeleteOsLocatorResponse>, tonic::Status>;
-        /// ModifyOSLocator updates an ObjectStoreLocator record by the current owner.
-        async fn modify_os_locator(
-            &self,
-            request: tonic::Request<super::MsgModifyOsLocatorRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgModifyOsLocatorResponse>, tonic::Status>;
-        /// SetAccountData associates some basic data with a metadata address.
-        /// Currently, only scope ids are supported.
-        async fn set_account_data(
-            &self,
-            request: tonic::Request<super::MsgSetAccountDataRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgSetAccountDataResponse>, tonic::Status>;
-        /// AddNetAssetValues set the net asset value for a scope
-        async fn add_net_asset_values(
-            &self,
-            request: tonic::Request<super::MsgAddNetAssetValuesRequest>,
-        ) -> std::result::Result<tonic::Response<super::MsgAddNetAssetValuesResponse>, tonic::Status>;
-    }
-    /// Msg defines the Metadata Msg service.
-    #[derive(Debug)]
-    pub struct MsgServer<T> {
-        inner: Arc<T>,
-        accept_compression_encodings: EnabledCompressionEncodings,
-        send_compression_encodings: EnabledCompressionEncodings,
-        max_decoding_message_size: Option<usize>,
-        max_encoding_message_size: Option<usize>,
-    }
-    impl<T> MsgServer<T> {
-        pub fn new(inner: T) -> Self {
-            Self::from_arc(Arc::new(inner))
-        }
-        pub fn from_arc(inner: Arc<T>) -> Self {
-            Self {
-                inner,
-                accept_compression_encodings: Default::default(),
-                send_compression_encodings: Default::default(),
-                max_decoding_message_size: None,
-                max_encoding_message_size: None,
-            }
-        }
-        pub fn with_interceptor<F>(inner: T, interceptor: F) -> InterceptedService<Self, F>
-        where
-            F: tonic::service::Interceptor,
-        {
-            InterceptedService::new(Self::new(inner), interceptor)
-        }
-        /// Enable decompressing requests with the given encoding.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.accept_compression_encodings.enable(encoding);
-            self
-        }
-        /// Compress responses with the given encoding, if the client supports it.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.send_compression_encodings.enable(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.max_decoding_message_size = Some(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.max_encoding_message_size = Some(limit);
-            self
-        }
-    }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for MsgServer<T>
-    where
-        T: Msg,
-        B: Body + std::marker::Send + 'static,
-        B::Error: Into<StdError> + std::marker::Send + 'static,
-    {
-        type Response = http::Response<tonic::body::BoxBody>;
-        type Error = std::convert::Infallible;
-        type Future = BoxFuture<Self::Response, Self::Error>;
-        fn poll_ready(
-            &mut self,
-            _cx: &mut Context<'_>,
-        ) -> Poll<std::result::Result<(), Self::Error>> {
-            Poll::Ready(Ok(()))
-        }
-        fn call(&mut self, req: http::Request<B>) -> Self::Future {
-            match req.uri().path() {
-                "/provenance.metadata.v1.Msg/WriteScope" => {
-                    #[allow(non_camel_case_types)]
-                    struct WriteScopeSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgWriteScopeRequest> for WriteScopeSvc<T> {
-                        type Response = super::MsgWriteScopeResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgWriteScopeRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move { <T as Msg>::write_scope(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = WriteScopeSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/DeleteScope" => {
-                    #[allow(non_camel_case_types)]
-                    struct DeleteScopeSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgDeleteScopeRequest> for DeleteScopeSvc<T> {
-                        type Response = super::MsgDeleteScopeResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgDeleteScopeRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Msg>::delete_scope(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = DeleteScopeSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/AddScopeDataAccess" => {
-                    #[allow(non_camel_case_types)]
-                    struct AddScopeDataAccessSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgAddScopeDataAccessRequest>
-                        for AddScopeDataAccessSvc<T>
-                    {
-                        type Response = super::MsgAddScopeDataAccessResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgAddScopeDataAccessRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::add_scope_data_access(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AddScopeDataAccessSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/DeleteScopeDataAccess" => {
-                    #[allow(non_camel_case_types)]
-                    struct DeleteScopeDataAccessSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgDeleteScopeDataAccessRequest>
-                        for DeleteScopeDataAccessSvc<T>
-                    {
-                        type Response = super::MsgDeleteScopeDataAccessResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgDeleteScopeDataAccessRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::delete_scope_data_access(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = DeleteScopeDataAccessSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/AddScopeOwner" => {
-                    #[allow(non_camel_case_types)]
-                    struct AddScopeOwnerSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgAddScopeOwnerRequest> for AddScopeOwnerSvc<T> {
-                        type Response = super::MsgAddScopeOwnerResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgAddScopeOwnerRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Msg>::add_scope_owner(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AddScopeOwnerSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/DeleteScopeOwner" => {
-                    #[allow(non_camel_case_types)]
-                    struct DeleteScopeOwnerSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgDeleteScopeOwnerRequest>
-                        for DeleteScopeOwnerSvc<T>
-                    {
-                        type Response = super::MsgDeleteScopeOwnerResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgDeleteScopeOwnerRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::delete_scope_owner(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = DeleteScopeOwnerSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/UpdateValueOwners" => {
-                    #[allow(non_camel_case_types)]
-                    struct UpdateValueOwnersSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgUpdateValueOwnersRequest>
-                        for UpdateValueOwnersSvc<T>
-                    {
-                        type Response = super::MsgUpdateValueOwnersResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgUpdateValueOwnersRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::update_value_owners(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = UpdateValueOwnersSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/MigrateValueOwner" => {
-                    #[allow(non_camel_case_types)]
-                    struct MigrateValueOwnerSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgMigrateValueOwnerRequest>
-                        for MigrateValueOwnerSvc<T>
-                    {
-                        type Response = super::MsgMigrateValueOwnerResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgMigrateValueOwnerRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::migrate_value_owner(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = MigrateValueOwnerSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/WriteSession" => {
-                    #[allow(non_camel_case_types)]
-                    struct WriteSessionSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgWriteSessionRequest> for WriteSessionSvc<T> {
-                        type Response = super::MsgWriteSessionResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgWriteSessionRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Msg>::write_session(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = WriteSessionSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/WriteRecord" => {
-                    #[allow(non_camel_case_types)]
-                    struct WriteRecordSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgWriteRecordRequest> for WriteRecordSvc<T> {
-                        type Response = super::MsgWriteRecordResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgWriteRecordRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Msg>::write_record(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = WriteRecordSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/DeleteRecord" => {
-                    #[allow(non_camel_case_types)]
-                    struct DeleteRecordSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgDeleteRecordRequest> for DeleteRecordSvc<T> {
-                        type Response = super::MsgDeleteRecordResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgDeleteRecordRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Msg>::delete_record(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = DeleteRecordSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/WriteScopeSpecification" => {
-                    #[allow(non_camel_case_types)]
-                    struct WriteScopeSpecificationSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg>
-                        tonic::server::UnaryService<super::MsgWriteScopeSpecificationRequest>
-                        for WriteScopeSpecificationSvc<T>
-                    {
-                        type Response = super::MsgWriteScopeSpecificationResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgWriteScopeSpecificationRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::write_scope_specification(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = WriteScopeSpecificationSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/DeleteScopeSpecification" => {
-                    #[allow(non_camel_case_types)]
-                    struct DeleteScopeSpecificationSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg>
-                        tonic::server::UnaryService<super::MsgDeleteScopeSpecificationRequest>
-                        for DeleteScopeSpecificationSvc<T>
-                    {
-                        type Response = super::MsgDeleteScopeSpecificationResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgDeleteScopeSpecificationRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::delete_scope_specification(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = DeleteScopeSpecificationSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/WriteContractSpecification" => {
-                    #[allow(non_camel_case_types)]
-                    struct WriteContractSpecificationSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg>
-                        tonic::server::UnaryService<super::MsgWriteContractSpecificationRequest>
-                        for WriteContractSpecificationSvc<T>
-                    {
-                        type Response = super::MsgWriteContractSpecificationResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgWriteContractSpecificationRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::write_contract_specification(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = WriteContractSpecificationSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/DeleteContractSpecification" => {
-                    #[allow(non_camel_case_types)]
-                    struct DeleteContractSpecificationSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg>
-                        tonic::server::UnaryService<super::MsgDeleteContractSpecificationRequest>
-                        for DeleteContractSpecificationSvc<T>
-                    {
-                        type Response = super::MsgDeleteContractSpecificationResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgDeleteContractSpecificationRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::delete_contract_specification(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = DeleteContractSpecificationSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/AddContractSpecToScopeSpec" => {
-                    #[allow(non_camel_case_types)]
-                    struct AddContractSpecToScopeSpecSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg>
-                        tonic::server::UnaryService<super::MsgAddContractSpecToScopeSpecRequest>
-                        for AddContractSpecToScopeSpecSvc<T>
-                    {
-                        type Response = super::MsgAddContractSpecToScopeSpecResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgAddContractSpecToScopeSpecRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::add_contract_spec_to_scope_spec(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AddContractSpecToScopeSpecSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/DeleteContractSpecFromScopeSpec" => {
-                    #[allow(non_camel_case_types)]
-                    struct DeleteContractSpecFromScopeSpecSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg>
-                        tonic::server::UnaryService<
-                            super::MsgDeleteContractSpecFromScopeSpecRequest,
-                        > for DeleteContractSpecFromScopeSpecSvc<T>
-                    {
-                        type Response = super::MsgDeleteContractSpecFromScopeSpecResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<
-                                super::MsgDeleteContractSpecFromScopeSpecRequest,
-                            >,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::delete_contract_spec_from_scope_spec(&inner, request)
-                                    .await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = DeleteContractSpecFromScopeSpecSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/WriteRecordSpecification" => {
-                    #[allow(non_camel_case_types)]
-                    struct WriteRecordSpecificationSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg>
-                        tonic::server::UnaryService<super::MsgWriteRecordSpecificationRequest>
-                        for WriteRecordSpecificationSvc<T>
-                    {
-                        type Response = super::MsgWriteRecordSpecificationResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgWriteRecordSpecificationRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::write_record_specification(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = WriteRecordSpecificationSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/DeleteRecordSpecification" => {
-                    #[allow(non_camel_case_types)]
-                    struct DeleteRecordSpecificationSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg>
-                        tonic::server::UnaryService<super::MsgDeleteRecordSpecificationRequest>
-                        for DeleteRecordSpecificationSvc<T>
-                    {
-                        type Response = super::MsgDeleteRecordSpecificationResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgDeleteRecordSpecificationRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::delete_record_specification(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = DeleteRecordSpecificationSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/BindOSLocator" => {
-                    #[allow(non_camel_case_types)]
-                    struct BindOSLocatorSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgBindOsLocatorRequest> for BindOSLocatorSvc<T> {
-                        type Response = super::MsgBindOsLocatorResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgBindOsLocatorRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Msg>::bind_os_locator(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = BindOSLocatorSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/DeleteOSLocator" => {
-                    #[allow(non_camel_case_types)]
-                    struct DeleteOSLocatorSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgDeleteOsLocatorRequest>
-                        for DeleteOSLocatorSvc<T>
-                    {
-                        type Response = super::MsgDeleteOsLocatorResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgDeleteOsLocatorRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Msg>::delete_os_locator(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = DeleteOSLocatorSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/ModifyOSLocator" => {
-                    #[allow(non_camel_case_types)]
-                    struct ModifyOSLocatorSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgModifyOsLocatorRequest>
-                        for ModifyOSLocatorSvc<T>
-                    {
-                        type Response = super::MsgModifyOsLocatorResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgModifyOsLocatorRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Msg>::modify_os_locator(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = ModifyOSLocatorSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/SetAccountData" => {
-                    #[allow(non_camel_case_types)]
-                    struct SetAccountDataSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgSetAccountDataRequest> for SetAccountDataSvc<T> {
-                        type Response = super::MsgSetAccountDataResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgSetAccountDataRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Msg>::set_account_data(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = SetAccountDataSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.metadata.v1.Msg/AddNetAssetValues" => {
-                    #[allow(non_camel_case_types)]
-                    struct AddNetAssetValuesSvc<T: Msg>(pub Arc<T>);
-                    impl<T: Msg> tonic::server::UnaryService<super::MsgAddNetAssetValuesRequest>
-                        for AddNetAssetValuesSvc<T>
-                    {
-                        type Response = super::MsgAddNetAssetValuesResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::MsgAddNetAssetValuesRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Msg>::add_net_asset_values(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AddNetAssetValuesSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                _ => Box::pin(async move {
-                    let mut response = http::Response::new(empty_body());
-                    let headers = response.headers_mut();
-                    headers.insert(
-                        tonic::Status::GRPC_STATUS,
-                        (tonic::Code::Unimplemented as i32).into(),
-                    );
-                    headers.insert(
-                        http::header::CONTENT_TYPE,
-                        tonic::metadata::GRPC_CONTENT_TYPE,
-                    );
-                    Ok(response)
-                }),
-            }
-        }
-    }
-    impl<T> Clone for MsgServer<T> {
-        fn clone(&self) -> Self {
-            let inner = self.inner.clone();
-            Self {
-                inner,
-                accept_compression_encodings: self.accept_compression_encodings,
-                send_compression_encodings: self.send_compression_encodings,
-                max_decoding_message_size: self.max_decoding_message_size,
-                max_encoding_message_size: self.max_encoding_message_size,
-            }
-        }
-    }
-    /// Generated gRPC service name
-    pub const SERVICE_NAME: &str = "provenance.metadata.v1.Msg";
-    impl<T> tonic::server::NamedService for MsgServer<T> {
-        const NAME: &'static str = SERVICE_NAME;
-    }
-}
-/// EventTxCompleted is an event message indicating that a TX has completed.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventTxCompleted {
-    /// module is the module the TX belongs to.
-    #[prost(string, tag = "1")]
-    pub module: ::prost::alloc::string::String,
-    /// endpoint is the rpc endpoint that was just completed.
-    #[prost(string, tag = "2")]
-    pub endpoint: ::prost::alloc::string::String,
-    /// signers are the bech32 address strings of the signers of this TX.
-    #[prost(string, repeated, tag = "3")]
-    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// EventScopeCreated is an event message indicating a scope has been created.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventScopeCreated {
-    /// scope_addr is the bech32 address string of the scope id that was created.
-    #[prost(string, tag = "1")]
-    pub scope_addr: ::prost::alloc::string::String,
-}
-/// EventScopeUpdated is an event message indicating a scope has been updated.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventScopeUpdated {
-    /// scope_addr is the bech32 address string of the scope id that was updated.
-    #[prost(string, tag = "1")]
-    pub scope_addr: ::prost::alloc::string::String,
-}
-/// EventScopeDeleted is an event message indicating a scope has been deleted.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventScopeDeleted {
-    /// scope_addr is the bech32 address string of the scope id that was deleted.
-    #[prost(string, tag = "1")]
-    pub scope_addr: ::prost::alloc::string::String,
-}
-/// EventSessionCreated is an event message indicating a session has been created.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventSessionCreated {
-    /// session_addr is the bech32 address string of the session id that was created.
-    #[prost(string, tag = "1")]
-    pub session_addr: ::prost::alloc::string::String,
-    /// scope_addr is the bech32 address string of the scope id this session belongs to.
-    #[prost(string, tag = "2")]
-    pub scope_addr: ::prost::alloc::string::String,
-}
-/// EventSessionUpdated is an event message indicating a session has been updated.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventSessionUpdated {
-    /// session_addr is the bech32 address string of the session id that was updated.
-    #[prost(string, tag = "1")]
-    pub session_addr: ::prost::alloc::string::String,
-    /// scope_addr is the bech32 address string of the scope id this session belongs to.
-    #[prost(string, tag = "2")]
-    pub scope_addr: ::prost::alloc::string::String,
-}
-/// EventSessionDeleted is an event message indicating a session has been deleted.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventSessionDeleted {
-    /// session_addr is the bech32 address string of the session id that was deleted.
-    #[prost(string, tag = "1")]
-    pub session_addr: ::prost::alloc::string::String,
-    /// scope_addr is the bech32 address string of the scope id this session belongs to.
-    #[prost(string, tag = "2")]
-    pub scope_addr: ::prost::alloc::string::String,
-}
-/// EventRecordCreated is an event message indicating a record has been created.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventRecordCreated {
-    /// record_addr is the bech32 address string of the record id that was created.
-    #[prost(string, tag = "1")]
-    pub record_addr: ::prost::alloc::string::String,
-    /// session_addr is the bech32 address string of the session id this record belongs to.
-    #[prost(string, tag = "2")]
-    pub session_addr: ::prost::alloc::string::String,
-    /// scope_addr is the bech32 address string of the scope id this record belongs to.
-    #[prost(string, tag = "3")]
-    pub scope_addr: ::prost::alloc::string::String,
-}
-/// EventRecordUpdated is an event message indicating a record has been updated.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventRecordUpdated {
-    /// record_addr is the bech32 address string of the record id that was updated.
-    #[prost(string, tag = "1")]
-    pub record_addr: ::prost::alloc::string::String,
-    /// session_addr is the bech32 address string of the session id this record belongs to.
-    #[prost(string, tag = "2")]
-    pub session_addr: ::prost::alloc::string::String,
-    /// scope_addr is the bech32 address string of the scope id this record belongs to.
-    #[prost(string, tag = "3")]
-    pub scope_addr: ::prost::alloc::string::String,
-}
-/// EventRecordDeleted is an event message indicating a record has been deleted.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventRecordDeleted {
-    /// record is the bech32 address string of the record id that was deleted.
-    #[prost(string, tag = "1")]
-    pub record_addr: ::prost::alloc::string::String,
-    /// scope_addr is the bech32 address string of the scope id this record belonged to.
-    #[prost(string, tag = "3")]
-    pub scope_addr: ::prost::alloc::string::String,
-}
-/// EventScopeSpecificationCreated is an event message indicating a scope specification has been created.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventScopeSpecificationCreated {
-    /// scope_specification_addr is the bech32 address string of the specification id of the scope specification that was
-    /// created.
-    #[prost(string, tag = "1")]
-    pub scope_specification_addr: ::prost::alloc::string::String,
-}
-/// EventScopeSpecificationUpdated is an event message indicating a scope specification has been updated.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventScopeSpecificationUpdated {
-    /// scope_specification_addr is the bech32 address string of the specification id of the scope specification that was
-    /// updated.
-    #[prost(string, tag = "1")]
-    pub scope_specification_addr: ::prost::alloc::string::String,
-}
-/// EventScopeSpecificationDeleted is an event message indicating a scope specification has been deleted.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventScopeSpecificationDeleted {
-    /// scope_specification_addr is the bech32 address string of the specification id of the scope specification that was
-    /// deleted.
-    #[prost(string, tag = "1")]
-    pub scope_specification_addr: ::prost::alloc::string::String,
-}
-/// EventContractSpecificationCreated is an event message indicating a contract specification has been created.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventContractSpecificationCreated {
-    /// contract_specification_addr is the bech32 address string of the specification id of the contract specification that
-    /// was created.
-    #[prost(string, tag = "1")]
-    pub contract_specification_addr: ::prost::alloc::string::String,
-}
-/// EventContractSpecificationUpdated is an event message indicating a contract specification has been updated.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventContractSpecificationUpdated {
-    /// contract_specification_addr is the bech32 address string of the specification id of the contract specification that
-    /// was updated.
-    #[prost(string, tag = "1")]
-    pub contract_specification_addr: ::prost::alloc::string::String,
-}
-/// EventContractSpecificationDeleted is an event message indicating a contract specification has been deleted.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventContractSpecificationDeleted {
-    /// contract_specification_addr is the bech32 address string of the specification id of the contract specification that
-    /// was deleted.
-    #[prost(string, tag = "1")]
-    pub contract_specification_addr: ::prost::alloc::string::String,
-}
-/// EventRecordSpecificationCreated is an event message indicating a record specification has been created.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventRecordSpecificationCreated {
-    /// record_specification_addr is the bech32 address string of the specification id of the record specification that was
-    /// created.
-    #[prost(string, tag = "1")]
-    pub record_specification_addr: ::prost::alloc::string::String,
-    /// contract_specification_addr is the bech32 address string of the contract specification id this record specification
-    /// belongs to.
-    #[prost(string, tag = "2")]
-    pub contract_specification_addr: ::prost::alloc::string::String,
-}
-/// EventRecordSpecificationUpdated is an event message indicating a record specification has been updated.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventRecordSpecificationUpdated {
-    /// record_specification_addr is the bech32 address string of the specification id of the record specification that was
-    /// updated.
-    #[prost(string, tag = "1")]
-    pub record_specification_addr: ::prost::alloc::string::String,
-    /// contract_specification_addr is the bech32 address string of the contract specification id this record specification
-    /// belongs to.
-    #[prost(string, tag = "2")]
-    pub contract_specification_addr: ::prost::alloc::string::String,
-}
-/// EventRecordSpecificationDeleted is an event message indicating a record specification has been deleted.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventRecordSpecificationDeleted {
-    /// record_specification_addr is the bech32 address string of the specification id of the record specification that was
-    /// deleted.
-    #[prost(string, tag = "1")]
-    pub record_specification_addr: ::prost::alloc::string::String,
-    /// contract_specification_addr is the bech32 address string of the contract specification id this record specification
-    /// belongs to.
-    #[prost(string, tag = "2")]
-    pub contract_specification_addr: ::prost::alloc::string::String,
-}
-/// EventOSLocatorCreated is an event message indicating an object store locator has been created.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventOsLocatorCreated {
-    /// owner is the owner in the object store locator that was created.
+pub struct ObjectStoreLocator {
+    /// account address the endpoint is owned by
     #[prost(string, tag = "1")]
     pub owner: ::prost::alloc::string::String,
-}
-/// EventOSLocatorUpdated is an event message indicating an object store locator has been updated.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventOsLocatorUpdated {
-    /// owner is the owner in the object store locator that was updated.
-    #[prost(string, tag = "1")]
-    pub owner: ::prost::alloc::string::String,
-}
-/// EventOSLocatorDeleted is an event message indicating an object store locator has been deleted.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventOsLocatorDeleted {
-    /// owner is the owner in the object store locator that was deleted.
-    #[prost(string, tag = "1")]
-    pub owner: ::prost::alloc::string::String,
-}
-/// EventSetNetAssetValue event emitted when Net Asset Value for a scope is update or added
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct EventSetNetAssetValue {
-    #[prost(string, tag = "1")]
-    pub scope_id: ::prost::alloc::string::String,
+    /// locator endpoint uri
     #[prost(string, tag = "2")]
-    pub price: ::prost::alloc::string::String,
+    pub locator_uri: ::prost::alloc::string::String,
+    /// owners encryption key address
     #[prost(string, tag = "3")]
-    pub source: ::prost::alloc::string::String,
-    #[prost(string, tag = "4")]
-    pub volume: ::prost::alloc::string::String,
+    pub encryption_key: ::prost::alloc::string::String,
+}
+/// Params defines the parameters for the metadata-locator module methods.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct OsLocatorParams {
+    #[prost(uint32, tag = "1")]
+    pub max_uri_length: u32,
 }
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -5850,6 +3310,2546 @@ pub mod query_server {
     /// Generated gRPC service name
     pub const SERVICE_NAME: &str = "provenance.metadata.v1.Query";
     impl<T> tonic::server::NamedService for QueryServer<T> {
+        const NAME: &'static str = SERVICE_NAME;
+    }
+}
+/// EventTxCompleted is an event message indicating that a TX has completed.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventTxCompleted {
+    /// module is the module the TX belongs to.
+    #[prost(string, tag = "1")]
+    pub module: ::prost::alloc::string::String,
+    /// endpoint is the rpc endpoint that was just completed.
+    #[prost(string, tag = "2")]
+    pub endpoint: ::prost::alloc::string::String,
+    /// signers are the bech32 address strings of the signers of this TX.
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// EventScopeCreated is an event message indicating a scope has been created.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventScopeCreated {
+    /// scope_addr is the bech32 address string of the scope id that was created.
+    #[prost(string, tag = "1")]
+    pub scope_addr: ::prost::alloc::string::String,
+}
+/// EventScopeUpdated is an event message indicating a scope has been updated.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventScopeUpdated {
+    /// scope_addr is the bech32 address string of the scope id that was updated.
+    #[prost(string, tag = "1")]
+    pub scope_addr: ::prost::alloc::string::String,
+}
+/// EventScopeDeleted is an event message indicating a scope has been deleted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventScopeDeleted {
+    /// scope_addr is the bech32 address string of the scope id that was deleted.
+    #[prost(string, tag = "1")]
+    pub scope_addr: ::prost::alloc::string::String,
+}
+/// EventSessionCreated is an event message indicating a session has been created.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventSessionCreated {
+    /// session_addr is the bech32 address string of the session id that was created.
+    #[prost(string, tag = "1")]
+    pub session_addr: ::prost::alloc::string::String,
+    /// scope_addr is the bech32 address string of the scope id this session belongs to.
+    #[prost(string, tag = "2")]
+    pub scope_addr: ::prost::alloc::string::String,
+}
+/// EventSessionUpdated is an event message indicating a session has been updated.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventSessionUpdated {
+    /// session_addr is the bech32 address string of the session id that was updated.
+    #[prost(string, tag = "1")]
+    pub session_addr: ::prost::alloc::string::String,
+    /// scope_addr is the bech32 address string of the scope id this session belongs to.
+    #[prost(string, tag = "2")]
+    pub scope_addr: ::prost::alloc::string::String,
+}
+/// EventSessionDeleted is an event message indicating a session has been deleted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventSessionDeleted {
+    /// session_addr is the bech32 address string of the session id that was deleted.
+    #[prost(string, tag = "1")]
+    pub session_addr: ::prost::alloc::string::String,
+    /// scope_addr is the bech32 address string of the scope id this session belongs to.
+    #[prost(string, tag = "2")]
+    pub scope_addr: ::prost::alloc::string::String,
+}
+/// EventRecordCreated is an event message indicating a record has been created.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventRecordCreated {
+    /// record_addr is the bech32 address string of the record id that was created.
+    #[prost(string, tag = "1")]
+    pub record_addr: ::prost::alloc::string::String,
+    /// session_addr is the bech32 address string of the session id this record belongs to.
+    #[prost(string, tag = "2")]
+    pub session_addr: ::prost::alloc::string::String,
+    /// scope_addr is the bech32 address string of the scope id this record belongs to.
+    #[prost(string, tag = "3")]
+    pub scope_addr: ::prost::alloc::string::String,
+}
+/// EventRecordUpdated is an event message indicating a record has been updated.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventRecordUpdated {
+    /// record_addr is the bech32 address string of the record id that was updated.
+    #[prost(string, tag = "1")]
+    pub record_addr: ::prost::alloc::string::String,
+    /// session_addr is the bech32 address string of the session id this record belongs to.
+    #[prost(string, tag = "2")]
+    pub session_addr: ::prost::alloc::string::String,
+    /// scope_addr is the bech32 address string of the scope id this record belongs to.
+    #[prost(string, tag = "3")]
+    pub scope_addr: ::prost::alloc::string::String,
+}
+/// EventRecordDeleted is an event message indicating a record has been deleted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventRecordDeleted {
+    /// record is the bech32 address string of the record id that was deleted.
+    #[prost(string, tag = "1")]
+    pub record_addr: ::prost::alloc::string::String,
+    /// scope_addr is the bech32 address string of the scope id this record belonged to.
+    #[prost(string, tag = "3")]
+    pub scope_addr: ::prost::alloc::string::String,
+}
+/// EventScopeSpecificationCreated is an event message indicating a scope specification has been created.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventScopeSpecificationCreated {
+    /// scope_specification_addr is the bech32 address string of the specification id of the scope specification that was
+    /// created.
+    #[prost(string, tag = "1")]
+    pub scope_specification_addr: ::prost::alloc::string::String,
+}
+/// EventScopeSpecificationUpdated is an event message indicating a scope specification has been updated.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventScopeSpecificationUpdated {
+    /// scope_specification_addr is the bech32 address string of the specification id of the scope specification that was
+    /// updated.
+    #[prost(string, tag = "1")]
+    pub scope_specification_addr: ::prost::alloc::string::String,
+}
+/// EventScopeSpecificationDeleted is an event message indicating a scope specification has been deleted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventScopeSpecificationDeleted {
+    /// scope_specification_addr is the bech32 address string of the specification id of the scope specification that was
+    /// deleted.
+    #[prost(string, tag = "1")]
+    pub scope_specification_addr: ::prost::alloc::string::String,
+}
+/// EventContractSpecificationCreated is an event message indicating a contract specification has been created.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventContractSpecificationCreated {
+    /// contract_specification_addr is the bech32 address string of the specification id of the contract specification that
+    /// was created.
+    #[prost(string, tag = "1")]
+    pub contract_specification_addr: ::prost::alloc::string::String,
+}
+/// EventContractSpecificationUpdated is an event message indicating a contract specification has been updated.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventContractSpecificationUpdated {
+    /// contract_specification_addr is the bech32 address string of the specification id of the contract specification that
+    /// was updated.
+    #[prost(string, tag = "1")]
+    pub contract_specification_addr: ::prost::alloc::string::String,
+}
+/// EventContractSpecificationDeleted is an event message indicating a contract specification has been deleted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventContractSpecificationDeleted {
+    /// contract_specification_addr is the bech32 address string of the specification id of the contract specification that
+    /// was deleted.
+    #[prost(string, tag = "1")]
+    pub contract_specification_addr: ::prost::alloc::string::String,
+}
+/// EventRecordSpecificationCreated is an event message indicating a record specification has been created.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventRecordSpecificationCreated {
+    /// record_specification_addr is the bech32 address string of the specification id of the record specification that was
+    /// created.
+    #[prost(string, tag = "1")]
+    pub record_specification_addr: ::prost::alloc::string::String,
+    /// contract_specification_addr is the bech32 address string of the contract specification id this record specification
+    /// belongs to.
+    #[prost(string, tag = "2")]
+    pub contract_specification_addr: ::prost::alloc::string::String,
+}
+/// EventRecordSpecificationUpdated is an event message indicating a record specification has been updated.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventRecordSpecificationUpdated {
+    /// record_specification_addr is the bech32 address string of the specification id of the record specification that was
+    /// updated.
+    #[prost(string, tag = "1")]
+    pub record_specification_addr: ::prost::alloc::string::String,
+    /// contract_specification_addr is the bech32 address string of the contract specification id this record specification
+    /// belongs to.
+    #[prost(string, tag = "2")]
+    pub contract_specification_addr: ::prost::alloc::string::String,
+}
+/// EventRecordSpecificationDeleted is an event message indicating a record specification has been deleted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventRecordSpecificationDeleted {
+    /// record_specification_addr is the bech32 address string of the specification id of the record specification that was
+    /// deleted.
+    #[prost(string, tag = "1")]
+    pub record_specification_addr: ::prost::alloc::string::String,
+    /// contract_specification_addr is the bech32 address string of the contract specification id this record specification
+    /// belongs to.
+    #[prost(string, tag = "2")]
+    pub contract_specification_addr: ::prost::alloc::string::String,
+}
+/// EventOSLocatorCreated is an event message indicating an object store locator has been created.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventOsLocatorCreated {
+    /// owner is the owner in the object store locator that was created.
+    #[prost(string, tag = "1")]
+    pub owner: ::prost::alloc::string::String,
+}
+/// EventOSLocatorUpdated is an event message indicating an object store locator has been updated.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventOsLocatorUpdated {
+    /// owner is the owner in the object store locator that was updated.
+    #[prost(string, tag = "1")]
+    pub owner: ::prost::alloc::string::String,
+}
+/// EventOSLocatorDeleted is an event message indicating an object store locator has been deleted.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventOsLocatorDeleted {
+    /// owner is the owner in the object store locator that was deleted.
+    #[prost(string, tag = "1")]
+    pub owner: ::prost::alloc::string::String,
+}
+/// EventSetNetAssetValue event emitted when Net Asset Value for a scope is update or added
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EventSetNetAssetValue {
+    #[prost(string, tag = "1")]
+    pub scope_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub price: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub source: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub volume: ::prost::alloc::string::String,
+}
+/// MsgWriteScopeRequest is the request type for the Msg/WriteScope RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteScopeRequest {
+    /// scope is the Scope you want added or updated.
+    #[prost(message, optional, tag = "1")]
+    pub scope: ::core::option::Option<Scope>,
+    /// signers is the list of address of those signing this request.
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// scope_uuid is an optional uuid string, e.g. "91978ba2-5f35-459a-86a7-feca1b0512e0"
+    /// If provided, it will be used to generate the MetadataAddress for the scope which will override the scope_id in the
+    /// provided scope. If not provided (or it is an empty string), nothing special happens.
+    /// If there is a value in scope.scope_id that is different from the one created from this uuid, an error is returned.
+    #[prost(string, tag = "3")]
+    pub scope_uuid: ::prost::alloc::string::String,
+    /// spec_uuid is an optional scope specification uuid string, e.g. "dc83ea70-eacd-40fe-9adf-1cf6148bf8a2"
+    /// If provided, it will be used to generate the MetadataAddress for the scope specification which will override the
+    /// specification_id in the provided scope. If not provided (or it is an empty string), nothing special happens.
+    /// If there is a value in scope.specification_id that is different from the one created from this uuid, an error is
+    /// returned.
+    #[prost(string, tag = "4")]
+    pub spec_uuid: ::prost::alloc::string::String,
+    /// usd_mills value of scope in usd mills (1234 = $1.234) used for net asset value
+    #[prost(uint64, tag = "5")]
+    pub usd_mills: u64,
+}
+/// MsgWriteScopeResponse is the response type for the Msg/WriteScope RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteScopeResponse {
+    /// scope_id_info contains information about the id/address of the scope that was added or updated.
+    #[prost(message, optional, tag = "1")]
+    pub scope_id_info: ::core::option::Option<ScopeIdInfo>,
+}
+/// MsgDeleteScopeRequest is the request type for the Msg/DeleteScope RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgDeleteScopeRequest {
+    /// Unique ID for the scope to delete
+    #[prost(bytes = "vec", tag = "1")]
+    pub scope_id: ::prost::alloc::vec::Vec<u8>,
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgDeleteScopeResponse is the response type for the Msg/DeleteScope RPC method.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgDeleteScopeResponse {}
+/// MsgAddScopeDataAccessRequest is the request to add data access AccAddress to scope
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgAddScopeDataAccessRequest {
+    /// scope MetadataAddress for updating data access
+    #[prost(bytes = "vec", tag = "1")]
+    pub scope_id: ::prost::alloc::vec::Vec<u8>,
+    /// AccAddress addresses to be added to scope
+    #[prost(string, repeated, tag = "2")]
+    pub data_access: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// signers is the list of address of those signing this request.
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgAddScopeDataAccessResponse is the response for adding data access AccAddress to scope
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgAddScopeDataAccessResponse {}
+/// MsgDeleteScopeDataAccessRequest is the request to remove data access AccAddress to scope
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgDeleteScopeDataAccessRequest {
+    /// scope MetadataAddress for removing data access
+    #[prost(bytes = "vec", tag = "1")]
+    pub scope_id: ::prost::alloc::vec::Vec<u8>,
+    /// AccAddress address to be removed from scope
+    #[prost(string, repeated, tag = "2")]
+    pub data_access: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// signers is the list of address of those signing this request.
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgDeleteScopeDataAccessResponse is the response from removing data access AccAddress to scope
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgDeleteScopeDataAccessResponse {}
+/// MsgAddScopeOwnerRequest is the request to add owner AccAddress to scope
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgAddScopeOwnerRequest {
+    /// scope MetadataAddress for updating data access
+    #[prost(bytes = "vec", tag = "1")]
+    pub scope_id: ::prost::alloc::vec::Vec<u8>,
+    /// owner parties to add to the scope
+    #[prost(message, repeated, tag = "2")]
+    pub owners: ::prost::alloc::vec::Vec<Party>,
+    /// signers is the list of address of those signing this request.
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgAddScopeOwnerResponse is the response for adding owner AccAddresses to scope
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgAddScopeOwnerResponse {}
+/// MsgDeleteScopeOwnerRequest is the request to remove owner AccAddresses to scope
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgDeleteScopeOwnerRequest {
+    /// scope MetadataAddress for removing data access
+    #[prost(bytes = "vec", tag = "1")]
+    pub scope_id: ::prost::alloc::vec::Vec<u8>,
+    /// AccAddress owner addresses to be removed from scope
+    #[prost(string, repeated, tag = "2")]
+    pub owners: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// signers is the list of address of those signing this request.
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgDeleteScopeOwnerResponse is the response from removing owner AccAddress to scope
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgDeleteScopeOwnerResponse {}
+/// MsgUpdateValueOwnersRequest is the request to update the value owner addresses in one or more scopes.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgUpdateValueOwnersRequest {
+    /// scope_ids are the scope metadata addresses of all scopes to be updated.
+    #[prost(bytes = "vec", repeated, tag = "1")]
+    pub scope_ids: ::prost::alloc::vec::Vec<::prost::alloc::vec::Vec<u8>>,
+    /// value_owner_address is the address of the new value owner for the provided scopes.
+    #[prost(string, tag = "2")]
+    pub value_owner_address: ::prost::alloc::string::String,
+    /// signers is the list of addresses of those signing this request.
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgUpdateValueOwnersResponse is the response from updating value owner addresses in one or more scopes.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgUpdateValueOwnersResponse {}
+/// MsgMigrateValueOwnerRequest is the request to migrate all scopes with one value owner to another value owner.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgMigrateValueOwnerRequest {
+    /// existing is the value owner address that is being migrated.
+    #[prost(string, tag = "1")]
+    pub existing: ::prost::alloc::string::String,
+    /// proposed is the new value owner address for all of existing's scopes.
+    #[prost(string, tag = "2")]
+    pub proposed: ::prost::alloc::string::String,
+    /// signers is the list of addresses of those signing this request.
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgMigrateValueOwnerResponse is the response from migrating a value owner address.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgMigrateValueOwnerResponse {}
+/// MsgWriteSessionRequest is the request type for the Msg/WriteSession RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteSessionRequest {
+    /// session is the Session you want added or updated.
+    #[prost(message, optional, tag = "1")]
+    pub session: ::core::option::Option<Session>,
+    /// signers is the list of address of those signing this request.
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// SessionIDComponents is an optional (alternate) way of defining what the session_id should be in the provided
+    /// session. If provided, it must have both a scope and session_uuid. Those components will be used to create the
+    /// MetadataAddress for the session which will override the session_id in the provided session. If not provided (or
+    /// all empty), nothing special happens.
+    /// If there is a value in session.session_id that is different from the one created from these components, an error is
+    /// returned.
+    #[prost(message, optional, tag = "3")]
+    pub session_id_components: ::core::option::Option<SessionIdComponents>,
+    /// spec_uuid is an optional contract specification uuid string, e.g. "def6bc0a-c9dd-4874-948f-5206e6060a84"
+    /// If provided, it will be used to generate the MetadataAddress for the contract specification which will override the
+    /// specification_id in the provided session. If not provided (or it is an empty string), nothing special happens.
+    /// If there is a value in session.specification_id that is different from the one created from this uuid, an error is
+    /// returned.
+    #[prost(string, tag = "4")]
+    pub spec_uuid: ::prost::alloc::string::String,
+}
+/// SessionIDComponents contains fields for the components that make up a session id.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SessionIdComponents {
+    /// session_uuid is a uuid string for identifying this session, e.g. "5803f8bc-6067-4eb5-951f-2121671c2ec0"
+    #[prost(string, tag = "3")]
+    pub session_uuid: ::prost::alloc::string::String,
+    /// scope is used to define the scope this session belongs to.
+    #[prost(oneof = "session_id_components::ScopeIdentifier", tags = "1, 2")]
+    pub scope_identifier: ::core::option::Option<session_id_components::ScopeIdentifier>,
+}
+/// Nested message and enum types in `SessionIdComponents`.
+pub mod session_id_components {
+    /// scope is used to define the scope this session belongs to.
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    pub enum ScopeIdentifier {
+        /// scope_uuid is the uuid string for the scope, e.g. "91978ba2-5f35-459a-86a7-feca1b0512e0"
+        #[prost(string, tag = "1")]
+        ScopeUuid(::prost::alloc::string::String),
+        /// scope_addr is the bech32 address string for the scope, g.g. "scope1qzge0zaztu65tx5x5llv5xc9ztsqxlkwel"
+        #[prost(string, tag = "2")]
+        ScopeAddr(::prost::alloc::string::String),
+    }
+}
+/// MsgWriteSessionResponse is the response type for the Msg/WriteSession RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteSessionResponse {
+    /// session_id_info contains information about the id/address of the session that was added or updated.
+    #[prost(message, optional, tag = "1")]
+    pub session_id_info: ::core::option::Option<SessionIdInfo>,
+}
+/// MsgWriteRecordRequest is the request type for the Msg/WriteRecord RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteRecordRequest {
+    /// record is the Record you want added or updated.
+    #[prost(message, optional, tag = "1")]
+    pub record: ::core::option::Option<Record>,
+    /// signers is the list of address of those signing this request.
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// SessionIDComponents is an optional (alternate) way of defining what the session_id should be in the provided
+    /// record. If provided, it must have both a scope and session_uuid. Those components will be used to create the
+    /// MetadataAddress for the session which will override the session_id in the provided record. If not provided (or
+    /// all empty), nothing special happens.
+    /// If there is a value in record.session_id that is different from the one created from these components, an error is
+    /// returned.
+    #[prost(message, optional, tag = "3")]
+    pub session_id_components: ::core::option::Option<SessionIdComponents>,
+    /// contract_spec_uuid is an optional contract specification uuid string, e.g. "def6bc0a-c9dd-4874-948f-5206e6060a84"
+    /// If provided, it will be combined with the record name to generate the MetadataAddress for the record specification
+    /// which will override the specification_id in the provided record. If not provided (or it is an empty string),
+    /// nothing special happens.
+    /// If there is a value in record.specification_id that is different from the one created from this uuid and
+    /// record.name, an error is returned.
+    #[prost(string, tag = "4")]
+    pub contract_spec_uuid: ::prost::alloc::string::String,
+    /// parties is the list of parties involved with this record.
+    /// Deprecated: This field is ignored. The parties are identified in the session and as signers.
+    #[prost(message, repeated, tag = "5")]
+    pub parties: ::prost::alloc::vec::Vec<Party>,
+}
+/// MsgWriteRecordResponse is the response type for the Msg/WriteRecord RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteRecordResponse {
+    /// record_id_info contains information about the id/address of the record that was added or updated.
+    #[prost(message, optional, tag = "1")]
+    pub record_id_info: ::core::option::Option<RecordIdInfo>,
+}
+/// MsgDeleteRecordRequest is the request type for the Msg/DeleteRecord RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgDeleteRecordRequest {
+    #[prost(bytes = "vec", tag = "1")]
+    pub record_id: ::prost::alloc::vec::Vec<u8>,
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgDeleteRecordResponse is the response type for the Msg/DeleteRecord RPC method.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgDeleteRecordResponse {}
+/// MsgWriteScopeSpecificationRequest is the request type for the Msg/WriteScopeSpecification RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteScopeSpecificationRequest {
+    /// specification is the ScopeSpecification you want added or updated.
+    #[prost(message, optional, tag = "1")]
+    pub specification: ::core::option::Option<ScopeSpecification>,
+    /// signers is the list of address of those signing this request.
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// spec_uuid is an optional scope specification uuid string, e.g. "dc83ea70-eacd-40fe-9adf-1cf6148bf8a2"
+    /// If provided, it will be used to generate the MetadataAddress for the scope specification which will override the
+    /// specification_id in the provided specification. If not provided (or it is an empty string), nothing special
+    /// happens.
+    /// If there is a value in specification.specification_id that is different from the one created from this uuid, an
+    /// error is returned.
+    #[prost(string, tag = "3")]
+    pub spec_uuid: ::prost::alloc::string::String,
+}
+/// MsgWriteScopeSpecificationResponse is the response type for the Msg/WriteScopeSpecification RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteScopeSpecificationResponse {
+    /// scope_spec_id_info contains information about the id/address of the scope specification that was added or updated.
+    #[prost(message, optional, tag = "1")]
+    pub scope_spec_id_info: ::core::option::Option<ScopeSpecIdInfo>,
+}
+/// MsgDeleteScopeSpecificationRequest is the request type for the Msg/DeleteScopeSpecification RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgDeleteScopeSpecificationRequest {
+    /// MetadataAddress for the scope specification to delete.
+    #[prost(bytes = "vec", tag = "1")]
+    pub specification_id: ::prost::alloc::vec::Vec<u8>,
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgDeleteScopeSpecificationResponse is the response type for the Msg/DeleteScopeSpecification RPC method.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgDeleteScopeSpecificationResponse {}
+/// MsgWriteContractSpecificationRequest is the request type for the Msg/WriteContractSpecification RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteContractSpecificationRequest {
+    /// specification is the ContractSpecification you want added or updated.
+    #[prost(message, optional, tag = "1")]
+    pub specification: ::core::option::Option<ContractSpecification>,
+    /// signers is the list of address of those signing this request.
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// spec_uuid is an optional contract specification uuid string, e.g. "def6bc0a-c9dd-4874-948f-5206e6060a84"
+    /// If provided, it will be used to generate the MetadataAddress for the contract specification which will override the
+    /// specification_id in the provided specification. If not provided (or it is an empty string), nothing special
+    /// happens.
+    /// If there is a value in specification.specification_id that is different from the one created from this uuid, an
+    /// error is returned.
+    #[prost(string, tag = "3")]
+    pub spec_uuid: ::prost::alloc::string::String,
+}
+/// MsgWriteContractSpecificationResponse is the response type for the Msg/WriteContractSpecification RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteContractSpecificationResponse {
+    /// contract_spec_id_info contains information about the id/address of the contract specification that was added or
+    /// updated.
+    #[prost(message, optional, tag = "1")]
+    pub contract_spec_id_info: ::core::option::Option<ContractSpecIdInfo>,
+}
+/// MsgAddContractSpecToScopeSpecRequest is the request type for the Msg/AddContractSpecToScopeSpec RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgAddContractSpecToScopeSpecRequest {
+    /// MetadataAddress for the contract specification to add.
+    #[prost(bytes = "vec", tag = "1")]
+    pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
+    /// MetadataAddress for the scope specification to add contract specification to.
+    #[prost(bytes = "vec", tag = "2")]
+    pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgAddContractSpecToScopeSpecResponse is the response type for the Msg/AddContractSpecToScopeSpec RPC method.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgAddContractSpecToScopeSpecResponse {}
+/// MsgDeleteContractSpecFromScopeSpecRequest is the request type for the Msg/DeleteContractSpecFromScopeSpec RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgDeleteContractSpecFromScopeSpecRequest {
+    /// MetadataAddress for the contract specification to add.
+    #[prost(bytes = "vec", tag = "1")]
+    pub contract_specification_id: ::prost::alloc::vec::Vec<u8>,
+    /// MetadataAddress for the scope specification to add contract specification to.
+    #[prost(bytes = "vec", tag = "2")]
+    pub scope_specification_id: ::prost::alloc::vec::Vec<u8>,
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgDeleteContractSpecFromScopeSpecResponse is the response type for the Msg/DeleteContractSpecFromScopeSpec RPC
+/// method.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgDeleteContractSpecFromScopeSpecResponse {}
+/// MsgDeleteContractSpecificationRequest is the request type for the Msg/DeleteContractSpecification RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgDeleteContractSpecificationRequest {
+    /// MetadataAddress for the contract specification to delete.
+    #[prost(bytes = "vec", tag = "1")]
+    pub specification_id: ::prost::alloc::vec::Vec<u8>,
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgDeleteContractSpecificationResponse is the response type for the Msg/DeleteContractSpecification RPC method.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgDeleteContractSpecificationResponse {}
+/// MsgWriteRecordSpecificationRequest is the request type for the Msg/WriteRecordSpecification RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteRecordSpecificationRequest {
+    /// specification is the RecordSpecification you want added or updated.
+    #[prost(message, optional, tag = "1")]
+    pub specification: ::core::option::Option<RecordSpecification>,
+    /// signers is the list of address of those signing this request.
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// contract_spec_uuid is an optional contract specification uuid string, e.g. "def6bc0a-c9dd-4874-948f-5206e6060a84"
+    /// If provided, it will be combined with the record specification name to generate the MetadataAddress for the record
+    /// specification which will override the specification_id in the provided specification. If not provided (or it is an
+    /// empty string), nothing special happens.
+    /// If there is a value in specification.specification_id that is different from the one created from this uuid and
+    /// specification.name, an error is returned.
+    #[prost(string, tag = "3")]
+    pub contract_spec_uuid: ::prost::alloc::string::String,
+}
+/// MsgWriteRecordSpecificationResponse is the response type for the Msg/WriteRecordSpecification RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteRecordSpecificationResponse {
+    /// record_spec_id_info contains information about the id/address of the record specification that was added or
+    /// updated.
+    #[prost(message, optional, tag = "1")]
+    pub record_spec_id_info: ::core::option::Option<RecordSpecIdInfo>,
+}
+/// MsgDeleteRecordSpecificationRequest is the request type for the Msg/DeleteRecordSpecification RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgDeleteRecordSpecificationRequest {
+    /// MetadataAddress for the record specification to delete.
+    #[prost(bytes = "vec", tag = "1")]
+    pub specification_id: ::prost::alloc::vec::Vec<u8>,
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgDeleteRecordSpecificationResponse is the response type for the Msg/DeleteRecordSpecification RPC method.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgDeleteRecordSpecificationResponse {}
+/// MsgBindOSLocatorRequest is the request type for the Msg/BindOSLocator RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgBindOsLocatorRequest {
+    /// The object locator to bind the address to bind to the URI.
+    #[prost(message, optional, tag = "1")]
+    pub locator: ::core::option::Option<ObjectStoreLocator>,
+}
+/// MsgBindOSLocatorResponse is the response type for the Msg/BindOSLocator RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgBindOsLocatorResponse {
+    #[prost(message, optional, tag = "1")]
+    pub locator: ::core::option::Option<ObjectStoreLocator>,
+}
+/// MsgDeleteOSLocatorRequest is the request type for the Msg/DeleteOSLocator RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgDeleteOsLocatorRequest {
+    /// The record being removed
+    #[prost(message, optional, tag = "1")]
+    pub locator: ::core::option::Option<ObjectStoreLocator>,
+}
+/// MsgDeleteOSLocatorResponse is the response type for the Msg/DeleteOSLocator RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgDeleteOsLocatorResponse {
+    #[prost(message, optional, tag = "1")]
+    pub locator: ::core::option::Option<ObjectStoreLocator>,
+}
+/// MsgModifyOSLocatorRequest is the request type for the Msg/ModifyOSLocator RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgModifyOsLocatorRequest {
+    /// The object locator to bind the address to bind to the URI.
+    #[prost(message, optional, tag = "1")]
+    pub locator: ::core::option::Option<ObjectStoreLocator>,
+}
+/// MsgModifyOSLocatorResponse is the response type for the Msg/ModifyOSLocator RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgModifyOsLocatorResponse {
+    #[prost(message, optional, tag = "1")]
+    pub locator: ::core::option::Option<ObjectStoreLocator>,
+}
+/// MsgSetAccountDataRequest is the request to set/update/delete a scope's account data.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgSetAccountDataRequest {
+    /// The identifier to associate the data with.
+    /// Currently, only scope ids are supported.
+    #[prost(bytes = "vec", tag = "1")]
+    pub metadata_addr: ::prost::alloc::vec::Vec<u8>,
+    /// The desired accountdata value.
+    #[prost(string, tag = "2")]
+    pub value: ::prost::alloc::string::String,
+    /// The signers of this message. Must fulfill owner requirements of the scope.
+    #[prost(string, repeated, tag = "3")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgSetAccountDataResponse is the response from setting/updating/deleting a scope's account data.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgSetAccountDataResponse {}
+/// MsgWriteP8eContractSpecRequest has been deprecated and is no longer usable.
+/// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteP8eContractSpecRequest {
+    #[prost(message, optional, tag = "1")]
+    pub contractspec: ::core::option::Option<p8e::ContractSpec>,
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// MsgWriteP8eContractSpecResponse  has been deprecated and is no longer usable.
+/// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgWriteP8eContractSpecResponse {
+    #[prost(message, optional, tag = "1")]
+    pub contract_spec_id_info: ::core::option::Option<ContractSpecIdInfo>,
+    #[prost(message, repeated, tag = "2")]
+    pub record_spec_id_infos: ::prost::alloc::vec::Vec<RecordSpecIdInfo>,
+}
+/// MsgP8eMemorializeContractRequest  has been deprecated and is no longer usable.
+/// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgP8eMemorializeContractRequest {
+    #[prost(string, tag = "1")]
+    pub scope_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub group_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub scope_specification_id: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "4")]
+    pub recitals: ::core::option::Option<p8e::Recitals>,
+    #[prost(message, optional, tag = "5")]
+    pub contract: ::core::option::Option<p8e::Contract>,
+    #[prost(message, optional, tag = "6")]
+    pub signatures: ::core::option::Option<p8e::SignatureSet>,
+    #[prost(string, tag = "7")]
+    pub invoker: ::prost::alloc::string::String,
+}
+/// MsgP8eMemorializeContractResponse  has been deprecated and is no longer usable.
+/// Deprecated: This message is no longer part of any endpoint and cannot be used for anything.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgP8eMemorializeContractResponse {
+    #[prost(message, optional, tag = "1")]
+    pub scope_id_info: ::core::option::Option<ScopeIdInfo>,
+    #[prost(message, optional, tag = "2")]
+    pub session_id_info: ::core::option::Option<SessionIdInfo>,
+    #[prost(message, repeated, tag = "3")]
+    pub record_id_infos: ::prost::alloc::vec::Vec<RecordIdInfo>,
+}
+/// MsgAddNetAssetValuesRequest defines the Msg/AddNetAssetValues request type
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct MsgAddNetAssetValuesRequest {
+    #[prost(string, tag = "1")]
+    pub scope_id: ::prost::alloc::string::String,
+    #[prost(string, repeated, tag = "2")]
+    pub signers: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    #[prost(message, repeated, tag = "3")]
+    pub net_asset_values: ::prost::alloc::vec::Vec<NetAssetValue>,
+}
+/// MsgAddNetAssetValuesResponse defines the Msg/AddNetAssetValue response type
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct MsgAddNetAssetValuesResponse {}
+/// Generated client implementations.
+#[cfg(feature = "grpc")]
+#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
+pub mod msg_client {
+    #![allow(
+        unused_variables,
+        dead_code,
+        missing_docs,
+        clippy::wildcard_imports,
+        clippy::let_unit_value
+    )]
+    use tonic::codegen::http::Uri;
+    use tonic::codegen::*;
+    /// Msg defines the Metadata Msg service.
+    #[derive(Debug, Clone)]
+    pub struct MsgClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    #[cfg(feature = "grpc-transport")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "grpc-transport")))]
+    impl MsgClient<tonic::transport::Channel> {
+        /// Attempt to create a new client by connecting to a given endpoint.
+        pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
+        where
+            D: TryInto<tonic::transport::Endpoint>,
+            D::Error: Into<StdError>,
+        {
+            let conn = tonic::transport::Endpoint::new(dst)?.connect().await?;
+            Ok(Self::new(conn))
+        }
+    }
+    impl<T> MsgClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + std::marker::Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + std::marker::Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_origin(inner: T, origin: Uri) -> Self {
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(inner: T, interceptor: F) -> MsgClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + std::marker::Send + std::marker::Sync,
+        {
+            MsgClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.send_compressed(encoding);
+            self
+        }
+        /// Enable decompressing responses.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.accept_compressed(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_decoding_message_size(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_encoding_message_size(limit);
+            self
+        }
+        /// WriteScope adds or updates a scope.
+        pub async fn write_scope(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgWriteScopeRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgWriteScopeResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/WriteScope");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.metadata.v1.Msg", "WriteScope"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// DeleteScope deletes a scope and all associated Records, Sessions.
+        pub async fn delete_scope(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgDeleteScopeRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgDeleteScopeResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/DeleteScope");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.metadata.v1.Msg", "DeleteScope"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// AddScopeDataAccess adds data access AccAddress to scope
+        pub async fn add_scope_data_access(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgAddScopeDataAccessRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgAddScopeDataAccessResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/AddScopeDataAccess",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "AddScopeDataAccess",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// DeleteScopeDataAccess removes data access AccAddress from scope
+        pub async fn delete_scope_data_access(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgDeleteScopeDataAccessRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgDeleteScopeDataAccessResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/DeleteScopeDataAccess",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "DeleteScopeDataAccess",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// AddScopeOwner adds new owner parties to a scope
+        pub async fn add_scope_owner(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgAddScopeOwnerRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgAddScopeOwnerResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/AddScopeOwner");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "AddScopeOwner",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// DeleteScopeOwner removes owner parties (by addresses) from a scope
+        pub async fn delete_scope_owner(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgDeleteScopeOwnerRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgDeleteScopeOwnerResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/DeleteScopeOwner",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "DeleteScopeOwner",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// UpdateValueOwners sets the value owner of one or more scopes.
+        pub async fn update_value_owners(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgUpdateValueOwnersRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgUpdateValueOwnersResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/UpdateValueOwners",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "UpdateValueOwners",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// MigrateValueOwner updates all scopes that have one value owner to have a another value owner.
+        pub async fn migrate_value_owner(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgMigrateValueOwnerRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgMigrateValueOwnerResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/MigrateValueOwner",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "MigrateValueOwner",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// WriteSession adds or updates a session context.
+        pub async fn write_session(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgWriteSessionRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgWriteSessionResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/WriteSession");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "WriteSession",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// WriteRecord adds or updates a record.
+        pub async fn write_record(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgWriteRecordRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgWriteRecordResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/WriteRecord");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.metadata.v1.Msg", "WriteRecord"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// DeleteRecord deletes a record.
+        pub async fn delete_record(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgDeleteRecordRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgDeleteRecordResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/DeleteRecord");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "DeleteRecord",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// WriteScopeSpecification adds or updates a scope specification.
+        pub async fn write_scope_specification(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgWriteScopeSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgWriteScopeSpecificationResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/WriteScopeSpecification",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "WriteScopeSpecification",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// DeleteScopeSpecification deletes a scope specification.
+        pub async fn delete_scope_specification(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgDeleteScopeSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgDeleteScopeSpecificationResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/DeleteScopeSpecification",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "DeleteScopeSpecification",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// WriteContractSpecification adds or updates a contract specification.
+        pub async fn write_contract_specification(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgWriteContractSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgWriteContractSpecificationResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/WriteContractSpecification",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "WriteContractSpecification",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// DeleteContractSpecification deletes a contract specification.
+        pub async fn delete_contract_specification(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgDeleteContractSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgDeleteContractSpecificationResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/DeleteContractSpecification",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "DeleteContractSpecification",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// AddContractSpecToScopeSpec adds contract specification to a scope specification.
+        pub async fn add_contract_spec_to_scope_spec(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgAddContractSpecToScopeSpecRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgAddContractSpecToScopeSpecResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/AddContractSpecToScopeSpec",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "AddContractSpecToScopeSpec",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// DeleteContractSpecFromScopeSpec deletes a contract specification from a scope specification.
+        pub async fn delete_contract_spec_from_scope_spec(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgDeleteContractSpecFromScopeSpecRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgDeleteContractSpecFromScopeSpecResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/DeleteContractSpecFromScopeSpec",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "DeleteContractSpecFromScopeSpec",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// WriteRecordSpecification adds or updates a record specification.
+        pub async fn write_record_specification(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgWriteRecordSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgWriteRecordSpecificationResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/WriteRecordSpecification",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "WriteRecordSpecification",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// DeleteRecordSpecification deletes a record specification.
+        pub async fn delete_record_specification(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgDeleteRecordSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgDeleteRecordSpecificationResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/DeleteRecordSpecification",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "DeleteRecordSpecification",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// BindOSLocator binds an owner address to a uri.
+        pub async fn bind_os_locator(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgBindOsLocatorRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgBindOsLocatorResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/BindOSLocator");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "BindOSLocator",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// DeleteOSLocator deletes an existing ObjectStoreLocator record.
+        pub async fn delete_os_locator(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgDeleteOsLocatorRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgDeleteOsLocatorResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/DeleteOSLocator");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "DeleteOSLocator",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// ModifyOSLocator updates an ObjectStoreLocator record by the current owner.
+        pub async fn modify_os_locator(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgModifyOsLocatorRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgModifyOsLocatorResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/ModifyOSLocator");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "ModifyOSLocator",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// SetAccountData associates some basic data with a metadata address.
+        /// Currently, only scope ids are supported.
+        pub async fn set_account_data(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgSetAccountDataRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgSetAccountDataResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.metadata.v1.Msg/SetAccountData");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "SetAccountData",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// AddNetAssetValues set the net asset value for a scope
+        pub async fn add_net_asset_values(
+            &mut self,
+            request: impl tonic::IntoRequest<super::MsgAddNetAssetValuesRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgAddNetAssetValuesResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.metadata.v1.Msg/AddNetAssetValues",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.metadata.v1.Msg",
+                "AddNetAssetValues",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+    }
+}
+/// Generated server implementations.
+#[cfg(feature = "grpc")]
+#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
+pub mod msg_server {
+    #![allow(
+        unused_variables,
+        dead_code,
+        missing_docs,
+        clippy::wildcard_imports,
+        clippy::let_unit_value
+    )]
+    use tonic::codegen::*;
+    /// Generated trait containing gRPC methods that should be implemented for use with MsgServer.
+    #[async_trait]
+    pub trait Msg: std::marker::Send + std::marker::Sync + 'static {
+        /// WriteScope adds or updates a scope.
+        async fn write_scope(
+            &self,
+            request: tonic::Request<super::MsgWriteScopeRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgWriteScopeResponse>, tonic::Status>;
+        /// DeleteScope deletes a scope and all associated Records, Sessions.
+        async fn delete_scope(
+            &self,
+            request: tonic::Request<super::MsgDeleteScopeRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgDeleteScopeResponse>, tonic::Status>;
+        /// AddScopeDataAccess adds data access AccAddress to scope
+        async fn add_scope_data_access(
+            &self,
+            request: tonic::Request<super::MsgAddScopeDataAccessRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgAddScopeDataAccessResponse>, tonic::Status>;
+        /// DeleteScopeDataAccess removes data access AccAddress from scope
+        async fn delete_scope_data_access(
+            &self,
+            request: tonic::Request<super::MsgDeleteScopeDataAccessRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgDeleteScopeDataAccessResponse>,
+            tonic::Status,
+        >;
+        /// AddScopeOwner adds new owner parties to a scope
+        async fn add_scope_owner(
+            &self,
+            request: tonic::Request<super::MsgAddScopeOwnerRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgAddScopeOwnerResponse>, tonic::Status>;
+        /// DeleteScopeOwner removes owner parties (by addresses) from a scope
+        async fn delete_scope_owner(
+            &self,
+            request: tonic::Request<super::MsgDeleteScopeOwnerRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgDeleteScopeOwnerResponse>, tonic::Status>;
+        /// UpdateValueOwners sets the value owner of one or more scopes.
+        async fn update_value_owners(
+            &self,
+            request: tonic::Request<super::MsgUpdateValueOwnersRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgUpdateValueOwnersResponse>, tonic::Status>;
+        /// MigrateValueOwner updates all scopes that have one value owner to have a another value owner.
+        async fn migrate_value_owner(
+            &self,
+            request: tonic::Request<super::MsgMigrateValueOwnerRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgMigrateValueOwnerResponse>, tonic::Status>;
+        /// WriteSession adds or updates a session context.
+        async fn write_session(
+            &self,
+            request: tonic::Request<super::MsgWriteSessionRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgWriteSessionResponse>, tonic::Status>;
+        /// WriteRecord adds or updates a record.
+        async fn write_record(
+            &self,
+            request: tonic::Request<super::MsgWriteRecordRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgWriteRecordResponse>, tonic::Status>;
+        /// DeleteRecord deletes a record.
+        async fn delete_record(
+            &self,
+            request: tonic::Request<super::MsgDeleteRecordRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgDeleteRecordResponse>, tonic::Status>;
+        /// WriteScopeSpecification adds or updates a scope specification.
+        async fn write_scope_specification(
+            &self,
+            request: tonic::Request<super::MsgWriteScopeSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgWriteScopeSpecificationResponse>,
+            tonic::Status,
+        >;
+        /// DeleteScopeSpecification deletes a scope specification.
+        async fn delete_scope_specification(
+            &self,
+            request: tonic::Request<super::MsgDeleteScopeSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgDeleteScopeSpecificationResponse>,
+            tonic::Status,
+        >;
+        /// WriteContractSpecification adds or updates a contract specification.
+        async fn write_contract_specification(
+            &self,
+            request: tonic::Request<super::MsgWriteContractSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgWriteContractSpecificationResponse>,
+            tonic::Status,
+        >;
+        /// DeleteContractSpecification deletes a contract specification.
+        async fn delete_contract_specification(
+            &self,
+            request: tonic::Request<super::MsgDeleteContractSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgDeleteContractSpecificationResponse>,
+            tonic::Status,
+        >;
+        /// AddContractSpecToScopeSpec adds contract specification to a scope specification.
+        async fn add_contract_spec_to_scope_spec(
+            &self,
+            request: tonic::Request<super::MsgAddContractSpecToScopeSpecRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgAddContractSpecToScopeSpecResponse>,
+            tonic::Status,
+        >;
+        /// DeleteContractSpecFromScopeSpec deletes a contract specification from a scope specification.
+        async fn delete_contract_spec_from_scope_spec(
+            &self,
+            request: tonic::Request<super::MsgDeleteContractSpecFromScopeSpecRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgDeleteContractSpecFromScopeSpecResponse>,
+            tonic::Status,
+        >;
+        /// WriteRecordSpecification adds or updates a record specification.
+        async fn write_record_specification(
+            &self,
+            request: tonic::Request<super::MsgWriteRecordSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgWriteRecordSpecificationResponse>,
+            tonic::Status,
+        >;
+        /// DeleteRecordSpecification deletes a record specification.
+        async fn delete_record_specification(
+            &self,
+            request: tonic::Request<super::MsgDeleteRecordSpecificationRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::MsgDeleteRecordSpecificationResponse>,
+            tonic::Status,
+        >;
+        /// BindOSLocator binds an owner address to a uri.
+        async fn bind_os_locator(
+            &self,
+            request: tonic::Request<super::MsgBindOsLocatorRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgBindOsLocatorResponse>, tonic::Status>;
+        /// DeleteOSLocator deletes an existing ObjectStoreLocator record.
+        async fn delete_os_locator(
+            &self,
+            request: tonic::Request<super::MsgDeleteOsLocatorRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgDeleteOsLocatorResponse>, tonic::Status>;
+        /// ModifyOSLocator updates an ObjectStoreLocator record by the current owner.
+        async fn modify_os_locator(
+            &self,
+            request: tonic::Request<super::MsgModifyOsLocatorRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgModifyOsLocatorResponse>, tonic::Status>;
+        /// SetAccountData associates some basic data with a metadata address.
+        /// Currently, only scope ids are supported.
+        async fn set_account_data(
+            &self,
+            request: tonic::Request<super::MsgSetAccountDataRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgSetAccountDataResponse>, tonic::Status>;
+        /// AddNetAssetValues set the net asset value for a scope
+        async fn add_net_asset_values(
+            &self,
+            request: tonic::Request<super::MsgAddNetAssetValuesRequest>,
+        ) -> std::result::Result<tonic::Response<super::MsgAddNetAssetValuesResponse>, tonic::Status>;
+    }
+    /// Msg defines the Metadata Msg service.
+    #[derive(Debug)]
+    pub struct MsgServer<T> {
+        inner: Arc<T>,
+        accept_compression_encodings: EnabledCompressionEncodings,
+        send_compression_encodings: EnabledCompressionEncodings,
+        max_decoding_message_size: Option<usize>,
+        max_encoding_message_size: Option<usize>,
+    }
+    impl<T> MsgServer<T> {
+        pub fn new(inner: T) -> Self {
+            Self::from_arc(Arc::new(inner))
+        }
+        pub fn from_arc(inner: Arc<T>) -> Self {
+            Self {
+                inner,
+                accept_compression_encodings: Default::default(),
+                send_compression_encodings: Default::default(),
+                max_decoding_message_size: None,
+                max_encoding_message_size: None,
+            }
+        }
+        pub fn with_interceptor<F>(inner: T, interceptor: F) -> InterceptedService<Self, F>
+        where
+            F: tonic::service::Interceptor,
+        {
+            InterceptedService::new(Self::new(inner), interceptor)
+        }
+        /// Enable decompressing requests with the given encoding.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.accept_compression_encodings.enable(encoding);
+            self
+        }
+        /// Compress responses with the given encoding, if the client supports it.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.send_compression_encodings.enable(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.max_decoding_message_size = Some(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.max_encoding_message_size = Some(limit);
+            self
+        }
+    }
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for MsgServer<T>
+    where
+        T: Msg,
+        B: Body + std::marker::Send + 'static,
+        B::Error: Into<StdError> + std::marker::Send + 'static,
+    {
+        type Response = http::Response<tonic::body::BoxBody>;
+        type Error = std::convert::Infallible;
+        type Future = BoxFuture<Self::Response, Self::Error>;
+        fn poll_ready(
+            &mut self,
+            _cx: &mut Context<'_>,
+        ) -> Poll<std::result::Result<(), Self::Error>> {
+            Poll::Ready(Ok(()))
+        }
+        fn call(&mut self, req: http::Request<B>) -> Self::Future {
+            match req.uri().path() {
+                "/provenance.metadata.v1.Msg/WriteScope" => {
+                    #[allow(non_camel_case_types)]
+                    struct WriteScopeSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgWriteScopeRequest> for WriteScopeSvc<T> {
+                        type Response = super::MsgWriteScopeResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgWriteScopeRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { <T as Msg>::write_scope(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = WriteScopeSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/DeleteScope" => {
+                    #[allow(non_camel_case_types)]
+                    struct DeleteScopeSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgDeleteScopeRequest> for DeleteScopeSvc<T> {
+                        type Response = super::MsgDeleteScopeResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgDeleteScopeRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Msg>::delete_scope(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = DeleteScopeSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/AddScopeDataAccess" => {
+                    #[allow(non_camel_case_types)]
+                    struct AddScopeDataAccessSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgAddScopeDataAccessRequest>
+                        for AddScopeDataAccessSvc<T>
+                    {
+                        type Response = super::MsgAddScopeDataAccessResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgAddScopeDataAccessRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::add_scope_data_access(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AddScopeDataAccessSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/DeleteScopeDataAccess" => {
+                    #[allow(non_camel_case_types)]
+                    struct DeleteScopeDataAccessSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgDeleteScopeDataAccessRequest>
+                        for DeleteScopeDataAccessSvc<T>
+                    {
+                        type Response = super::MsgDeleteScopeDataAccessResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgDeleteScopeDataAccessRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::delete_scope_data_access(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = DeleteScopeDataAccessSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/AddScopeOwner" => {
+                    #[allow(non_camel_case_types)]
+                    struct AddScopeOwnerSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgAddScopeOwnerRequest> for AddScopeOwnerSvc<T> {
+                        type Response = super::MsgAddScopeOwnerResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgAddScopeOwnerRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Msg>::add_scope_owner(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AddScopeOwnerSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/DeleteScopeOwner" => {
+                    #[allow(non_camel_case_types)]
+                    struct DeleteScopeOwnerSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgDeleteScopeOwnerRequest>
+                        for DeleteScopeOwnerSvc<T>
+                    {
+                        type Response = super::MsgDeleteScopeOwnerResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgDeleteScopeOwnerRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::delete_scope_owner(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = DeleteScopeOwnerSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/UpdateValueOwners" => {
+                    #[allow(non_camel_case_types)]
+                    struct UpdateValueOwnersSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgUpdateValueOwnersRequest>
+                        for UpdateValueOwnersSvc<T>
+                    {
+                        type Response = super::MsgUpdateValueOwnersResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgUpdateValueOwnersRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::update_value_owners(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = UpdateValueOwnersSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/MigrateValueOwner" => {
+                    #[allow(non_camel_case_types)]
+                    struct MigrateValueOwnerSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgMigrateValueOwnerRequest>
+                        for MigrateValueOwnerSvc<T>
+                    {
+                        type Response = super::MsgMigrateValueOwnerResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgMigrateValueOwnerRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::migrate_value_owner(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = MigrateValueOwnerSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/WriteSession" => {
+                    #[allow(non_camel_case_types)]
+                    struct WriteSessionSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgWriteSessionRequest> for WriteSessionSvc<T> {
+                        type Response = super::MsgWriteSessionResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgWriteSessionRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Msg>::write_session(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = WriteSessionSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/WriteRecord" => {
+                    #[allow(non_camel_case_types)]
+                    struct WriteRecordSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgWriteRecordRequest> for WriteRecordSvc<T> {
+                        type Response = super::MsgWriteRecordResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgWriteRecordRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Msg>::write_record(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = WriteRecordSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/DeleteRecord" => {
+                    #[allow(non_camel_case_types)]
+                    struct DeleteRecordSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgDeleteRecordRequest> for DeleteRecordSvc<T> {
+                        type Response = super::MsgDeleteRecordResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgDeleteRecordRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Msg>::delete_record(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = DeleteRecordSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/WriteScopeSpecification" => {
+                    #[allow(non_camel_case_types)]
+                    struct WriteScopeSpecificationSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg>
+                        tonic::server::UnaryService<super::MsgWriteScopeSpecificationRequest>
+                        for WriteScopeSpecificationSvc<T>
+                    {
+                        type Response = super::MsgWriteScopeSpecificationResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgWriteScopeSpecificationRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::write_scope_specification(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = WriteScopeSpecificationSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/DeleteScopeSpecification" => {
+                    #[allow(non_camel_case_types)]
+                    struct DeleteScopeSpecificationSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg>
+                        tonic::server::UnaryService<super::MsgDeleteScopeSpecificationRequest>
+                        for DeleteScopeSpecificationSvc<T>
+                    {
+                        type Response = super::MsgDeleteScopeSpecificationResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgDeleteScopeSpecificationRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::delete_scope_specification(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = DeleteScopeSpecificationSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/WriteContractSpecification" => {
+                    #[allow(non_camel_case_types)]
+                    struct WriteContractSpecificationSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg>
+                        tonic::server::UnaryService<super::MsgWriteContractSpecificationRequest>
+                        for WriteContractSpecificationSvc<T>
+                    {
+                        type Response = super::MsgWriteContractSpecificationResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgWriteContractSpecificationRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::write_contract_specification(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = WriteContractSpecificationSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/DeleteContractSpecification" => {
+                    #[allow(non_camel_case_types)]
+                    struct DeleteContractSpecificationSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg>
+                        tonic::server::UnaryService<super::MsgDeleteContractSpecificationRequest>
+                        for DeleteContractSpecificationSvc<T>
+                    {
+                        type Response = super::MsgDeleteContractSpecificationResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgDeleteContractSpecificationRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::delete_contract_specification(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = DeleteContractSpecificationSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/AddContractSpecToScopeSpec" => {
+                    #[allow(non_camel_case_types)]
+                    struct AddContractSpecToScopeSpecSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg>
+                        tonic::server::UnaryService<super::MsgAddContractSpecToScopeSpecRequest>
+                        for AddContractSpecToScopeSpecSvc<T>
+                    {
+                        type Response = super::MsgAddContractSpecToScopeSpecResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgAddContractSpecToScopeSpecRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::add_contract_spec_to_scope_spec(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AddContractSpecToScopeSpecSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/DeleteContractSpecFromScopeSpec" => {
+                    #[allow(non_camel_case_types)]
+                    struct DeleteContractSpecFromScopeSpecSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg>
+                        tonic::server::UnaryService<
+                            super::MsgDeleteContractSpecFromScopeSpecRequest,
+                        > for DeleteContractSpecFromScopeSpecSvc<T>
+                    {
+                        type Response = super::MsgDeleteContractSpecFromScopeSpecResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<
+                                super::MsgDeleteContractSpecFromScopeSpecRequest,
+                            >,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::delete_contract_spec_from_scope_spec(&inner, request)
+                                    .await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = DeleteContractSpecFromScopeSpecSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/WriteRecordSpecification" => {
+                    #[allow(non_camel_case_types)]
+                    struct WriteRecordSpecificationSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg>
+                        tonic::server::UnaryService<super::MsgWriteRecordSpecificationRequest>
+                        for WriteRecordSpecificationSvc<T>
+                    {
+                        type Response = super::MsgWriteRecordSpecificationResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgWriteRecordSpecificationRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::write_record_specification(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = WriteRecordSpecificationSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/DeleteRecordSpecification" => {
+                    #[allow(non_camel_case_types)]
+                    struct DeleteRecordSpecificationSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg>
+                        tonic::server::UnaryService<super::MsgDeleteRecordSpecificationRequest>
+                        for DeleteRecordSpecificationSvc<T>
+                    {
+                        type Response = super::MsgDeleteRecordSpecificationResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgDeleteRecordSpecificationRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::delete_record_specification(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = DeleteRecordSpecificationSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/BindOSLocator" => {
+                    #[allow(non_camel_case_types)]
+                    struct BindOSLocatorSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgBindOsLocatorRequest> for BindOSLocatorSvc<T> {
+                        type Response = super::MsgBindOsLocatorResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgBindOsLocatorRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Msg>::bind_os_locator(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = BindOSLocatorSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/DeleteOSLocator" => {
+                    #[allow(non_camel_case_types)]
+                    struct DeleteOSLocatorSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgDeleteOsLocatorRequest>
+                        for DeleteOSLocatorSvc<T>
+                    {
+                        type Response = super::MsgDeleteOsLocatorResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgDeleteOsLocatorRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Msg>::delete_os_locator(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = DeleteOSLocatorSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/ModifyOSLocator" => {
+                    #[allow(non_camel_case_types)]
+                    struct ModifyOSLocatorSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgModifyOsLocatorRequest>
+                        for ModifyOSLocatorSvc<T>
+                    {
+                        type Response = super::MsgModifyOsLocatorResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgModifyOsLocatorRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Msg>::modify_os_locator(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = ModifyOSLocatorSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/SetAccountData" => {
+                    #[allow(non_camel_case_types)]
+                    struct SetAccountDataSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgSetAccountDataRequest> for SetAccountDataSvc<T> {
+                        type Response = super::MsgSetAccountDataResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgSetAccountDataRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Msg>::set_account_data(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = SetAccountDataSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.metadata.v1.Msg/AddNetAssetValues" => {
+                    #[allow(non_camel_case_types)]
+                    struct AddNetAssetValuesSvc<T: Msg>(pub Arc<T>);
+                    impl<T: Msg> tonic::server::UnaryService<super::MsgAddNetAssetValuesRequest>
+                        for AddNetAssetValuesSvc<T>
+                    {
+                        type Response = super::MsgAddNetAssetValuesResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::MsgAddNetAssetValuesRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Msg>::add_net_asset_values(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AddNetAssetValuesSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                _ => Box::pin(async move {
+                    let mut response = http::Response::new(empty_body());
+                    let headers = response.headers_mut();
+                    headers.insert(
+                        tonic::Status::GRPC_STATUS,
+                        (tonic::Code::Unimplemented as i32).into(),
+                    );
+                    headers.insert(
+                        http::header::CONTENT_TYPE,
+                        tonic::metadata::GRPC_CONTENT_TYPE,
+                    );
+                    Ok(response)
+                }),
+            }
+        }
+    }
+    impl<T> Clone for MsgServer<T> {
+        fn clone(&self) -> Self {
+            let inner = self.inner.clone();
+            Self {
+                inner,
+                accept_compression_encodings: self.accept_compression_encodings,
+                send_compression_encodings: self.send_compression_encodings,
+                max_decoding_message_size: self.max_decoding_message_size,
+                max_encoding_message_size: self.max_encoding_message_size,
+            }
+        }
+    }
+    /// Generated gRPC service name
+    pub const SERVICE_NAME: &str = "provenance.metadata.v1.Msg";
+    impl<T> tonic::server::NamedService for MsgServer<T> {
         const NAME: &'static str = SERVICE_NAME;
     }
 }

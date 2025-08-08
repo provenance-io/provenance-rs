@@ -186,6 +186,726 @@ impl AttributeType {
         }
     }
 }
+/// QueryParamsRequest is the request type for the Query/Params RPC method.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct QueryParamsRequest {}
+/// QueryParamsResponse is the response type for the Query/Params RPC method.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct QueryParamsResponse {
+    /// params defines the parameters of the module.
+    #[prost(message, optional, tag = "1")]
+    pub params: ::core::option::Option<Params>,
+}
+/// QueryAttributeRequest is the request type for the Query/Attribute method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAttributeRequest {
+    /// account defines the address to query for.
+    #[prost(string, tag = "1")]
+    pub account: ::prost::alloc::string::String,
+    /// name is the attribute name to query for
+    #[prost(string, tag = "2")]
+    pub name: ::prost::alloc::string::String,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "3")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryAttributeResponse is the response type for the Query/Attribute method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAttributeResponse {
+    /// a string containing the address of the account the attributes are assigned to.
+    #[prost(string, tag = "1")]
+    pub account: ::prost::alloc::string::String,
+    /// a list of attribute values
+    #[prost(message, repeated, tag = "2")]
+    pub attributes: ::prost::alloc::vec::Vec<Attribute>,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "3")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
+}
+/// QueryAttributesRequest is the request type for the Query/Attributes method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAttributesRequest {
+    /// account defines the address to query for.
+    #[prost(string, tag = "1")]
+    pub account: ::prost::alloc::string::String,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryAttributesResponse is the response type for the Query/Attributes method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAttributesResponse {
+    /// a string containing the address of the account the attributes are assigned to=
+    #[prost(string, tag = "1")]
+    pub account: ::prost::alloc::string::String,
+    /// a list of attribute values
+    #[prost(message, repeated, tag = "2")]
+    pub attributes: ::prost::alloc::vec::Vec<Attribute>,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "3")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
+}
+/// QueryScanRequest is the request type for the Query/Scan method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryScanRequest {
+    /// account defines the address to query for.
+    #[prost(string, tag = "1")]
+    pub account: ::prost::alloc::string::String,
+    /// name defines the partial attribute name to search for base on names being in RDNS format.
+    #[prost(string, tag = "2")]
+    pub suffix: ::prost::alloc::string::String,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "3")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryScanResponse is the response type for the Query/Scan method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryScanResponse {
+    /// a string containing the address of the account the attributes are assigned to=
+    #[prost(string, tag = "1")]
+    pub account: ::prost::alloc::string::String,
+    /// a list of attribute values
+    #[prost(message, repeated, tag = "2")]
+    pub attributes: ::prost::alloc::vec::Vec<Attribute>,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "3")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
+}
+/// QueryAttributeAccountsRequest is the request type for the Query/AttributeAccounts method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAttributeAccountsRequest {
+    /// name is the attribute name to query for
+    #[prost(string, tag = "1")]
+    pub attribute_name: ::prost::alloc::string::String,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "99")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryAttributeAccountsResponse is the response type for the Query/AttributeAccounts method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAttributeAccountsResponse {
+    /// list of account addresses that have attributes of request name
+    #[prost(string, repeated, tag = "1")]
+    pub accounts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "99")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
+}
+/// QueryAccountDataRequest is the request type for the Query/AccountData method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAccountDataRequest {
+    /// account is the bech32 address of the account to get the data for
+    #[prost(string, tag = "1")]
+    pub account: ::prost::alloc::string::String,
+}
+/// QueryAccountDataResponse is the response type for the Query/AccountData method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAccountDataResponse {
+    /// value is the accountdata attribute value for the requested account.
+    #[prost(string, tag = "1")]
+    pub value: ::prost::alloc::string::String,
+}
+/// Generated client implementations.
+#[cfg(feature = "grpc")]
+#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
+pub mod query_client {
+    #![allow(
+        unused_variables,
+        dead_code,
+        missing_docs,
+        clippy::wildcard_imports,
+        clippy::let_unit_value
+    )]
+    use tonic::codegen::http::Uri;
+    use tonic::codegen::*;
+    /// Query defines the gRPC querier service for attribute module.
+    #[derive(Debug, Clone)]
+    pub struct QueryClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    #[cfg(feature = "grpc-transport")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "grpc-transport")))]
+    impl QueryClient<tonic::transport::Channel> {
+        /// Attempt to create a new client by connecting to a given endpoint.
+        pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
+        where
+            D: TryInto<tonic::transport::Endpoint>,
+            D::Error: Into<StdError>,
+        {
+            let conn = tonic::transport::Endpoint::new(dst)?.connect().await?;
+            Ok(Self::new(conn))
+        }
+    }
+    impl<T> QueryClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + std::marker::Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + std::marker::Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_origin(inner: T, origin: Uri) -> Self {
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> QueryClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + std::marker::Send + std::marker::Sync,
+        {
+            QueryClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.send_compressed(encoding);
+            self
+        }
+        /// Enable decompressing responses.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.accept_compressed(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_decoding_message_size(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_encoding_message_size(limit);
+            self
+        }
+        /// Params queries params of the attribute module.
+        pub async fn params(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryParamsRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryParamsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.attribute.v1.Query/Params");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.attribute.v1.Query", "Params"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// Attribute queries attributes on a given account (address) for one (or more) with the given name
+        pub async fn attribute(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryAttributeRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAttributeResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.attribute.v1.Query/Attribute");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.attribute.v1.Query",
+                "Attribute",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// Attributes queries attributes on a given account (address) for any defined attributes
+        pub async fn attributes(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryAttributesRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAttributesResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.attribute.v1.Query/Attributes");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.attribute.v1.Query",
+                "Attributes",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// Scan queries attributes on a given account (address) for any that match the provided suffix
+        pub async fn scan(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryScanRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryScanResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/provenance.attribute.v1.Query/Scan");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.attribute.v1.Query", "Scan"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// AttributeAccounts queries accounts on a given attribute name
+        pub async fn attribute_accounts(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryAttributeAccountsRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::QueryAttributeAccountsResponse>,
+            tonic::Status,
+        > {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/provenance.attribute.v1.Query/AttributeAccounts",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.attribute.v1.Query",
+                "AttributeAccounts",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// AccountData returns the accountdata for a specified account.
+        pub async fn account_data(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryAccountDataRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAccountDataResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.attribute.v1.Query/AccountData");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.attribute.v1.Query",
+                "AccountData",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+    }
+}
+/// Generated server implementations.
+#[cfg(feature = "grpc")]
+#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
+pub mod query_server {
+    #![allow(
+        unused_variables,
+        dead_code,
+        missing_docs,
+        clippy::wildcard_imports,
+        clippy::let_unit_value
+    )]
+    use tonic::codegen::*;
+    /// Generated trait containing gRPC methods that should be implemented for use with QueryServer.
+    #[async_trait]
+    pub trait Query: std::marker::Send + std::marker::Sync + 'static {
+        /// Params queries params of the attribute module.
+        async fn params(
+            &self,
+            request: tonic::Request<super::QueryParamsRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryParamsResponse>, tonic::Status>;
+        /// Attribute queries attributes on a given account (address) for one (or more) with the given name
+        async fn attribute(
+            &self,
+            request: tonic::Request<super::QueryAttributeRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAttributeResponse>, tonic::Status>;
+        /// Attributes queries attributes on a given account (address) for any defined attributes
+        async fn attributes(
+            &self,
+            request: tonic::Request<super::QueryAttributesRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAttributesResponse>, tonic::Status>;
+        /// Scan queries attributes on a given account (address) for any that match the provided suffix
+        async fn scan(
+            &self,
+            request: tonic::Request<super::QueryScanRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryScanResponse>, tonic::Status>;
+        /// AttributeAccounts queries accounts on a given attribute name
+        async fn attribute_accounts(
+            &self,
+            request: tonic::Request<super::QueryAttributeAccountsRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::QueryAttributeAccountsResponse>,
+            tonic::Status,
+        >;
+        /// AccountData returns the accountdata for a specified account.
+        async fn account_data(
+            &self,
+            request: tonic::Request<super::QueryAccountDataRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAccountDataResponse>, tonic::Status>;
+    }
+    /// Query defines the gRPC querier service for attribute module.
+    #[derive(Debug)]
+    pub struct QueryServer<T> {
+        inner: Arc<T>,
+        accept_compression_encodings: EnabledCompressionEncodings,
+        send_compression_encodings: EnabledCompressionEncodings,
+        max_decoding_message_size: Option<usize>,
+        max_encoding_message_size: Option<usize>,
+    }
+    impl<T> QueryServer<T> {
+        pub fn new(inner: T) -> Self {
+            Self::from_arc(Arc::new(inner))
+        }
+        pub fn from_arc(inner: Arc<T>) -> Self {
+            Self {
+                inner,
+                accept_compression_encodings: Default::default(),
+                send_compression_encodings: Default::default(),
+                max_decoding_message_size: None,
+                max_encoding_message_size: None,
+            }
+        }
+        pub fn with_interceptor<F>(inner: T, interceptor: F) -> InterceptedService<Self, F>
+        where
+            F: tonic::service::Interceptor,
+        {
+            InterceptedService::new(Self::new(inner), interceptor)
+        }
+        /// Enable decompressing requests with the given encoding.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.accept_compression_encodings.enable(encoding);
+            self
+        }
+        /// Compress responses with the given encoding, if the client supports it.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.send_compression_encodings.enable(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.max_decoding_message_size = Some(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.max_encoding_message_size = Some(limit);
+            self
+        }
+    }
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for QueryServer<T>
+    where
+        T: Query,
+        B: Body + std::marker::Send + 'static,
+        B::Error: Into<StdError> + std::marker::Send + 'static,
+    {
+        type Response = http::Response<tonic::body::BoxBody>;
+        type Error = std::convert::Infallible;
+        type Future = BoxFuture<Self::Response, Self::Error>;
+        fn poll_ready(
+            &mut self,
+            _cx: &mut Context<'_>,
+        ) -> Poll<std::result::Result<(), Self::Error>> {
+            Poll::Ready(Ok(()))
+        }
+        fn call(&mut self, req: http::Request<B>) -> Self::Future {
+            match req.uri().path() {
+                "/provenance.attribute.v1.Query/Params" => {
+                    #[allow(non_camel_case_types)]
+                    struct ParamsSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryParamsRequest> for ParamsSvc<T> {
+                        type Response = super::QueryParamsResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryParamsRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { <T as Query>::params(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = ParamsSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.attribute.v1.Query/Attribute" => {
+                    #[allow(non_camel_case_types)]
+                    struct AttributeSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryAttributeRequest> for AttributeSvc<T> {
+                        type Response = super::QueryAttributeResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryAttributeRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { <T as Query>::attribute(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AttributeSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.attribute.v1.Query/Attributes" => {
+                    #[allow(non_camel_case_types)]
+                    struct AttributesSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryAttributesRequest> for AttributesSvc<T> {
+                        type Response = super::QueryAttributesResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryAttributesRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Query>::attributes(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AttributesSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.attribute.v1.Query/Scan" => {
+                    #[allow(non_camel_case_types)]
+                    struct ScanSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryScanRequest> for ScanSvc<T> {
+                        type Response = super::QueryScanResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryScanRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { <T as Query>::scan(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = ScanSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.attribute.v1.Query/AttributeAccounts" => {
+                    #[allow(non_camel_case_types)]
+                    struct AttributeAccountsSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryAttributeAccountsRequest>
+                        for AttributeAccountsSvc<T>
+                    {
+                        type Response = super::QueryAttributeAccountsResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryAttributeAccountsRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Query>::attribute_accounts(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AttributeAccountsSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.attribute.v1.Query/AccountData" => {
+                    #[allow(non_camel_case_types)]
+                    struct AccountDataSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryAccountDataRequest> for AccountDataSvc<T> {
+                        type Response = super::QueryAccountDataResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryAccountDataRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Query>::account_data(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AccountDataSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                _ => Box::pin(async move {
+                    let mut response = http::Response::new(empty_body());
+                    let headers = response.headers_mut();
+                    headers.insert(
+                        tonic::Status::GRPC_STATUS,
+                        (tonic::Code::Unimplemented as i32).into(),
+                    );
+                    headers.insert(
+                        http::header::CONTENT_TYPE,
+                        tonic::metadata::GRPC_CONTENT_TYPE,
+                    );
+                    Ok(response)
+                }),
+            }
+        }
+    }
+    impl<T> Clone for QueryServer<T> {
+        fn clone(&self) -> Self {
+            let inner = self.inner.clone();
+            Self {
+                inner,
+                accept_compression_encodings: self.accept_compression_encodings,
+                send_compression_encodings: self.send_compression_encodings,
+                max_decoding_message_size: self.max_decoding_message_size,
+                max_encoding_message_size: self.max_encoding_message_size,
+            }
+        }
+    }
+    /// Generated gRPC service name
+    pub const SERVICE_NAME: &str = "provenance.attribute.v1.Query";
+    impl<T> tonic::server::NamedService for QueryServer<T> {
+        const NAME: &'static str = SERVICE_NAME;
+    }
+}
 /// MsgAddAttributeRequest defines an sdk.Msg type that is used to add a new attribute to an account.
 /// Attributes may only be set in an account by the account that the attribute name resolves to.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1008,726 +1728,6 @@ pub mod msg_server {
     /// Generated gRPC service name
     pub const SERVICE_NAME: &str = "provenance.attribute.v1.Msg";
     impl<T> tonic::server::NamedService for MsgServer<T> {
-        const NAME: &'static str = SERVICE_NAME;
-    }
-}
-/// QueryParamsRequest is the request type for the Query/Params RPC method.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct QueryParamsRequest {}
-/// QueryParamsResponse is the response type for the Query/Params RPC method.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct QueryParamsResponse {
-    /// params defines the parameters of the module.
-    #[prost(message, optional, tag = "1")]
-    pub params: ::core::option::Option<Params>,
-}
-/// QueryAttributeRequest is the request type for the Query/Attribute method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAttributeRequest {
-    /// account defines the address to query for.
-    #[prost(string, tag = "1")]
-    pub account: ::prost::alloc::string::String,
-    /// name is the attribute name to query for
-    #[prost(string, tag = "2")]
-    pub name: ::prost::alloc::string::String,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "3")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
-}
-/// QueryAttributeResponse is the response type for the Query/Attribute method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAttributeResponse {
-    /// a string containing the address of the account the attributes are assigned to.
-    #[prost(string, tag = "1")]
-    pub account: ::prost::alloc::string::String,
-    /// a list of attribute values
-    #[prost(message, repeated, tag = "2")]
-    pub attributes: ::prost::alloc::vec::Vec<Attribute>,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "3")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
-}
-/// QueryAttributesRequest is the request type for the Query/Attributes method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAttributesRequest {
-    /// account defines the address to query for.
-    #[prost(string, tag = "1")]
-    pub account: ::prost::alloc::string::String,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "2")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
-}
-/// QueryAttributesResponse is the response type for the Query/Attributes method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAttributesResponse {
-    /// a string containing the address of the account the attributes are assigned to=
-    #[prost(string, tag = "1")]
-    pub account: ::prost::alloc::string::String,
-    /// a list of attribute values
-    #[prost(message, repeated, tag = "2")]
-    pub attributes: ::prost::alloc::vec::Vec<Attribute>,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "3")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
-}
-/// QueryScanRequest is the request type for the Query/Scan method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryScanRequest {
-    /// account defines the address to query for.
-    #[prost(string, tag = "1")]
-    pub account: ::prost::alloc::string::String,
-    /// name defines the partial attribute name to search for base on names being in RDNS format.
-    #[prost(string, tag = "2")]
-    pub suffix: ::prost::alloc::string::String,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "3")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
-}
-/// QueryScanResponse is the response type for the Query/Scan method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryScanResponse {
-    /// a string containing the address of the account the attributes are assigned to=
-    #[prost(string, tag = "1")]
-    pub account: ::prost::alloc::string::String,
-    /// a list of attribute values
-    #[prost(message, repeated, tag = "2")]
-    pub attributes: ::prost::alloc::vec::Vec<Attribute>,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "3")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
-}
-/// QueryAttributeAccountsRequest is the request type for the Query/AttributeAccounts method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAttributeAccountsRequest {
-    /// name is the attribute name to query for
-    #[prost(string, tag = "1")]
-    pub attribute_name: ::prost::alloc::string::String,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
-}
-/// QueryAttributeAccountsResponse is the response type for the Query/AttributeAccounts method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAttributeAccountsResponse {
-    /// list of account addresses that have attributes of request name
-    #[prost(string, repeated, tag = "1")]
-    pub accounts: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "99")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
-}
-/// QueryAccountDataRequest is the request type for the Query/AccountData method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAccountDataRequest {
-    /// account is the bech32 address of the account to get the data for
-    #[prost(string, tag = "1")]
-    pub account: ::prost::alloc::string::String,
-}
-/// QueryAccountDataResponse is the response type for the Query/AccountData method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAccountDataResponse {
-    /// value is the accountdata attribute value for the requested account.
-    #[prost(string, tag = "1")]
-    pub value: ::prost::alloc::string::String,
-}
-/// Generated client implementations.
-#[cfg(feature = "grpc")]
-#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
-pub mod query_client {
-    #![allow(
-        unused_variables,
-        dead_code,
-        missing_docs,
-        clippy::wildcard_imports,
-        clippy::let_unit_value
-    )]
-    use tonic::codegen::http::Uri;
-    use tonic::codegen::*;
-    /// Query defines the gRPC querier service for attribute module.
-    #[derive(Debug, Clone)]
-    pub struct QueryClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    #[cfg(feature = "grpc-transport")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "grpc-transport")))]
-    impl QueryClient<tonic::transport::Channel> {
-        /// Attempt to create a new client by connecting to a given endpoint.
-        pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
-        where
-            D: TryInto<tonic::transport::Endpoint>,
-            D::Error: Into<StdError>,
-        {
-            let conn = tonic::transport::Endpoint::new(dst)?.connect().await?;
-            Ok(Self::new(conn))
-        }
-    }
-    impl<T> QueryClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + std::marker::Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + std::marker::Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner = tonic::client::Grpc::with_origin(inner, origin);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> QueryClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + std::marker::Send + std::marker::Sync,
-        {
-            QueryClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.send_compressed(encoding);
-            self
-        }
-        /// Enable decompressing responses.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.accept_compressed(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_decoding_message_size(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_encoding_message_size(limit);
-            self
-        }
-        /// Params queries params of the attribute module.
-        pub async fn params(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryParamsRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryParamsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.attribute.v1.Query/Params");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.attribute.v1.Query", "Params"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// Attribute queries attributes on a given account (address) for one (or more) with the given name
-        pub async fn attribute(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryAttributeRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAttributeResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.attribute.v1.Query/Attribute");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.attribute.v1.Query",
-                "Attribute",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// Attributes queries attributes on a given account (address) for any defined attributes
-        pub async fn attributes(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryAttributesRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAttributesResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.attribute.v1.Query/Attributes");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.attribute.v1.Query",
-                "Attributes",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// Scan queries attributes on a given account (address) for any that match the provided suffix
-        pub async fn scan(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryScanRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryScanResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/provenance.attribute.v1.Query/Scan");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.attribute.v1.Query", "Scan"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// AttributeAccounts queries accounts on a given attribute name
-        pub async fn attribute_accounts(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryAttributeAccountsRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::QueryAttributeAccountsResponse>,
-            tonic::Status,
-        > {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/provenance.attribute.v1.Query/AttributeAccounts",
-            );
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.attribute.v1.Query",
-                "AttributeAccounts",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// AccountData returns the accountdata for a specified account.
-        pub async fn account_data(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryAccountDataRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAccountDataResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.attribute.v1.Query/AccountData");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.attribute.v1.Query",
-                "AccountData",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-    }
-}
-/// Generated server implementations.
-#[cfg(feature = "grpc")]
-#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
-pub mod query_server {
-    #![allow(
-        unused_variables,
-        dead_code,
-        missing_docs,
-        clippy::wildcard_imports,
-        clippy::let_unit_value
-    )]
-    use tonic::codegen::*;
-    /// Generated trait containing gRPC methods that should be implemented for use with QueryServer.
-    #[async_trait]
-    pub trait Query: std::marker::Send + std::marker::Sync + 'static {
-        /// Params queries params of the attribute module.
-        async fn params(
-            &self,
-            request: tonic::Request<super::QueryParamsRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryParamsResponse>, tonic::Status>;
-        /// Attribute queries attributes on a given account (address) for one (or more) with the given name
-        async fn attribute(
-            &self,
-            request: tonic::Request<super::QueryAttributeRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAttributeResponse>, tonic::Status>;
-        /// Attributes queries attributes on a given account (address) for any defined attributes
-        async fn attributes(
-            &self,
-            request: tonic::Request<super::QueryAttributesRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAttributesResponse>, tonic::Status>;
-        /// Scan queries attributes on a given account (address) for any that match the provided suffix
-        async fn scan(
-            &self,
-            request: tonic::Request<super::QueryScanRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryScanResponse>, tonic::Status>;
-        /// AttributeAccounts queries accounts on a given attribute name
-        async fn attribute_accounts(
-            &self,
-            request: tonic::Request<super::QueryAttributeAccountsRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::QueryAttributeAccountsResponse>,
-            tonic::Status,
-        >;
-        /// AccountData returns the accountdata for a specified account.
-        async fn account_data(
-            &self,
-            request: tonic::Request<super::QueryAccountDataRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAccountDataResponse>, tonic::Status>;
-    }
-    /// Query defines the gRPC querier service for attribute module.
-    #[derive(Debug)]
-    pub struct QueryServer<T> {
-        inner: Arc<T>,
-        accept_compression_encodings: EnabledCompressionEncodings,
-        send_compression_encodings: EnabledCompressionEncodings,
-        max_decoding_message_size: Option<usize>,
-        max_encoding_message_size: Option<usize>,
-    }
-    impl<T> QueryServer<T> {
-        pub fn new(inner: T) -> Self {
-            Self::from_arc(Arc::new(inner))
-        }
-        pub fn from_arc(inner: Arc<T>) -> Self {
-            Self {
-                inner,
-                accept_compression_encodings: Default::default(),
-                send_compression_encodings: Default::default(),
-                max_decoding_message_size: None,
-                max_encoding_message_size: None,
-            }
-        }
-        pub fn with_interceptor<F>(inner: T, interceptor: F) -> InterceptedService<Self, F>
-        where
-            F: tonic::service::Interceptor,
-        {
-            InterceptedService::new(Self::new(inner), interceptor)
-        }
-        /// Enable decompressing requests with the given encoding.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.accept_compression_encodings.enable(encoding);
-            self
-        }
-        /// Compress responses with the given encoding, if the client supports it.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.send_compression_encodings.enable(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.max_decoding_message_size = Some(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.max_encoding_message_size = Some(limit);
-            self
-        }
-    }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for QueryServer<T>
-    where
-        T: Query,
-        B: Body + std::marker::Send + 'static,
-        B::Error: Into<StdError> + std::marker::Send + 'static,
-    {
-        type Response = http::Response<tonic::body::BoxBody>;
-        type Error = std::convert::Infallible;
-        type Future = BoxFuture<Self::Response, Self::Error>;
-        fn poll_ready(
-            &mut self,
-            _cx: &mut Context<'_>,
-        ) -> Poll<std::result::Result<(), Self::Error>> {
-            Poll::Ready(Ok(()))
-        }
-        fn call(&mut self, req: http::Request<B>) -> Self::Future {
-            match req.uri().path() {
-                "/provenance.attribute.v1.Query/Params" => {
-                    #[allow(non_camel_case_types)]
-                    struct ParamsSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryParamsRequest> for ParamsSvc<T> {
-                        type Response = super::QueryParamsResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryParamsRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move { <T as Query>::params(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = ParamsSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.attribute.v1.Query/Attribute" => {
-                    #[allow(non_camel_case_types)]
-                    struct AttributeSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryAttributeRequest> for AttributeSvc<T> {
-                        type Response = super::QueryAttributeResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryAttributeRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move { <T as Query>::attribute(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AttributeSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.attribute.v1.Query/Attributes" => {
-                    #[allow(non_camel_case_types)]
-                    struct AttributesSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryAttributesRequest> for AttributesSvc<T> {
-                        type Response = super::QueryAttributesResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryAttributesRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Query>::attributes(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AttributesSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.attribute.v1.Query/Scan" => {
-                    #[allow(non_camel_case_types)]
-                    struct ScanSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryScanRequest> for ScanSvc<T> {
-                        type Response = super::QueryScanResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryScanRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move { <T as Query>::scan(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = ScanSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.attribute.v1.Query/AttributeAccounts" => {
-                    #[allow(non_camel_case_types)]
-                    struct AttributeAccountsSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryAttributeAccountsRequest>
-                        for AttributeAccountsSvc<T>
-                    {
-                        type Response = super::QueryAttributeAccountsResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryAttributeAccountsRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Query>::attribute_accounts(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AttributeAccountsSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.attribute.v1.Query/AccountData" => {
-                    #[allow(non_camel_case_types)]
-                    struct AccountDataSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryAccountDataRequest> for AccountDataSvc<T> {
-                        type Response = super::QueryAccountDataResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryAccountDataRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Query>::account_data(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AccountDataSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                _ => Box::pin(async move {
-                    let mut response = http::Response::new(empty_body());
-                    let headers = response.headers_mut();
-                    headers.insert(
-                        tonic::Status::GRPC_STATUS,
-                        (tonic::Code::Unimplemented as i32).into(),
-                    );
-                    headers.insert(
-                        http::header::CONTENT_TYPE,
-                        tonic::metadata::GRPC_CONTENT_TYPE,
-                    );
-                    Ok(response)
-                }),
-            }
-        }
-    }
-    impl<T> Clone for QueryServer<T> {
-        fn clone(&self) -> Self {
-            let inner = self.inner.clone();
-            Self {
-                inner,
-                accept_compression_encodings: self.accept_compression_encodings,
-                send_compression_encodings: self.send_compression_encodings,
-                max_decoding_message_size: self.max_decoding_message_size,
-                max_encoding_message_size: self.max_encoding_message_size,
-            }
-        }
-    }
-    /// Generated gRPC service name
-    pub const SERVICE_NAME: &str = "provenance.attribute.v1.Query";
-    impl<T> tonic::server::NamedService for QueryServer<T> {
         const NAME: &'static str = SERVICE_NAME;
     }
 }

@@ -396,6 +396,1217 @@ impl MarkerStatus {
         }
     }
 }
+/// QueryParamsRequest is the request type for the Query/Params RPC method.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct QueryParamsRequest {}
+/// QueryParamsResponse is the response type for the Query/Params RPC method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryParamsResponse {
+    /// params defines the parameters of the module.
+    #[prost(message, optional, tag = "1")]
+    pub params: ::core::option::Option<Params>,
+}
+/// QueryAllMarkersRequest is the request type for the Query/AllMarkers method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAllMarkersRequest {
+    /// Optional status to filter request
+    #[prost(enumeration = "MarkerStatus", tag = "1")]
+    pub status: i32,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryAllMarkersResponse is the response type for the Query/AllMarkers method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAllMarkersResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub markers: ::prost::alloc::vec::Vec<::prost_types::Any>,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
+}
+/// QueryMarkerRequest is the request type for the Query/Marker method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryMarkerRequest {
+    /// the address or denom of the marker
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+}
+/// QueryMarkerResponse is the response type for the Query/Marker method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryMarkerResponse {
+    #[prost(message, optional, tag = "1")]
+    pub marker: ::core::option::Option<::prost_types::Any>,
+}
+/// QueryHoldingRequest is the request type for the Query/MarkerHolders method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryHoldingRequest {
+    /// the address or denom of the marker
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
+}
+/// QueryHoldingResponse is the response type for the Query/MarkerHolders method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryHoldingResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub balances: ::prost::alloc::vec::Vec<Balance>,
+    /// pagination defines an optional pagination for the request.
+    #[prost(message, optional, tag = "2")]
+    pub pagination:
+        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
+}
+/// QuerySupplyRequest is the request type for the Query/MarkerSupply method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QuerySupplyRequest {
+    /// address or denom for the marker
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+}
+/// QuerySupplyResponse is the response type for the Query/MarkerSupply method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QuerySupplyResponse {
+    /// amount is the supply of the marker.
+    #[prost(message, optional, tag = "1")]
+    pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+}
+/// QueryEscrowRequest is the request type for the Query/MarkerEscrow method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryEscrowRequest {
+    /// address or denom for the marker
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+}
+/// QueryEscrowResponse is the response type for the Query/MarkerEscrow method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryEscrowResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub escrow: ::prost::alloc::vec::Vec<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+}
+/// QueryAccessRequest is the request type for the Query/MarkerAccess method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAccessRequest {
+    /// address or denom for the marker
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+}
+/// QueryAccessResponse is the response type for the Query/MarkerAccess method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAccessResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub accounts: ::prost::alloc::vec::Vec<AccessGrant>,
+}
+/// QueryDenomMetadataRequest is the request type for Query/DenomMetadata
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryDenomMetadataRequest {
+    #[prost(string, tag = "1")]
+    pub denom: ::prost::alloc::string::String,
+}
+/// QueryDenomMetadataResponse is the response type for the Query/DenomMetadata
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryDenomMetadataResponse {
+    #[prost(message, optional, tag = "1")]
+    pub metadata: ::core::option::Option<cosmos_sdk_proto::cosmos::bank::v1beta1::Metadata>,
+}
+/// QueryAccountDataRequest is the request type for the Query/AccountData
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAccountDataRequest {
+    /// The denomination to look up.
+    #[prost(string, tag = "1")]
+    pub denom: ::prost::alloc::string::String,
+}
+/// QueryAccountDataResponse is the response type for the Query/AccountData
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryAccountDataResponse {
+    /// The accountdata for the requested denom.
+    #[prost(string, tag = "1")]
+    pub value: ::prost::alloc::string::String,
+}
+/// Balance defines an account address and balance pair used in queries for accounts holding a marker
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Balance {
+    /// address is the address of the balance holder.
+    #[prost(string, tag = "1")]
+    pub address: ::prost::alloc::string::String,
+    /// coins defines the different coins this balance holds.
+    #[prost(message, repeated, tag = "2")]
+    pub coins: ::prost::alloc::vec::Vec<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+}
+/// QueryNetAssetValuesRequest is the request type for the Query/NetAssetValues method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryNetAssetValuesRequest {
+    /// address or denom for the marker
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+}
+/// QueryNetAssetValuesRequest is the response type for the Query/NetAssetValues method.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct QueryNetAssetValuesResponse {
+    /// net asset values for marker denom
+    #[prost(message, repeated, tag = "1")]
+    pub net_asset_values: ::prost::alloc::vec::Vec<NetAssetValue>,
+}
+/// Generated client implementations.
+#[cfg(feature = "grpc")]
+#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
+pub mod query_client {
+    #![allow(
+        unused_variables,
+        dead_code,
+        missing_docs,
+        clippy::wildcard_imports,
+        clippy::let_unit_value
+    )]
+    use tonic::codegen::http::Uri;
+    use tonic::codegen::*;
+    /// Query defines the gRPC querier service for marker module.
+    #[derive(Debug, Clone)]
+    pub struct QueryClient<T> {
+        inner: tonic::client::Grpc<T>,
+    }
+    #[cfg(feature = "grpc-transport")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "grpc-transport")))]
+    impl QueryClient<tonic::transport::Channel> {
+        /// Attempt to create a new client by connecting to a given endpoint.
+        pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
+        where
+            D: TryInto<tonic::transport::Endpoint>,
+            D::Error: Into<StdError>,
+        {
+            let conn = tonic::transport::Endpoint::new(dst)?.connect().await?;
+            Ok(Self::new(conn))
+        }
+    }
+    impl<T> QueryClient<T>
+    where
+        T: tonic::client::GrpcService<tonic::body::BoxBody>,
+        T::Error: Into<StdError>,
+        T::ResponseBody: Body<Data = Bytes> + std::marker::Send + 'static,
+        <T::ResponseBody as Body>::Error: Into<StdError> + std::marker::Send,
+    {
+        pub fn new(inner: T) -> Self {
+            let inner = tonic::client::Grpc::new(inner);
+            Self { inner }
+        }
+        pub fn with_origin(inner: T, origin: Uri) -> Self {
+            let inner = tonic::client::Grpc::with_origin(inner, origin);
+            Self { inner }
+        }
+        pub fn with_interceptor<F>(
+            inner: T,
+            interceptor: F,
+        ) -> QueryClient<InterceptedService<T, F>>
+        where
+            F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service<
+                http::Request<tonic::body::BoxBody>,
+                Response = http::Response<
+                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
+                >,
+            >,
+            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
+                Into<StdError> + std::marker::Send + std::marker::Sync,
+        {
+            QueryClient::new(InterceptedService::new(inner, interceptor))
+        }
+        /// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.send_compressed(encoding);
+            self
+        }
+        /// Enable decompressing responses.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.inner = self.inner.accept_compressed(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_decoding_message_size(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.inner = self.inner.max_encoding_message_size(limit);
+            self
+        }
+        /// Params queries the parameters of x/bank module.
+        pub async fn params(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryParamsRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryParamsResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Params");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Params"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// Returns a list of all markers on the blockchain
+        pub async fn all_markers(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryAllMarkersRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAllMarkersResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/AllMarkers");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.marker.v1.Query", "AllMarkers"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// query for a single marker by denom or address
+        pub async fn marker(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryMarkerRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryMarkerResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Marker");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Marker"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// query for all accounts holding the given marker coins
+        pub async fn holding(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryHoldingRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryHoldingResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Holding");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Holding"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// query for supply of coin on a marker account
+        pub async fn supply(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QuerySupplyRequest>,
+        ) -> std::result::Result<tonic::Response<super::QuerySupplyResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Supply");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Supply"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// query for coins on a marker account
+        pub async fn escrow(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryEscrowRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryEscrowResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Escrow");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Escrow"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// query for access records on an account
+        pub async fn access(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryAccessRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAccessResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Access");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Access"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// query for access records on an account
+        pub async fn denom_metadata(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryDenomMetadataRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryDenomMetadataResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/DenomMetadata");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.marker.v1.Query",
+                "DenomMetadata",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+        /// query for account data associated with a denom
+        pub async fn account_data(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryAccountDataRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAccountDataResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/AccountData");
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("provenance.marker.v1.Query", "AccountData"));
+            self.inner.unary(req, path, codec).await
+        }
+        /// NetAssetValues returns net asset values for marker
+        pub async fn net_asset_values(
+            &mut self,
+            request: impl tonic::IntoRequest<super::QueryNetAssetValuesRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryNetAssetValuesResponse>, tonic::Status>
+        {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path =
+                http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/NetAssetValues");
+            let mut req = request.into_request();
+            req.extensions_mut().insert(GrpcMethod::new(
+                "provenance.marker.v1.Query",
+                "NetAssetValues",
+            ));
+            self.inner.unary(req, path, codec).await
+        }
+    }
+}
+/// Generated server implementations.
+#[cfg(feature = "grpc")]
+#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
+pub mod query_server {
+    #![allow(
+        unused_variables,
+        dead_code,
+        missing_docs,
+        clippy::wildcard_imports,
+        clippy::let_unit_value
+    )]
+    use tonic::codegen::*;
+    /// Generated trait containing gRPC methods that should be implemented for use with QueryServer.
+    #[async_trait]
+    pub trait Query: std::marker::Send + std::marker::Sync + 'static {
+        /// Params queries the parameters of x/bank module.
+        async fn params(
+            &self,
+            request: tonic::Request<super::QueryParamsRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryParamsResponse>, tonic::Status>;
+        /// Returns a list of all markers on the blockchain
+        async fn all_markers(
+            &self,
+            request: tonic::Request<super::QueryAllMarkersRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAllMarkersResponse>, tonic::Status>;
+        /// query for a single marker by denom or address
+        async fn marker(
+            &self,
+            request: tonic::Request<super::QueryMarkerRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryMarkerResponse>, tonic::Status>;
+        /// query for all accounts holding the given marker coins
+        async fn holding(
+            &self,
+            request: tonic::Request<super::QueryHoldingRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryHoldingResponse>, tonic::Status>;
+        /// query for supply of coin on a marker account
+        async fn supply(
+            &self,
+            request: tonic::Request<super::QuerySupplyRequest>,
+        ) -> std::result::Result<tonic::Response<super::QuerySupplyResponse>, tonic::Status>;
+        /// query for coins on a marker account
+        async fn escrow(
+            &self,
+            request: tonic::Request<super::QueryEscrowRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryEscrowResponse>, tonic::Status>;
+        /// query for access records on an account
+        async fn access(
+            &self,
+            request: tonic::Request<super::QueryAccessRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAccessResponse>, tonic::Status>;
+        /// query for access records on an account
+        async fn denom_metadata(
+            &self,
+            request: tonic::Request<super::QueryDenomMetadataRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryDenomMetadataResponse>, tonic::Status>;
+        /// query for account data associated with a denom
+        async fn account_data(
+            &self,
+            request: tonic::Request<super::QueryAccountDataRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryAccountDataResponse>, tonic::Status>;
+        /// NetAssetValues returns net asset values for marker
+        async fn net_asset_values(
+            &self,
+            request: tonic::Request<super::QueryNetAssetValuesRequest>,
+        ) -> std::result::Result<tonic::Response<super::QueryNetAssetValuesResponse>, tonic::Status>;
+    }
+    /// Query defines the gRPC querier service for marker module.
+    #[derive(Debug)]
+    pub struct QueryServer<T> {
+        inner: Arc<T>,
+        accept_compression_encodings: EnabledCompressionEncodings,
+        send_compression_encodings: EnabledCompressionEncodings,
+        max_decoding_message_size: Option<usize>,
+        max_encoding_message_size: Option<usize>,
+    }
+    impl<T> QueryServer<T> {
+        pub fn new(inner: T) -> Self {
+            Self::from_arc(Arc::new(inner))
+        }
+        pub fn from_arc(inner: Arc<T>) -> Self {
+            Self {
+                inner,
+                accept_compression_encodings: Default::default(),
+                send_compression_encodings: Default::default(),
+                max_decoding_message_size: None,
+                max_encoding_message_size: None,
+            }
+        }
+        pub fn with_interceptor<F>(inner: T, interceptor: F) -> InterceptedService<Self, F>
+        where
+            F: tonic::service::Interceptor,
+        {
+            InterceptedService::new(Self::new(inner), interceptor)
+        }
+        /// Enable decompressing requests with the given encoding.
+        #[must_use]
+        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.accept_compression_encodings.enable(encoding);
+            self
+        }
+        /// Compress responses with the given encoding, if the client supports it.
+        #[must_use]
+        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
+            self.send_compression_encodings.enable(encoding);
+            self
+        }
+        /// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        #[must_use]
+        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
+            self.max_decoding_message_size = Some(limit);
+            self
+        }
+        /// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        #[must_use]
+        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
+            self.max_encoding_message_size = Some(limit);
+            self
+        }
+    }
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for QueryServer<T>
+    where
+        T: Query,
+        B: Body + std::marker::Send + 'static,
+        B::Error: Into<StdError> + std::marker::Send + 'static,
+    {
+        type Response = http::Response<tonic::body::BoxBody>;
+        type Error = std::convert::Infallible;
+        type Future = BoxFuture<Self::Response, Self::Error>;
+        fn poll_ready(
+            &mut self,
+            _cx: &mut Context<'_>,
+        ) -> Poll<std::result::Result<(), Self::Error>> {
+            Poll::Ready(Ok(()))
+        }
+        fn call(&mut self, req: http::Request<B>) -> Self::Future {
+            match req.uri().path() {
+                "/provenance.marker.v1.Query/Params" => {
+                    #[allow(non_camel_case_types)]
+                    struct ParamsSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryParamsRequest> for ParamsSvc<T> {
+                        type Response = super::QueryParamsResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryParamsRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { <T as Query>::params(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = ParamsSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.marker.v1.Query/AllMarkers" => {
+                    #[allow(non_camel_case_types)]
+                    struct AllMarkersSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryAllMarkersRequest> for AllMarkersSvc<T> {
+                        type Response = super::QueryAllMarkersResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryAllMarkersRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Query>::all_markers(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AllMarkersSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.marker.v1.Query/Marker" => {
+                    #[allow(non_camel_case_types)]
+                    struct MarkerSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryMarkerRequest> for MarkerSvc<T> {
+                        type Response = super::QueryMarkerResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryMarkerRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { <T as Query>::marker(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = MarkerSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.marker.v1.Query/Holding" => {
+                    #[allow(non_camel_case_types)]
+                    struct HoldingSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryHoldingRequest> for HoldingSvc<T> {
+                        type Response = super::QueryHoldingResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryHoldingRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { <T as Query>::holding(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = HoldingSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.marker.v1.Query/Supply" => {
+                    #[allow(non_camel_case_types)]
+                    struct SupplySvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QuerySupplyRequest> for SupplySvc<T> {
+                        type Response = super::QuerySupplyResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QuerySupplyRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { <T as Query>::supply(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = SupplySvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.marker.v1.Query/Escrow" => {
+                    #[allow(non_camel_case_types)]
+                    struct EscrowSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryEscrowRequest> for EscrowSvc<T> {
+                        type Response = super::QueryEscrowResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryEscrowRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { <T as Query>::escrow(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = EscrowSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.marker.v1.Query/Access" => {
+                    #[allow(non_camel_case_types)]
+                    struct AccessSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryAccessRequest> for AccessSvc<T> {
+                        type Response = super::QueryAccessResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryAccessRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move { <T as Query>::access(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AccessSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.marker.v1.Query/DenomMetadata" => {
+                    #[allow(non_camel_case_types)]
+                    struct DenomMetadataSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryDenomMetadataRequest>
+                        for DenomMetadataSvc<T>
+                    {
+                        type Response = super::QueryDenomMetadataResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryDenomMetadataRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Query>::denom_metadata(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = DenomMetadataSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.marker.v1.Query/AccountData" => {
+                    #[allow(non_camel_case_types)]
+                    struct AccountDataSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryAccountDataRequest> for AccountDataSvc<T> {
+                        type Response = super::QueryAccountDataResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryAccountDataRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut =
+                                async move { <T as Query>::account_data(&inner, request).await };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = AccountDataSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/provenance.marker.v1.Query/NetAssetValues" => {
+                    #[allow(non_camel_case_types)]
+                    struct NetAssetValuesSvc<T: Query>(pub Arc<T>);
+                    impl<T: Query> tonic::server::UnaryService<super::QueryNetAssetValuesRequest>
+                        for NetAssetValuesSvc<T>
+                    {
+                        type Response = super::QueryNetAssetValuesResponse;
+                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::QueryNetAssetValuesRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as Query>::net_asset_values(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = NetAssetValuesSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                _ => Box::pin(async move {
+                    let mut response = http::Response::new(empty_body());
+                    let headers = response.headers_mut();
+                    headers.insert(
+                        tonic::Status::GRPC_STATUS,
+                        (tonic::Code::Unimplemented as i32).into(),
+                    );
+                    headers.insert(
+                        http::header::CONTENT_TYPE,
+                        tonic::metadata::GRPC_CONTENT_TYPE,
+                    );
+                    Ok(response)
+                }),
+            }
+        }
+    }
+    impl<T> Clone for QueryServer<T> {
+        fn clone(&self) -> Self {
+            let inner = self.inner.clone();
+            Self {
+                inner,
+                accept_compression_encodings: self.accept_compression_encodings,
+                send_compression_encodings: self.send_compression_encodings,
+                max_decoding_message_size: self.max_decoding_message_size,
+                max_encoding_message_size: self.max_encoding_message_size,
+            }
+        }
+    }
+    /// Generated gRPC service name
+    pub const SERVICE_NAME: &str = "provenance.marker.v1.Query";
+    impl<T> tonic::server::NamedService for QueryServer<T> {
+        const NAME: &'static str = SERVICE_NAME;
+    }
+}
+/// AddMarkerProposal is deprecated and can no longer be used.
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgAddMarkerRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AddMarkerProposal {
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "3")]
+    pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+    #[prost(string, tag = "4")]
+    pub manager: ::prost::alloc::string::String,
+    #[prost(enumeration = "MarkerStatus", tag = "5")]
+    pub status: i32,
+    #[prost(enumeration = "MarkerType", tag = "6")]
+    pub marker_type: i32,
+    #[prost(message, repeated, tag = "7")]
+    pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,
+    #[prost(bool, tag = "8")]
+    pub supply_fixed: bool,
+    #[prost(bool, tag = "9")]
+    pub allow_governance_control: bool,
+}
+/// SupplyIncreaseProposal defines a governance proposal to administer a marker and increase total supply of the marker
+/// through minting coin and placing it within the marker or assigning it directly to an account
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgSupplyIncreaseProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SupplyIncreaseProposal {
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "3")]
+    pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+    /// an optional target address for the minted coin from this request
+    #[prost(string, tag = "4")]
+    pub target_address: ::prost::alloc::string::String,
+}
+/// SupplyDecreaseProposal defines a governance proposal to administer a marker and decrease the total supply through
+/// burning coin held within the marker
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgSupplyDecreaseProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SupplyDecreaseProposal {
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "3")]
+    pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+}
+/// SetAdministratorProposal defines a governance proposal to administer a marker and set administrators with specific
+/// access on the marker
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgSetAdministratorProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SetAdministratorProposal {
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub denom: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "4")]
+    pub access: ::prost::alloc::vec::Vec<AccessGrant>,
+}
+/// RemoveAdministratorProposal defines a governance proposal to administer a marker and remove all permissions for a
+/// given address
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgRemoveAdministratorProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RemoveAdministratorProposal {
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub denom: ::prost::alloc::string::String,
+    #[prost(string, repeated, tag = "4")]
+    pub removed_address: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+/// ChangeStatusProposal defines a governance proposal to administer a marker to change its status
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgChangeStatusProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ChangeStatusProposal {
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub denom: ::prost::alloc::string::String,
+    #[prost(enumeration = "MarkerStatus", tag = "4")]
+    pub new_status: i32,
+}
+/// WithdrawEscrowProposal defines a governance proposal to withdraw escrow coins from a marker
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgWithdrawEscrowProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct WithdrawEscrowProposal {
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub denom: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag = "4")]
+    pub amount: ::prost::alloc::vec::Vec<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+    #[prost(string, tag = "5")]
+    pub target_address: ::prost::alloc::string::String,
+}
+/// SetDenomMetadataProposal defines a governance proposal to set the metadata for a denom
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgSetDenomMetadataProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SetDenomMetadataProposal {
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "3")]
+    pub metadata: ::core::option::Option<cosmos_sdk_proto::cosmos::bank::v1beta1::Metadata>,
+}
+/// SIPrefix represents an International System of Units (SI) Prefix.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum SiPrefix {
+    /// 10^0    (none)
+    None = 0,
+    /// 10^1    deka   da
+    Deka = 1,
+    /// 10^2    hecto   h
+    Hecto = 2,
+    /// 10^3    kilo    k
+    Kilo = 3,
+    /// 10^6    mega    M
+    Mega = 6,
+    /// 10^9    giga    G
+    Giga = 9,
+    /// 10^12   tera    T
+    Tera = 12,
+    /// 10^15   peta    P
+    Peta = 15,
+    /// 10^18   exa     E
+    Exa = 18,
+    /// 10^21   zetta   Z
+    Zetta = 21,
+    /// 10^24   yotta   Y
+    Yotta = 24,
+    /// 10^-1   deci    d
+    Deci = -1,
+    /// 10^-2   centi   c
+    Centi = -2,
+    /// 10^-3   milli   m
+    Milli = -3,
+    /// 10^-6   micro   µ
+    Micro = -6,
+    /// 10^-9   nano    n
+    Nano = -9,
+    /// 10^-12  pico    p
+    Pico = -12,
+    /// 10^-15  femto   f
+    Femto = -15,
+    /// 10^-18  atto    a
+    Atto = -18,
+    /// 10^-21  zepto   z
+    Zepto = -21,
+    /// 10^-24  yocto   y
+    Yocto = -24,
+}
+impl SiPrefix {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::None => "SI_PREFIX_NONE",
+            Self::Deka => "SI_PREFIX_DEKA",
+            Self::Hecto => "SI_PREFIX_HECTO",
+            Self::Kilo => "SI_PREFIX_KILO",
+            Self::Mega => "SI_PREFIX_MEGA",
+            Self::Giga => "SI_PREFIX_GIGA",
+            Self::Tera => "SI_PREFIX_TERA",
+            Self::Peta => "SI_PREFIX_PETA",
+            Self::Exa => "SI_PREFIX_EXA",
+            Self::Zetta => "SI_PREFIX_ZETTA",
+            Self::Yotta => "SI_PREFIX_YOTTA",
+            Self::Deci => "SI_PREFIX_DECI",
+            Self::Centi => "SI_PREFIX_CENTI",
+            Self::Milli => "SI_PREFIX_MILLI",
+            Self::Micro => "SI_PREFIX_MICRO",
+            Self::Nano => "SI_PREFIX_NANO",
+            Self::Pico => "SI_PREFIX_PICO",
+            Self::Femto => "SI_PREFIX_FEMTO",
+            Self::Atto => "SI_PREFIX_ATTO",
+            Self::Zepto => "SI_PREFIX_ZEPTO",
+            Self::Yocto => "SI_PREFIX_YOCTO",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SI_PREFIX_NONE" => Some(Self::None),
+            "SI_PREFIX_DEKA" => Some(Self::Deka),
+            "SI_PREFIX_HECTO" => Some(Self::Hecto),
+            "SI_PREFIX_KILO" => Some(Self::Kilo),
+            "SI_PREFIX_MEGA" => Some(Self::Mega),
+            "SI_PREFIX_GIGA" => Some(Self::Giga),
+            "SI_PREFIX_TERA" => Some(Self::Tera),
+            "SI_PREFIX_PETA" => Some(Self::Peta),
+            "SI_PREFIX_EXA" => Some(Self::Exa),
+            "SI_PREFIX_ZETTA" => Some(Self::Zetta),
+            "SI_PREFIX_YOTTA" => Some(Self::Yotta),
+            "SI_PREFIX_DECI" => Some(Self::Deci),
+            "SI_PREFIX_CENTI" => Some(Self::Centi),
+            "SI_PREFIX_MILLI" => Some(Self::Milli),
+            "SI_PREFIX_MICRO" => Some(Self::Micro),
+            "SI_PREFIX_NANO" => Some(Self::Nano),
+            "SI_PREFIX_PICO" => Some(Self::Pico),
+            "SI_PREFIX_FEMTO" => Some(Self::Femto),
+            "SI_PREFIX_ATTO" => Some(Self::Atto),
+            "SI_PREFIX_ZEPTO" => Some(Self::Zepto),
+            "SI_PREFIX_YOCTO" => Some(Self::Yocto),
+            _ => None,
+        }
+    }
+}
 /// MsgGrantAllowanceRequest validates permission to create a fee grant based on marker admin access. If
 /// successful a feegrant is recorded where the marker account itself is the grantor
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2928,1084 +4139,6 @@ pub mod msg_server {
         const NAME: &'static str = SERVICE_NAME;
     }
 }
-/// SIPrefix represents an International System of Units (SI) Prefix.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-pub enum SiPrefix {
-    /// 10^0    (none)
-    None = 0,
-    /// 10^1    deka   da
-    Deka = 1,
-    /// 10^2    hecto   h
-    Hecto = 2,
-    /// 10^3    kilo    k
-    Kilo = 3,
-    /// 10^6    mega    M
-    Mega = 6,
-    /// 10^9    giga    G
-    Giga = 9,
-    /// 10^12   tera    T
-    Tera = 12,
-    /// 10^15   peta    P
-    Peta = 15,
-    /// 10^18   exa     E
-    Exa = 18,
-    /// 10^21   zetta   Z
-    Zetta = 21,
-    /// 10^24   yotta   Y
-    Yotta = 24,
-    /// 10^-1   deci    d
-    Deci = -1,
-    /// 10^-2   centi   c
-    Centi = -2,
-    /// 10^-3   milli   m
-    Milli = -3,
-    /// 10^-6   micro   µ
-    Micro = -6,
-    /// 10^-9   nano    n
-    Nano = -9,
-    /// 10^-12  pico    p
-    Pico = -12,
-    /// 10^-15  femto   f
-    Femto = -15,
-    /// 10^-18  atto    a
-    Atto = -18,
-    /// 10^-21  zepto   z
-    Zepto = -21,
-    /// 10^-24  yocto   y
-    Yocto = -24,
-}
-impl SiPrefix {
-    /// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    pub fn as_str_name(&self) -> &'static str {
-        match self {
-            Self::None => "SI_PREFIX_NONE",
-            Self::Deka => "SI_PREFIX_DEKA",
-            Self::Hecto => "SI_PREFIX_HECTO",
-            Self::Kilo => "SI_PREFIX_KILO",
-            Self::Mega => "SI_PREFIX_MEGA",
-            Self::Giga => "SI_PREFIX_GIGA",
-            Self::Tera => "SI_PREFIX_TERA",
-            Self::Peta => "SI_PREFIX_PETA",
-            Self::Exa => "SI_PREFIX_EXA",
-            Self::Zetta => "SI_PREFIX_ZETTA",
-            Self::Yotta => "SI_PREFIX_YOTTA",
-            Self::Deci => "SI_PREFIX_DECI",
-            Self::Centi => "SI_PREFIX_CENTI",
-            Self::Milli => "SI_PREFIX_MILLI",
-            Self::Micro => "SI_PREFIX_MICRO",
-            Self::Nano => "SI_PREFIX_NANO",
-            Self::Pico => "SI_PREFIX_PICO",
-            Self::Femto => "SI_PREFIX_FEMTO",
-            Self::Atto => "SI_PREFIX_ATTO",
-            Self::Zepto => "SI_PREFIX_ZEPTO",
-            Self::Yocto => "SI_PREFIX_YOCTO",
-        }
-    }
-    /// Creates an enum from field names used in the ProtoBuf definition.
-    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
-        match value {
-            "SI_PREFIX_NONE" => Some(Self::None),
-            "SI_PREFIX_DEKA" => Some(Self::Deka),
-            "SI_PREFIX_HECTO" => Some(Self::Hecto),
-            "SI_PREFIX_KILO" => Some(Self::Kilo),
-            "SI_PREFIX_MEGA" => Some(Self::Mega),
-            "SI_PREFIX_GIGA" => Some(Self::Giga),
-            "SI_PREFIX_TERA" => Some(Self::Tera),
-            "SI_PREFIX_PETA" => Some(Self::Peta),
-            "SI_PREFIX_EXA" => Some(Self::Exa),
-            "SI_PREFIX_ZETTA" => Some(Self::Zetta),
-            "SI_PREFIX_YOTTA" => Some(Self::Yotta),
-            "SI_PREFIX_DECI" => Some(Self::Deci),
-            "SI_PREFIX_CENTI" => Some(Self::Centi),
-            "SI_PREFIX_MILLI" => Some(Self::Milli),
-            "SI_PREFIX_MICRO" => Some(Self::Micro),
-            "SI_PREFIX_NANO" => Some(Self::Nano),
-            "SI_PREFIX_PICO" => Some(Self::Pico),
-            "SI_PREFIX_FEMTO" => Some(Self::Femto),
-            "SI_PREFIX_ATTO" => Some(Self::Atto),
-            "SI_PREFIX_ZEPTO" => Some(Self::Zepto),
-            "SI_PREFIX_YOCTO" => Some(Self::Yocto),
-            _ => None,
-        }
-    }
-}
-/// QueryParamsRequest is the request type for the Query/Params RPC method.
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct QueryParamsRequest {}
-/// QueryParamsResponse is the response type for the Query/Params RPC method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryParamsResponse {
-    /// params defines the parameters of the module.
-    #[prost(message, optional, tag = "1")]
-    pub params: ::core::option::Option<Params>,
-}
-/// QueryAllMarkersRequest is the request type for the Query/AllMarkers method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAllMarkersRequest {
-    /// Optional status to filter request
-    #[prost(enumeration = "MarkerStatus", tag = "1")]
-    pub status: i32,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "2")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
-}
-/// QueryAllMarkersResponse is the response type for the Query/AllMarkers method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAllMarkersResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub markers: ::prost::alloc::vec::Vec<::prost_types::Any>,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "2")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
-}
-/// QueryMarkerRequest is the request type for the Query/Marker method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryMarkerRequest {
-    /// the address or denom of the marker
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-}
-/// QueryMarkerResponse is the response type for the Query/Marker method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryMarkerResponse {
-    #[prost(message, optional, tag = "1")]
-    pub marker: ::core::option::Option<::prost_types::Any>,
-}
-/// QueryHoldingRequest is the request type for the Query/MarkerHolders method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryHoldingRequest {
-    /// the address or denom of the marker
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "2")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageRequest>,
-}
-/// QueryHoldingResponse is the response type for the Query/MarkerHolders method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryHoldingResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub balances: ::prost::alloc::vec::Vec<Balance>,
-    /// pagination defines an optional pagination for the request.
-    #[prost(message, optional, tag = "2")]
-    pub pagination:
-        ::core::option::Option<cosmos_sdk_proto::cosmos::base::query::v1beta1::PageResponse>,
-}
-/// QuerySupplyRequest is the request type for the Query/MarkerSupply method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QuerySupplyRequest {
-    /// address or denom for the marker
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-}
-/// QuerySupplyResponse is the response type for the Query/MarkerSupply method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QuerySupplyResponse {
-    /// amount is the supply of the marker.
-    #[prost(message, optional, tag = "1")]
-    pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-}
-/// QueryEscrowRequest is the request type for the Query/MarkerEscrow method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryEscrowRequest {
-    /// address or denom for the marker
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-}
-/// QueryEscrowResponse is the response type for the Query/MarkerEscrow method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryEscrowResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub escrow: ::prost::alloc::vec::Vec<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-}
-/// QueryAccessRequest is the request type for the Query/MarkerAccess method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAccessRequest {
-    /// address or denom for the marker
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-}
-/// QueryAccessResponse is the response type for the Query/MarkerAccess method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAccessResponse {
-    #[prost(message, repeated, tag = "1")]
-    pub accounts: ::prost::alloc::vec::Vec<AccessGrant>,
-}
-/// QueryDenomMetadataRequest is the request type for Query/DenomMetadata
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryDenomMetadataRequest {
-    #[prost(string, tag = "1")]
-    pub denom: ::prost::alloc::string::String,
-}
-/// QueryDenomMetadataResponse is the response type for the Query/DenomMetadata
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryDenomMetadataResponse {
-    #[prost(message, optional, tag = "1")]
-    pub metadata: ::core::option::Option<cosmos_sdk_proto::cosmos::bank::v1beta1::Metadata>,
-}
-/// QueryAccountDataRequest is the request type for the Query/AccountData
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAccountDataRequest {
-    /// The denomination to look up.
-    #[prost(string, tag = "1")]
-    pub denom: ::prost::alloc::string::String,
-}
-/// QueryAccountDataResponse is the response type for the Query/AccountData
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryAccountDataResponse {
-    /// The accountdata for the requested denom.
-    #[prost(string, tag = "1")]
-    pub value: ::prost::alloc::string::String,
-}
-/// Balance defines an account address and balance pair used in queries for accounts holding a marker
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Balance {
-    /// address is the address of the balance holder.
-    #[prost(string, tag = "1")]
-    pub address: ::prost::alloc::string::String,
-    /// coins defines the different coins this balance holds.
-    #[prost(message, repeated, tag = "2")]
-    pub coins: ::prost::alloc::vec::Vec<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-}
-/// QueryNetAssetValuesRequest is the request type for the Query/NetAssetValues method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryNetAssetValuesRequest {
-    /// address or denom for the marker
-    #[prost(string, tag = "1")]
-    pub id: ::prost::alloc::string::String,
-}
-/// QueryNetAssetValuesRequest is the response type for the Query/NetAssetValues method.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct QueryNetAssetValuesResponse {
-    /// net asset values for marker denom
-    #[prost(message, repeated, tag = "1")]
-    pub net_asset_values: ::prost::alloc::vec::Vec<NetAssetValue>,
-}
-/// Generated client implementations.
-#[cfg(feature = "grpc")]
-#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
-pub mod query_client {
-    #![allow(
-        unused_variables,
-        dead_code,
-        missing_docs,
-        clippy::wildcard_imports,
-        clippy::let_unit_value
-    )]
-    use tonic::codegen::http::Uri;
-    use tonic::codegen::*;
-    /// Query defines the gRPC querier service for marker module.
-    #[derive(Debug, Clone)]
-    pub struct QueryClient<T> {
-        inner: tonic::client::Grpc<T>,
-    }
-    #[cfg(feature = "grpc-transport")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "grpc-transport")))]
-    impl QueryClient<tonic::transport::Channel> {
-        /// Attempt to create a new client by connecting to a given endpoint.
-        pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
-        where
-            D: TryInto<tonic::transport::Endpoint>,
-            D::Error: Into<StdError>,
-        {
-            let conn = tonic::transport::Endpoint::new(dst)?.connect().await?;
-            Ok(Self::new(conn))
-        }
-    }
-    impl<T> QueryClient<T>
-    where
-        T: tonic::client::GrpcService<tonic::body::BoxBody>,
-        T::Error: Into<StdError>,
-        T::ResponseBody: Body<Data = Bytes> + std::marker::Send + 'static,
-        <T::ResponseBody as Body>::Error: Into<StdError> + std::marker::Send,
-    {
-        pub fn new(inner: T) -> Self {
-            let inner = tonic::client::Grpc::new(inner);
-            Self { inner }
-        }
-        pub fn with_origin(inner: T, origin: Uri) -> Self {
-            let inner = tonic::client::Grpc::with_origin(inner, origin);
-            Self { inner }
-        }
-        pub fn with_interceptor<F>(
-            inner: T,
-            interceptor: F,
-        ) -> QueryClient<InterceptedService<T, F>>
-        where
-            F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service<
-                http::Request<tonic::body::BoxBody>,
-                Response = http::Response<
-                    <T as tonic::client::GrpcService<tonic::body::BoxBody>>::ResponseBody,
-                >,
-            >,
-            <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
-                Into<StdError> + std::marker::Send + std::marker::Sync,
-        {
-            QueryClient::new(InterceptedService::new(inner, interceptor))
-        }
-        /// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.send_compressed(encoding);
-            self
-        }
-        /// Enable decompressing responses.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.inner = self.inner.accept_compressed(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_decoding_message_size(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.inner = self.inner.max_encoding_message_size(limit);
-            self
-        }
-        /// Params queries the parameters of x/bank module.
-        pub async fn params(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryParamsRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryParamsResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Params");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Params"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// Returns a list of all markers on the blockchain
-        pub async fn all_markers(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryAllMarkersRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAllMarkersResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/AllMarkers");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.marker.v1.Query", "AllMarkers"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// query for a single marker by denom or address
-        pub async fn marker(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryMarkerRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryMarkerResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Marker");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Marker"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// query for all accounts holding the given marker coins
-        pub async fn holding(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryHoldingRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryHoldingResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Holding");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Holding"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// query for supply of coin on a marker account
-        pub async fn supply(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QuerySupplyRequest>,
-        ) -> std::result::Result<tonic::Response<super::QuerySupplyResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Supply");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Supply"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// query for coins on a marker account
-        pub async fn escrow(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryEscrowRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryEscrowResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Escrow");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Escrow"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// query for access records on an account
-        pub async fn access(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryAccessRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAccessResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/Access");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.marker.v1.Query", "Access"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// query for access records on an account
-        pub async fn denom_metadata(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryDenomMetadataRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryDenomMetadataResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/DenomMetadata");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.marker.v1.Query",
-                "DenomMetadata",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-        /// query for account data associated with a denom
-        pub async fn account_data(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryAccountDataRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAccountDataResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/AccountData");
-            let mut req = request.into_request();
-            req.extensions_mut()
-                .insert(GrpcMethod::new("provenance.marker.v1.Query", "AccountData"));
-            self.inner.unary(req, path, codec).await
-        }
-        /// NetAssetValues returns net asset values for marker
-        pub async fn net_asset_values(
-            &mut self,
-            request: impl tonic::IntoRequest<super::QueryNetAssetValuesRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryNetAssetValuesResponse>, tonic::Status>
-        {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::unknown(format!("Service was not ready: {}", e.into()))
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path =
-                http::uri::PathAndQuery::from_static("/provenance.marker.v1.Query/NetAssetValues");
-            let mut req = request.into_request();
-            req.extensions_mut().insert(GrpcMethod::new(
-                "provenance.marker.v1.Query",
-                "NetAssetValues",
-            ));
-            self.inner.unary(req, path, codec).await
-        }
-    }
-}
-/// Generated server implementations.
-#[cfg(feature = "grpc")]
-#[cfg_attr(docsrs, doc(cfg(feature = "grpc")))]
-pub mod query_server {
-    #![allow(
-        unused_variables,
-        dead_code,
-        missing_docs,
-        clippy::wildcard_imports,
-        clippy::let_unit_value
-    )]
-    use tonic::codegen::*;
-    /// Generated trait containing gRPC methods that should be implemented for use with QueryServer.
-    #[async_trait]
-    pub trait Query: std::marker::Send + std::marker::Sync + 'static {
-        /// Params queries the parameters of x/bank module.
-        async fn params(
-            &self,
-            request: tonic::Request<super::QueryParamsRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryParamsResponse>, tonic::Status>;
-        /// Returns a list of all markers on the blockchain
-        async fn all_markers(
-            &self,
-            request: tonic::Request<super::QueryAllMarkersRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAllMarkersResponse>, tonic::Status>;
-        /// query for a single marker by denom or address
-        async fn marker(
-            &self,
-            request: tonic::Request<super::QueryMarkerRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryMarkerResponse>, tonic::Status>;
-        /// query for all accounts holding the given marker coins
-        async fn holding(
-            &self,
-            request: tonic::Request<super::QueryHoldingRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryHoldingResponse>, tonic::Status>;
-        /// query for supply of coin on a marker account
-        async fn supply(
-            &self,
-            request: tonic::Request<super::QuerySupplyRequest>,
-        ) -> std::result::Result<tonic::Response<super::QuerySupplyResponse>, tonic::Status>;
-        /// query for coins on a marker account
-        async fn escrow(
-            &self,
-            request: tonic::Request<super::QueryEscrowRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryEscrowResponse>, tonic::Status>;
-        /// query for access records on an account
-        async fn access(
-            &self,
-            request: tonic::Request<super::QueryAccessRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAccessResponse>, tonic::Status>;
-        /// query for access records on an account
-        async fn denom_metadata(
-            &self,
-            request: tonic::Request<super::QueryDenomMetadataRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryDenomMetadataResponse>, tonic::Status>;
-        /// query for account data associated with a denom
-        async fn account_data(
-            &self,
-            request: tonic::Request<super::QueryAccountDataRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryAccountDataResponse>, tonic::Status>;
-        /// NetAssetValues returns net asset values for marker
-        async fn net_asset_values(
-            &self,
-            request: tonic::Request<super::QueryNetAssetValuesRequest>,
-        ) -> std::result::Result<tonic::Response<super::QueryNetAssetValuesResponse>, tonic::Status>;
-    }
-    /// Query defines the gRPC querier service for marker module.
-    #[derive(Debug)]
-    pub struct QueryServer<T> {
-        inner: Arc<T>,
-        accept_compression_encodings: EnabledCompressionEncodings,
-        send_compression_encodings: EnabledCompressionEncodings,
-        max_decoding_message_size: Option<usize>,
-        max_encoding_message_size: Option<usize>,
-    }
-    impl<T> QueryServer<T> {
-        pub fn new(inner: T) -> Self {
-            Self::from_arc(Arc::new(inner))
-        }
-        pub fn from_arc(inner: Arc<T>) -> Self {
-            Self {
-                inner,
-                accept_compression_encodings: Default::default(),
-                send_compression_encodings: Default::default(),
-                max_decoding_message_size: None,
-                max_encoding_message_size: None,
-            }
-        }
-        pub fn with_interceptor<F>(inner: T, interceptor: F) -> InterceptedService<Self, F>
-        where
-            F: tonic::service::Interceptor,
-        {
-            InterceptedService::new(Self::new(inner), interceptor)
-        }
-        /// Enable decompressing requests with the given encoding.
-        #[must_use]
-        pub fn accept_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.accept_compression_encodings.enable(encoding);
-            self
-        }
-        /// Compress responses with the given encoding, if the client supports it.
-        #[must_use]
-        pub fn send_compressed(mut self, encoding: CompressionEncoding) -> Self {
-            self.send_compression_encodings.enable(encoding);
-            self
-        }
-        /// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        #[must_use]
-        pub fn max_decoding_message_size(mut self, limit: usize) -> Self {
-            self.max_decoding_message_size = Some(limit);
-            self
-        }
-        /// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        #[must_use]
-        pub fn max_encoding_message_size(mut self, limit: usize) -> Self {
-            self.max_encoding_message_size = Some(limit);
-            self
-        }
-    }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for QueryServer<T>
-    where
-        T: Query,
-        B: Body + std::marker::Send + 'static,
-        B::Error: Into<StdError> + std::marker::Send + 'static,
-    {
-        type Response = http::Response<tonic::body::BoxBody>;
-        type Error = std::convert::Infallible;
-        type Future = BoxFuture<Self::Response, Self::Error>;
-        fn poll_ready(
-            &mut self,
-            _cx: &mut Context<'_>,
-        ) -> Poll<std::result::Result<(), Self::Error>> {
-            Poll::Ready(Ok(()))
-        }
-        fn call(&mut self, req: http::Request<B>) -> Self::Future {
-            match req.uri().path() {
-                "/provenance.marker.v1.Query/Params" => {
-                    #[allow(non_camel_case_types)]
-                    struct ParamsSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryParamsRequest> for ParamsSvc<T> {
-                        type Response = super::QueryParamsResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryParamsRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move { <T as Query>::params(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = ParamsSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.marker.v1.Query/AllMarkers" => {
-                    #[allow(non_camel_case_types)]
-                    struct AllMarkersSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryAllMarkersRequest> for AllMarkersSvc<T> {
-                        type Response = super::QueryAllMarkersResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryAllMarkersRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Query>::all_markers(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AllMarkersSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.marker.v1.Query/Marker" => {
-                    #[allow(non_camel_case_types)]
-                    struct MarkerSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryMarkerRequest> for MarkerSvc<T> {
-                        type Response = super::QueryMarkerResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryMarkerRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move { <T as Query>::marker(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = MarkerSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.marker.v1.Query/Holding" => {
-                    #[allow(non_camel_case_types)]
-                    struct HoldingSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryHoldingRequest> for HoldingSvc<T> {
-                        type Response = super::QueryHoldingResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryHoldingRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move { <T as Query>::holding(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = HoldingSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.marker.v1.Query/Supply" => {
-                    #[allow(non_camel_case_types)]
-                    struct SupplySvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QuerySupplyRequest> for SupplySvc<T> {
-                        type Response = super::QuerySupplyResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QuerySupplyRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move { <T as Query>::supply(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = SupplySvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.marker.v1.Query/Escrow" => {
-                    #[allow(non_camel_case_types)]
-                    struct EscrowSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryEscrowRequest> for EscrowSvc<T> {
-                        type Response = super::QueryEscrowResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryEscrowRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move { <T as Query>::escrow(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = EscrowSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.marker.v1.Query/Access" => {
-                    #[allow(non_camel_case_types)]
-                    struct AccessSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryAccessRequest> for AccessSvc<T> {
-                        type Response = super::QueryAccessResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryAccessRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move { <T as Query>::access(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AccessSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.marker.v1.Query/DenomMetadata" => {
-                    #[allow(non_camel_case_types)]
-                    struct DenomMetadataSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryDenomMetadataRequest>
-                        for DenomMetadataSvc<T>
-                    {
-                        type Response = super::QueryDenomMetadataResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryDenomMetadataRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Query>::denom_metadata(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = DenomMetadataSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.marker.v1.Query/AccountData" => {
-                    #[allow(non_camel_case_types)]
-                    struct AccountDataSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryAccountDataRequest> for AccountDataSvc<T> {
-                        type Response = super::QueryAccountDataResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryAccountDataRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut =
-                                async move { <T as Query>::account_data(&inner, request).await };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = AccountDataSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                "/provenance.marker.v1.Query/NetAssetValues" => {
-                    #[allow(non_camel_case_types)]
-                    struct NetAssetValuesSvc<T: Query>(pub Arc<T>);
-                    impl<T: Query> tonic::server::UnaryService<super::QueryNetAssetValuesRequest>
-                        for NetAssetValuesSvc<T>
-                    {
-                        type Response = super::QueryNetAssetValuesResponse;
-                        type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
-                        fn call(
-                            &mut self,
-                            request: tonic::Request<super::QueryNetAssetValuesRequest>,
-                        ) -> Self::Future {
-                            let inner = Arc::clone(&self.0);
-                            let fut = async move {
-                                <T as Query>::net_asset_values(&inner, request).await
-                            };
-                            Box::pin(fut)
-                        }
-                    }
-                    let accept_compression_encodings = self.accept_compression_encodings;
-                    let send_compression_encodings = self.send_compression_encodings;
-                    let max_decoding_message_size = self.max_decoding_message_size;
-                    let max_encoding_message_size = self.max_encoding_message_size;
-                    let inner = self.inner.clone();
-                    let fut = async move {
-                        let method = NetAssetValuesSvc(inner);
-                        let codec = tonic::codec::ProstCodec::default();
-                        let mut grpc = tonic::server::Grpc::new(codec)
-                            .apply_compression_config(
-                                accept_compression_encodings,
-                                send_compression_encodings,
-                            )
-                            .apply_max_message_size_config(
-                                max_decoding_message_size,
-                                max_encoding_message_size,
-                            );
-                        let res = grpc.unary(method, req).await;
-                        Ok(res)
-                    };
-                    Box::pin(fut)
-                }
-                _ => Box::pin(async move {
-                    let mut response = http::Response::new(empty_body());
-                    let headers = response.headers_mut();
-                    headers.insert(
-                        tonic::Status::GRPC_STATUS,
-                        (tonic::Code::Unimplemented as i32).into(),
-                    );
-                    headers.insert(
-                        http::header::CONTENT_TYPE,
-                        tonic::metadata::GRPC_CONTENT_TYPE,
-                    );
-                    Ok(response)
-                }),
-            }
-        }
-    }
-    impl<T> Clone for QueryServer<T> {
-        fn clone(&self) -> Self {
-            let inner = self.inner.clone();
-            Self {
-                inner,
-                accept_compression_encodings: self.accept_compression_encodings,
-                send_compression_encodings: self.send_compression_encodings,
-                max_decoding_message_size: self.max_decoding_message_size,
-                max_encoding_message_size: self.max_encoding_message_size,
-            }
-        }
-    }
-    /// Generated gRPC service name
-    pub const SERVICE_NAME: &str = "provenance.marker.v1.Query";
-    impl<T> tonic::server::NamedService for QueryServer<T> {
-        const NAME: &'static str = SERVICE_NAME;
-    }
-}
 /// MarkerTransferAuthorization gives the grantee permissions to execute
 /// a marker transfer on behalf of the granter's account.
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4065,137 +4198,4 @@ pub struct MarkerNetAssetValues {
     /// net_asset_values that are assigned to marker
     #[prost(message, repeated, tag = "2")]
     pub net_asset_values: ::prost::alloc::vec::Vec<NetAssetValue>,
-}
-/// AddMarkerProposal is deprecated and can no longer be used.
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgAddMarkerRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AddMarkerProposal {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(message, optional, tag = "3")]
-    pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-    #[prost(string, tag = "4")]
-    pub manager: ::prost::alloc::string::String,
-    #[prost(enumeration = "MarkerStatus", tag = "5")]
-    pub status: i32,
-    #[prost(enumeration = "MarkerType", tag = "6")]
-    pub marker_type: i32,
-    #[prost(message, repeated, tag = "7")]
-    pub access_list: ::prost::alloc::vec::Vec<AccessGrant>,
-    #[prost(bool, tag = "8")]
-    pub supply_fixed: bool,
-    #[prost(bool, tag = "9")]
-    pub allow_governance_control: bool,
-}
-/// SupplyIncreaseProposal defines a governance proposal to administer a marker and increase total supply of the marker
-/// through minting coin and placing it within the marker or assigning it directly to an account
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgSupplyIncreaseProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SupplyIncreaseProposal {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(message, optional, tag = "3")]
-    pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-    /// an optional target address for the minted coin from this request
-    #[prost(string, tag = "4")]
-    pub target_address: ::prost::alloc::string::String,
-}
-/// SupplyDecreaseProposal defines a governance proposal to administer a marker and decrease the total supply through
-/// burning coin held within the marker
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgSupplyDecreaseProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SupplyDecreaseProposal {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(message, optional, tag = "3")]
-    pub amount: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-}
-/// SetAdministratorProposal defines a governance proposal to administer a marker and set administrators with specific
-/// access on the marker
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgSetAdministratorProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SetAdministratorProposal {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(string, tag = "3")]
-    pub denom: ::prost::alloc::string::String,
-    #[prost(message, repeated, tag = "4")]
-    pub access: ::prost::alloc::vec::Vec<AccessGrant>,
-}
-/// RemoveAdministratorProposal defines a governance proposal to administer a marker and remove all permissions for a
-/// given address
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgRemoveAdministratorProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RemoveAdministratorProposal {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(string, tag = "3")]
-    pub denom: ::prost::alloc::string::String,
-    #[prost(string, repeated, tag = "4")]
-    pub removed_address: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
-}
-/// ChangeStatusProposal defines a governance proposal to administer a marker to change its status
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgChangeStatusProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ChangeStatusProposal {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(string, tag = "3")]
-    pub denom: ::prost::alloc::string::String,
-    #[prost(enumeration = "MarkerStatus", tag = "4")]
-    pub new_status: i32,
-}
-/// WithdrawEscrowProposal defines a governance proposal to withdraw escrow coins from a marker
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgWithdrawEscrowProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct WithdrawEscrowProposal {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(string, tag = "3")]
-    pub denom: ::prost::alloc::string::String,
-    #[prost(message, repeated, tag = "4")]
-    pub amount: ::prost::alloc::vec::Vec<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-    #[prost(string, tag = "5")]
-    pub target_address: ::prost::alloc::string::String,
-}
-/// SetDenomMetadataProposal defines a governance proposal to set the metadata for a denom
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgSetDenomMetadataProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct SetDenomMetadataProposal {
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    #[prost(message, optional, tag = "3")]
-    pub metadata: ::core::option::Option<cosmos_sdk_proto::cosmos::bank::v1beta1::Metadata>,
 }
