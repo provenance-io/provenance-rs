@@ -11,8 +11,8 @@ keywords = ["blockchain", "cosmos", "proto", "provenance", "tendermint"]
 edition = "2021"
 
 [dependencies]
-cosmos-sdk-proto = { version = "0.25", default-features = false }
-ibc-proto = { version = "0.49", default-features = false }
+cosmos-sdk-proto = { version = "0.27", default-features = false }
+ibc-proto = { version = "0.52", default-features = false }
 prost = "0.13"
 prost-types = "0.13"
 # TODO this only needs to be included if grpc or grpc-transport are included
