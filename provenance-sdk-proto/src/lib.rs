@@ -40,4 +40,16 @@ pub mod provenance {
             include!("prost/provenance-sdk/provenance.name.v1.rs");
         }
     }
+
+    pub mod vault {
+        pub mod v1 {
+            include!("prost/provenance-sdk/vault.v1.rs");
+        }
+
+        pub mod module {
+            pub mod v1 {
+                include!("prost/provenance-sdk/vault.module.v1.rs");
+            }
+        }
+    }
 }
