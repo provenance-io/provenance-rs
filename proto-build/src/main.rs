@@ -22,7 +22,7 @@ static QUIET: AtomicBool = AtomicBool::new(false);
 const PROVENANCE_SDK_REV: &str = "v1.25.0";
 
 /// The ProvLabs Vault Module commit or tag to be cloned and used to build the proto files
-const PROVLABS_VAULT_SDK_REV: &str = "main";
+const PROVLABS_VAULT_SDK_REV: &str = "milestone-2";
 
 // All paths must end with a / and either be absolute or include a ./ to reference the current
 // working directory.
