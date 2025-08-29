@@ -16,7 +16,7 @@ ibc-proto = { version = "0.52", default-features = false }
 prost = "0.13"
 prost-types = "0.13"
 # TODO this only needs to be included if grpc or grpc-transport are included
-tonic = "0.12"
+tonic = "0.13"
 
 [features]
 grpc = []
