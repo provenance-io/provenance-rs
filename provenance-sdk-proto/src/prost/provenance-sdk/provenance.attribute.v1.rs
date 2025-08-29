@@ -1011,6 +1011,16 @@ pub mod msg_server {
         const NAME: &'static str = SERVICE_NAME;
     }
 }
+/// GenesisState defines the attribute module's genesis state.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenesisState {
+    /// params defines all the parameters of the module.
+    #[prost(message, optional, tag = "1")]
+    pub params: ::core::option::Option<Params>,
+    /// deposits defines all the deposits present at genesis.
+    #[prost(message, repeated, tag = "2")]
+    pub attributes: ::prost::alloc::vec::Vec<Attribute>,
+}
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct QueryParamsRequest {}
@@ -1730,14 +1740,4 @@ pub mod query_server {
     impl<T> tonic::server::NamedService for QueryServer<T> {
         const NAME: &'static str = SERVICE_NAME;
     }
-}
-/// GenesisState defines the attribute module's genesis state.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GenesisState {
-    /// params defines all the parameters of the module.
-    #[prost(message, optional, tag = "1")]
-    pub params: ::core::option::Option<Params>,
-    /// deposits defines all the deposits present at genesis.
-    #[prost(message, repeated, tag = "2")]
-    pub attributes: ::prost::alloc::vec::Vec<Attribute>,
 }
