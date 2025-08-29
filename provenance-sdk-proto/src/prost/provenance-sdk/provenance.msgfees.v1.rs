@@ -818,6 +818,114 @@ pub struct EventMsgFees {
     #[prost(message, repeated, tag = "1")]
     pub msg_fees: ::prost::alloc::vec::Vec<EventMsgFee>,
 }
+/// GenesisState contains a set of msg fees, persisted from the store
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GenesisState {
+    /// params defines all the parameters of the module.
+    #[prost(message, optional, tag = "1")]
+    pub params: ::core::option::Option<Params>,
+    /// msg_based_fees are the additional fees on specific tx msgs
+    #[prost(message, repeated, tag = "2")]
+    pub msg_fees: ::prost::alloc::vec::Vec<MsgFee>,
+}
+/// AddMsgFeeProposal defines a governance proposal to add additional msg based fee
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgAddMsgFeeProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AddMsgFeeProposal {
+    /// propsal title
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    /// propsal description
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// type url of msg to add fee
+    #[prost(string, tag = "3")]
+    pub msg_type_url: ::prost::alloc::string::String,
+    /// additional fee for msg type
+    #[prost(message, optional, tag = "4")]
+    pub additional_fee: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+    /// optional recipient to recieve basis points
+    #[prost(string, tag = "5")]
+    pub recipient: ::prost::alloc::string::String,
+    /// basis points to use when recipient is present (1 - 10,000)
+    #[prost(string, tag = "6")]
+    pub recipient_basis_points: ::prost::alloc::string::String,
+}
+/// UpdateMsgFeeProposal defines a governance proposal to update a current msg based fee
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgUpdateMsgFeeProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateMsgFeeProposal {
+    /// propsal title
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    /// propsal description
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// type url of msg to update fee
+    #[prost(string, tag = "3")]
+    pub msg_type_url: ::prost::alloc::string::String,
+    /// additional fee for msg type
+    #[prost(message, optional, tag = "4")]
+    pub additional_fee: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
+    /// optional recipient to recieve basis points
+    #[prost(string, tag = "5")]
+    pub recipient: ::prost::alloc::string::String,
+    /// basis points to use when recipient is present (1 - 10,000)
+    #[prost(string, tag = "6")]
+    pub recipient_basis_points: ::prost::alloc::string::String,
+}
+/// RemoveMsgFeeProposal defines a governance proposal to delete a current msg based fee
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgRemoveMsgFeeProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RemoveMsgFeeProposal {
+    /// propsal title
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    /// propsal description
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// type url of msg fee to remove
+    #[prost(string, tag = "3")]
+    pub msg_type_url: ::prost::alloc::string::String,
+}
+/// UpdateNhashPerUsdMilProposal defines a governance proposal to update the nhash per usd mil param
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgUpdateNhashPerUsdMilProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateNhashPerUsdMilProposal {
+    /// proposal title
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    /// proposal description
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// nhash_per_usd_mil is number of nhash per usd mil
+    #[prost(uint64, tag = "3")]
+    pub nhash_per_usd_mil: u64,
+}
+/// UpdateConversionFeeDenomProposal defines a governance proposal to update the msg fee conversion denom
+/// Deprecated: This message is no longer usable. It is only still included for
+/// backwards compatibility (e.g. looking up old governance proposals).
+/// It is replaced by providing a MsgUpdateConversionFeeDenomProposalRequest in a governance proposal.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct UpdateConversionFeeDenomProposal {
+    /// proposal title
+    #[prost(string, tag = "1")]
+    pub title: ::prost::alloc::string::String,
+    /// proposal description
+    #[prost(string, tag = "2")]
+    pub description: ::prost::alloc::string::String,
+    /// conversion_fee_denom is the denom that usd will be converted to
+    #[prost(string, tag = "4")]
+    pub conversion_fee_denom: ::prost::alloc::string::String,
+}
 /// QueryParamsRequest is the request type for the Query/Params RPC method.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct QueryParamsRequest {}
@@ -1284,112 +1392,4 @@ pub mod query_server {
     impl<T> tonic::server::NamedService for QueryServer<T> {
         const NAME: &'static str = SERVICE_NAME;
     }
-}
-/// GenesisState contains a set of msg fees, persisted from the store
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GenesisState {
-    /// params defines all the parameters of the module.
-    #[prost(message, optional, tag = "1")]
-    pub params: ::core::option::Option<Params>,
-    /// msg_based_fees are the additional fees on specific tx msgs
-    #[prost(message, repeated, tag = "2")]
-    pub msg_fees: ::prost::alloc::vec::Vec<MsgFee>,
-}
-/// AddMsgFeeProposal defines a governance proposal to add additional msg based fee
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgAddMsgFeeProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AddMsgFeeProposal {
-    /// propsal title
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    /// propsal description
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// type url of msg to add fee
-    #[prost(string, tag = "3")]
-    pub msg_type_url: ::prost::alloc::string::String,
-    /// additional fee for msg type
-    #[prost(message, optional, tag = "4")]
-    pub additional_fee: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-    /// optional recipient to recieve basis points
-    #[prost(string, tag = "5")]
-    pub recipient: ::prost::alloc::string::String,
-    /// basis points to use when recipient is present (1 - 10,000)
-    #[prost(string, tag = "6")]
-    pub recipient_basis_points: ::prost::alloc::string::String,
-}
-/// UpdateMsgFeeProposal defines a governance proposal to update a current msg based fee
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgUpdateMsgFeeProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateMsgFeeProposal {
-    /// propsal title
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    /// propsal description
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// type url of msg to update fee
-    #[prost(string, tag = "3")]
-    pub msg_type_url: ::prost::alloc::string::String,
-    /// additional fee for msg type
-    #[prost(message, optional, tag = "4")]
-    pub additional_fee: ::core::option::Option<cosmos_sdk_proto::cosmos::base::v1beta1::Coin>,
-    /// optional recipient to recieve basis points
-    #[prost(string, tag = "5")]
-    pub recipient: ::prost::alloc::string::String,
-    /// basis points to use when recipient is present (1 - 10,000)
-    #[prost(string, tag = "6")]
-    pub recipient_basis_points: ::prost::alloc::string::String,
-}
-/// RemoveMsgFeeProposal defines a governance proposal to delete a current msg based fee
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgRemoveMsgFeeProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RemoveMsgFeeProposal {
-    /// propsal title
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    /// propsal description
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// type url of msg fee to remove
-    #[prost(string, tag = "3")]
-    pub msg_type_url: ::prost::alloc::string::String,
-}
-/// UpdateNhashPerUsdMilProposal defines a governance proposal to update the nhash per usd mil param
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgUpdateNhashPerUsdMilProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateNhashPerUsdMilProposal {
-    /// proposal title
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    /// proposal description
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// nhash_per_usd_mil is number of nhash per usd mil
-    #[prost(uint64, tag = "3")]
-    pub nhash_per_usd_mil: u64,
-}
-/// UpdateConversionFeeDenomProposal defines a governance proposal to update the msg fee conversion denom
-/// Deprecated: This message is no longer usable. It is only still included for
-/// backwards compatibility (e.g. looking up old governance proposals).
-/// It is replaced by providing a MsgUpdateConversionFeeDenomProposalRequest in a governance proposal.
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct UpdateConversionFeeDenomProposal {
-    /// proposal title
-    #[prost(string, tag = "1")]
-    pub title: ::prost::alloc::string::String,
-    /// proposal description
-    #[prost(string, tag = "2")]
-    pub description: ::prost::alloc::string::String,
-    /// conversion_fee_denom is the denom that usd will be converted to
-    #[prost(string, tag = "4")]
-    pub conversion_fee_denom: ::prost::alloc::string::String,
 }
