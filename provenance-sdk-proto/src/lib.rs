@@ -13,6 +13,12 @@ pub mod provenance {
         }
     }
 
+    pub mod exchange {
+        pub mod v1 {
+            include!("prost/provenance-sdk/provenance.exchange.v1.rs");
+        }
+    }
+
     pub mod marker {
         pub mod v1 {
             include!("prost/provenance-sdk/provenance.marker.v1.rs");

@@ -201,6 +201,7 @@ fn compile_sdk_protos_and_services(out_dir: &Path) {
     // Paths
     let proto_paths = [
         format!("{}/proto/provenance/attribute", sdk_dir.display()),
+        format!("{}/proto/provenance/exchange", sdk_dir.display()),
         format!("{}/proto/provenance/marker", sdk_dir.display()),
         format!("{}/proto/provenance/metadata", sdk_dir.display()),
         format!("{}/proto/provenance/msgfees", sdk_dir.display()),
